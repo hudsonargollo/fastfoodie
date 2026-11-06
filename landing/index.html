@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fast Food Delivery Automation — Plans &amp; Pricing</title>
+<meta name="description" content="Delivery automation software for fast food operations. Own it outright with the Full Package, start lower with a monthly plan, and add social, search and lead-generation marketing." />
+<link rel="alternate" hreflang="es" href="index.es.html" />
+<link rel="alternate" hreflang="en" href="index.html" />
+<style>
+  /* ============================================================
+     CONTACT + BRAND — FILLED 2026-11-06
+     Contact links are built at runtime from the CONFIG block at the end of this
+     file's script: email · phone · website. A value left in [brackets] counts as
+     unset, so its link stays inert rather than shipping as a dead href.
+     ClubeMkt is plain text in the header, the closer and the footer.
+     ============================================================ */
+  :root {
+    --navy: #12314e;
+    --navy-700: #0d2540;
+    --navy-300: #3d6a94;
+    --orange: #e8590c;
+    --orange-600: #cf4d09;
+    --amber: #b26a00;
+    --green: #0b7a3b;
+    --ink: #1f2a37;
+    --ink-600: #4a5568;
+    --ink-400: #6b7280;
+    --line: #dfe3e8;
+    --line-soft: #eef1f4;
+    --surface: #ffffff;
+    --surface-alt: #f6f8fa;
+    --cream: #fff8ed;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .08);
+    --shadow-md: 0 4px 6px -2px rgba(16, 24, 40, .05), 0 12px 24px -6px rgba(16, 24, 40, .12);
+    --shadow-lg: 0 20px 45px -12px rgba(18, 49, 78, .28);
+    --maxw: 1120px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--surface);
+    overflow-x: hidden;
+  }
+
+  img, svg { max-width: 100%; }
+  a { color: var(--navy); }
+  h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 .5em; color: var(--navy); letter-spacing: -.015em; }
+
+  .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); }
+  .section { padding-block: clamp(48px, 8vw, 88px); }
+  .section--alt { background: var(--surface-alt); border-block: 1px solid var(--line); }
+  .eyebrow {
+    display: block; font-size: 12px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--orange); margin-bottom: 10px;
+  }
+  .lede { font-size: clamp(16px, 1.6vw, 18px); color: var(--ink-600); max-width: 62ch; margin: 0; }
+  .center { text-align: center; }
+  .center .lede { margin-inline: auto; }
+
+  :focus-visible { outline: 3px solid rgba(232, 89, 12, .45); outline-offset: 2px; border-radius: 4px; }
+
+  .skip {
+    position: absolute; left: -9999px; top: 0; background: var(--navy); color: #fff;
+    padding: 12px 18px; z-index: 100; border-radius: 0 0 8px 0;
+  }
+  .skip:focus { left: 0; }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-size: 15px; font-weight: 650; text-decoration: none; cursor: pointer;
+    padding: 13px 22px; border-radius: var(--radius-sm); border: 1px solid transparent;
+    transition: background-color .15s ease, border-color .15s ease, transform .05s ease;
+    white-space: nowrap;
+  }
+  .btn--primary { background: var(--orange); color: #fff; }
+  .btn--primary:hover { background: var(--orange-600); }
+  .btn--ghost { background: transparent; color: var(--navy); border-color: var(--line); }
+  .btn--ghost:hover { border-color: var(--navy-300); background: var(--surface-alt); }
+  .btn--light { background: #fff; color: var(--navy); }
+  .btn--light:hover { background: var(--line-soft); }
+  .btn--outline-light { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .45); }
+  .btn--outline-light:hover { border-color: #fff; background: rgba(255, 255, 255, .1); }
+  .btn:active { transform: translateY(1px); }
+  /* a full-width button must be allowed to wrap: nowrap makes it overflow its own box
+     on a 320px viewport */
+  .btn--block { width: 100%; white-space: normal; }
+  /* gated contact links: pointer-events makes sure an unfilled placeholder
+     cannot be clicked into a broken mailto/tel/site address */
+  [data-unset="true"] { opacity: .5; pointer-events: none; text-decoration: none; }
+
+  /* ---------- header ---------- */
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255, 255, 255, .92);
+    backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header__row { display: flex; align-items: center; gap: 16px; min-height: 68px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 750; color: var(--navy); text-decoration: none; font-size: 16px; letter-spacing: -.01em; }
+  .brand__mark {
+    width: 30px; height: 30px; border-radius: 8px; flex: none;
+    background: linear-gradient(140deg, var(--navy) 0%, var(--navy-300) 100%);
+    display: grid; place-items: center; color: #fff;
+  }
+  .nav { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+  .nav a {
+    color: var(--ink-600); text-decoration: none; font-size: 14.5px; font-weight: 550;
+    padding: 8px 12px; border-radius: 6px;
+  }
+  .nav a:hover { color: var(--navy); background: var(--surface-alt); }
+  .header-cta { margin-left: 8px; }
+  .nav-toggle {
+    display: none; margin-left: auto; background: #fff; border: 1px solid var(--line);
+    border-radius: 8px; padding: 8px 12px; font: inherit; font-size: 14px; font-weight: 600; color: var(--navy); cursor: pointer;
+  }
+
+  @media (max-width: 860px) {
+    .nav-toggle { display: block; }
+    .nav {
+      position: absolute; inset: 100% 0 auto 0; display: none; flex-direction: column;
+      align-items: stretch; gap: 2px; padding: 10px clamp(16px, 4vw, 32px) 18px;
+      background: #fff; border-bottom: 1px solid var(--line); box-shadow: var(--shadow-md); margin-left: 0;
+    }
+    .nav[data-open="true"] { display: flex; }
+    .nav a { padding: 12px 10px; font-size: 15px; }
+    .header-cta { display: none; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero { background: linear-gradient(175deg, #fff 0%, var(--surface-alt) 100%); padding-block: clamp(44px, 7vw, 84px) clamp(40px, 6vw, 72px); }
+  .hero__grid { display: grid; gap: clamp(32px, 5vw, 56px); align-items: center; grid-template-columns: 1.05fr .95fr; }
+  .hero h1 { font-size: clamp(30px, 5.1vw, 50px); font-weight: 800; letter-spacing: -.03em; }
+  .hero p.lede { font-size: clamp(16px, 1.7vw, 19px); }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 26px 0 0; padding: 0; list-style: none; }
+  .chips li {
+    display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 550;
+    color: var(--ink-600); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px;
+  }
+  .chips svg { color: var(--green); flex: none; }
+
+  @media (max-width: 900px) { .hero__grid { grid-template-columns: 1fr; } }
+
+  /* hero visual: order-flow card, pure CSS */
+  .flow {
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-700) 100%);
+    border-radius: var(--radius); padding: clamp(18px, 2.4vw, 26px); box-shadow: var(--shadow-lg);
+    color: #fff; position: relative; overflow: hidden;
+  }
+  .flow::after {
+    content: ""; position: absolute; width: 260px; height: 260px; right: -90px; top: -110px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232, 89, 12, .38), transparent 68%);
+  }
+  .flow__title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; position: relative; }
+  .flow__title strong { font-size: 15px; font-weight: 700; }
+  .flow__title span { font-size: 12px; color: #9dbdd9; letter-spacing: .06em; text-transform: uppercase; }
+  .flow ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; position: relative; }
+  .flow li {
+    display: flex; align-items: center; gap: 12px; background: rgba(255, 255, 255, .07);
+    border: 1px solid rgba(255, 255, 255, .12); border-radius: 10px; padding: 11px 13px; font-size: 14px;
+  }
+  .flow li b { font-weight: 650; }
+  .flow li small { display: block; color: #a9c6e0; font-size: 12px; font-weight: 400; }
+  .flow__num {
+    width: 26px; height: 26px; flex: none; border-radius: 50%; background: var(--orange);
+    display: grid; place-items: center; font-size: 13px; font-weight: 700;
+  }
+  .flow__foot {
+    margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .16);
+    display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: #b9d2e6; position: relative;
+  }
+
+  /* ---------- feature grid ---------- */
+  .grid { display: grid; gap: clamp(16px, 2vw, 22px); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 36px; }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: clamp(20px, 2.4vw, 26px); box-shadow: var(--shadow-sm);
+  }
+  .card__icon {
+    width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
+    background: var(--cream); color: var(--orange); margin-bottom: 14px;
+  }
+  .card h3 { font-size: 16.5px; margin-bottom: 6px; }
+  .card p { margin: 0; font-size: 14.5px; color: var(--ink-600); line-height: 1.55; }
+
+  /* ---------- pricing ---------- */
+  .plans { display: grid; gap: clamp(16px, 1.6vw, 20px); grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); margin-top: 36px; align-items: start; }
+  .plan {
+    display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line);
+    border-radius: var(--radius); padding: clamp(22px, 2.4vw, 28px); box-shadow: var(--shadow-sm);
+    min-width: 0;
+  }
+  .plan--featured { border-color: var(--navy); box-shadow: var(--shadow-md); position: relative; }
+  .plan--addon { background: linear-gradient(180deg, #fff 0%, var(--cream) 140%); border-color: #f3c9a0; }
+  .badge {
+    position: absolute; top: -12px; left: clamp(22px, 2.4vw, 28px);
+    background: var(--navy); color: #fff; font-size: 11.5px; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; padding: 5px 11px; border-radius: 999px;
+  }
+  .plan__name { font-size: 13px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-400); margin: 0 0 6px; }
+  .plan__price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; color: var(--navy); font-size: clamp(34px, 4vw, 42px); font-weight: 800; letter-spacing: -.03em; line-height: 1; margin-bottom: 8px; }
+  .plan__price small { font-size: 15px; font-weight: 600; color: var(--ink-400); letter-spacing: 0; }
+  .plan__sub { font-size: 14.5px; color: var(--ink-600); margin: 0 0 18px; min-height: 0; }
+  .plan__list { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 11px; }
+  .plan__list li { display: flex; gap: 10px; font-size: 14.5px; color: var(--ink); line-height: 1.5; }
+  .plan__list svg { flex: none; margin-top: 3px; color: var(--green); }
+  .plan__list .is-muted { color: var(--ink-400); }
+  .plan__list .is-muted svg { color: var(--ink-400); }
+  .plan__foot { margin-top: auto; }
+  .plan__note { font-size: 12.5px; color: var(--ink-400); margin: 12px 0 0; line-height: 1.45; }
+
+  .tiers { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 0 0 18px; padding: 0; list-style: none; }
+  .tier { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+  .tier b { display: block; font-size: 21px; color: var(--navy); font-weight: 800; letter-spacing: -.02em; }
+  .tier span { display: block; font-size: 12.5px; color: var(--ink-400); line-height: 1.4; margin-top: 3px; }
+  .tier--best { border-color: var(--orange); background: var(--cream); }
+  .tier--best b { color: var(--orange-600); }
+
+  /* ---------- comparison table ---------- */
+  .tablehint {
+    display: none; align-items: center; gap: 7px; margin: 26px 0 8px;
+    font-size: 12.5px; font-weight: 600; color: var(--ink-400);
+  }
+  @media (max-width: 767px) { .tablehint { display: flex; } }
+  .tableshell { position: relative; margin-top: 32px; }
+  @media (max-width: 767px) { .tableshell { margin-top: 0; } }
+  .tableshell::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 34px; pointer-events: none;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff 78%); border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  @media (min-width: 768px) { .tableshell::after { display: none; } }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; -webkit-overflow-scrolling: touch; }
+  .tablewrap--plain { margin-top: 0; }
+  table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 14.5px; }
+  caption { text-align: left; padding: 16px 18px 0; color: var(--ink-400); font-size: 13px; }
+  th, td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  thead th { background: var(--navy); color: #fff; font-size: 13px; font-weight: 650; letter-spacing: .02em; }
+  thead th:first-child { border-top-left-radius: 0; }
+  tbody th { font-weight: 600; color: var(--ink-600); background: var(--surface-alt); width: 22%; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  .num { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--navy); }
+
+  /* ---------- currency callout ---------- */
+  .fx { display: grid; gap: clamp(18px, 2.4vw, 28px); grid-template-columns: 1.2fr 1fr; align-items: start; margin-top: 34px; }
+  @media (max-width: 820px) { .fx { grid-template-columns: 1fr; } }
+  .fx__box { background: #fff; border: 1px solid #f3c9a0; border-left: 4px solid var(--orange); border-radius: var(--radius); padding: clamp(20px, 2.4vw, 26px); }
+  .fx__box h3 { margin-top: 0; }
+  .fx__box p { font-size: 14.5px; color: var(--ink-600); margin: 0 0 12px; }
+  .fx__rates { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin: 18px 0 0; padding: 0; list-style: none; }
+  .fx__rates li { background: var(--surface-alt); border: 1px solid var(--line); border-radius: 8px; padding: 11px 13px; font-size: 13px; color: var(--ink-600); }
+  .fx__rates b { display: block; color: var(--navy); font-size: 15px; font-weight: 700; margin-top: 2px; }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 820px; margin: 34px auto 0; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary {
+    list-style: none; cursor: pointer; padding: 18px 40px 18px 0; position: relative;
+    font-size: 16px; font-weight: 650; color: var(--navy);
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    font-size: 22px; font-weight: 400; color: var(--orange); line-height: 1;
+  }
+  .faq details[open] summary::after { content: "\2212"; }
+  .faq p { margin: 0 0 18px; font-size: 15px; color: var(--ink-600); max-width: 68ch; }
+
+  /* ---------- closing CTA ---------- */
+  .closer { background: linear-gradient(150deg, var(--navy) 0%, var(--navy-700) 100%); color: #fff; border-radius: 0; }
+  .closer h2 { color: #fff; font-size: clamp(24px, 3.4vw, 34px); letter-spacing: -.02em; }
+  .closer p { color: #c7d7e6; font-size: 16.5px; max-width: 58ch; margin: 0 0 26px; }
+  .closer__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .closer__meta { margin-top: 24px; font-size: 13.5px; color: #9dbdd9; }
+  .closer__meta a { color: #cfe2f2; }
+
+  /* ---------- footer ---------- */
+  .site-footer { background: #0b1f33; color: #8fb3d4; padding-block: 34px; font-size: 13.5px; }
+  .site-footer__row { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: baseline; justify-content: space-between; }
+  .site-footer strong { color: #fff; }
+  .site-footer a { color: #c7d7e6; text-decoration: none; }
+  .site-footer a:hover { text-decoration: underline; }
+  .site-footer__legal { margin-top: 14px; font-size: 12.5px; color: #6f93b4; max-width: 78ch; }
+
+  /* ---------- calculator ---------- */
+  .calc {
+    margin-top: 34px; background: #fff; border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow-md);
+  }
+  .calc__grid {
+    display: grid; grid-template-columns: minmax(260px, .95fr) minmax(300px, 1.05fr);
+    gap: clamp(18px, 2.6vw, 32px); padding: clamp(20px, 2.8vw, 30px); min-width: 0;
+  }
+  .calc__grid > * { min-width: 0; }
+  .calc__in { display: grid; gap: 18px; align-content: start; min-width: 0; }
+  .field label {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    font-size: 13.5px; font-weight: 600; color: var(--ink-600); margin-bottom: 6px;
+  }
+  .field output { font-size: 15.5px; font-weight: 800; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .field input[type="range"] { width: 100%; margin: 0; accent-color: var(--orange); cursor: ew-resize; height: 26px; }
+  .adv { font-size: 13.5px; }
+  .adv summary { color: var(--ink-400); cursor: pointer; font-weight: 600; }
+  .adv[open] { display: grid; gap: 16px; padding-top: 12px; }
+  .adv .field { margin-top: 4px; }
+  .calc__out { display: grid; gap: 16px; align-content: start; min-width: 0; }
+  .verdict { border-left: 4px solid var(--orange); padding-left: 16px; min-width: 0; }
+  .verdict__label { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-400); }
+  .verdict__big { margin: 4px 0 0; font-size: clamp(21px, 2.6vw, 28px); font-weight: 800; color: var(--navy); line-height: 1.15; letter-spacing: -.02em; }
+  .verdict__sub { margin: 7px 0 0; font-size: 14.5px; color: var(--ink-600); }
+  .outgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; min-width: 0; }
+  .outcell { background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 11px 13px; min-width: 0; }
+  .outcell--wide { grid-column: 1 / -1; }
+  .outcell dt { font-size: 12px; color: var(--ink-400); margin: 0; line-height: 1.35; }
+  .outcell dd { margin: 4px 0 0; font-size: 16px; font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .outcell dd small { display: block; font-size: 12.5px; font-weight: 600; color: var(--ink-400); margin-top: 2px; }
+  .is-bad { color: #b4271e !important; }
+  .is-good { color: var(--green) !important; }
+  .estflag { background: var(--cream); border: 1px solid #f3c9a0; border-radius: var(--radius-sm); padding: 10px 13px; font-size: 13px; color: #7a3e06; line-height: 1.45; }
+  .calc__fine { margin: 0; font-size: 12.5px; color: var(--ink-400); line-height: 1.5; }
+
+  /* ---------- methodology ---------- */
+  .sources { margin-top: 26px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(16px, 2vw, 22px); }
+  .sources summary { font-size: 15px; font-weight: 700; color: var(--navy); cursor: pointer; }
+  .sources p { font-size: 14.5px; color: var(--ink-600); margin: 14px 0 0; max-width: 74ch; }
+  .sources ul { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .sources li { font-size: 14px; color: var(--ink-600); border-left: 3px solid var(--line); padding: 2px 0 2px 13px; line-height: 1.5; }
+  .sources li b { color: var(--navy); }
+  .formula {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; line-height: 1.7;
+    background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 13px 15px; overflow-x: auto; color: var(--ink);
+  }
+  @media (max-width: 860px) {
+    .calc__grid { grid-template-columns: 1fr; }
+    .outgrid { grid-template-columns: 1fr; }
+  }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__row">
+    <a class="brand" href="#top">
+      <span class="brand__mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><path d="M4 15h16v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="8" cy="19" r="1.4"/><circle cx="16" cy="19" r="1.4"/></svg>
+      </span>
+      <span>ClubeMkt</span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+
+    <nav class="nav" id="primaryNav" aria-label="Primary">
+      <a href="#how">What it does</a>
+      <a href="#pricing">Plans</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#compare">Compare</a>
+      <a href="#marketing">Marketing add-on</a>
+      <a href="#faq">FAQ</a>
+      <a href="index.es.html" hreflang="es">Español</a>
+    </nav>
+
+    <a class="btn btn--primary header-cta" href="#pricing">See pricing</a>
+  </div>
+</header>
+
+<main id="main">
+  <span id="top"></span>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <span class="eyebrow">Fast food delivery automation</span>
+        <h1>Take orders automatically. Stop losing them to chaos.</h1>
+        <p class="lede">
+          Delivery automation software built for fast food kitchens. Orders come in, get processed and move through
+          your operation without someone retyping them. Buy the software outright, or start with a lower upfront
+          cost and pay as you grow.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#pricing">View the two plans</a>
+          <a class="btn btn--ghost" href="#marketing">Add marketing &amp; leads</a>
+        </div>
+        <ul class="chips">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>One-time ownership option</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Per-order pricing in Bs</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Onboarding included</li>
+        </ul>
+      </div>
+
+      <div class="flow" role="img" aria-label="Order flow: order received, order processed, kitchen and dispatch, customer notified">
+        <div class="flow__title">
+          <strong>One order, start to finish</strong>
+          <span>Live</span>
+        </div>
+        <ol>
+          <li><span class="flow__num" aria-hidden="true">1</span><b>Order received<small>Captured without manual entry</small></b></li>
+          <li><span class="flow__num" aria-hidden="true">2</span><b>Order processed<small>Validated and queued automatically</small></b></li>
+          <li><span class="flow__num" aria-hidden="true">3</span><b>Kitchen &amp; dispatch<small>Prepared and assigned in sequence</small></b></li>
+          <li><span class="flow__num" aria-hidden="true">4</span><b>Customer updated<small>Status moves as the order does</small></b></li>
+        </ol>
+        <div class="flow__foot">
+          <span>Deployed for your operation</span>
+          <span>Configured during onboarding</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURES ================= -->
+  <section class="section" id="how">
+    <div class="wrap">
+      <span class="eyebrow">What it does</span>
+      <h2>Built around the way a fast food kitchen actually runs</h2>
+      <p class="lede">Every plan includes the same core software. The difference is how you pay for it, not what you get.</p>
+
+      <div class="grid">
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
+          <h3>Order intake automation</h3>
+          <p>Orders enter the system and are processed without being retyped, re-read or chased down by staff.</p>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <h3>Delivery workflow automation</h3>
+          <p>The full delivery flow is deployed for your operation, so each order moves through the same reliable steps.</p>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M17 8h5M19.5 5.5v5"/></svg></span>
+          <h3>Onboarding &amp; configuration</h3>
+          <p>Setup is included with both plans. The software is configured to your operation before you go live.</p>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></span>
+          <h3>Lead generation</h3>
+          <p>With the marketing add-on, campaigns bring new customer enquiries into the same system that fulfils them.</p>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+          <h3>Customer base activation</h3>
+          <p>Re-engagement campaigns turn the customers you already have into repeat delivery orders.</p>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"/><path d="M9 13h6M9 17h4"/></svg></span>
+          <h3>Operational reporting</h3>
+          <p>Ongoing recommendations aimed at growing revenue through the delivery channel, not just holding it steady.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRICING ================= -->
+  <section class="section section--alt" id="pricing">
+    <div class="wrap">
+      <div class="center">
+        <span class="eyebrow">Plans &amp; pricing</span>
+        <h2>Two ways to buy the software</h2>
+        <p class="lede">Own it with a single payment, or start lower and pay as you operate. Add the marketing service to either one.</p>
+      </div>
+
+      <div class="plans">
+        <!-- Plan 1 -->
+        <article class="plan plan--featured">
+          <span class="badge">Own it outright</span>
+          <p class="plan__name">Plan 1 &middot; Full Package</p>
+          <p class="plan__price">$6,000 <small>one-time</small></p>
+          <p class="plan__sub">Buy the software with a single payment and run it for two months with no recurring fee.</p>
+          <ul class="plan__list">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>2 months of licence included</strong> from your go-live date</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Payment due <strong>100% upon contract signing</strong></span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>No monthly fee during the included licence period</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Full delivery automation deployment</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Order intake and processing automation</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Onboarding and initial configuration</span></li>
+          </ul>
+          <div class="plan__foot">
+            <a class="btn btn--primary btn--block" data-mailto-subject="Full%20Package%20%E2%80%94%20%246%2C000%20plan">Request the Full Package</a>
+            <p class="plan__note">Best for established operations that want a predictable, one-time cost.</p>
+          </div>
+        </article>
+
+        <!-- Plan 2 -->
+        <article class="plan">
+          <p class="plan__name">Plan 2 &middot; Software + Monthly</p>
+          <p class="plan__price">$2,500 <small>upfront, then monthly</small></p>
+          <p class="plan__sub">Lower entry cost, with the software billed on a continuing basis.</p>
+          <ul class="plan__list">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>$150 / month</strong> fixed, billed in US dollars</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Bs 1 per order</strong> instead, billed in Bolivianos</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>You choose one structure at contract signing</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Full delivery automation deployment</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Software stays available while fees are current</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Onboarding and initial configuration</span></li>
+          </ul>
+          <div class="plan__foot">
+            <a class="btn btn--ghost btn--block" data-mailto-subject="Software%20%2B%20Monthly%20plan%20%E2%80%94%20%242%2C500">Request the monthly plan</a>
+            <p class="plan__note">Best for growing operations that want payments to follow activity.</p>
+          </div>
+        </article>
+
+        <!-- Add-on -->
+        <article class="plan plan--addon" id="marketing">
+          <p class="plan__name">Add-on &middot; Social Media &amp; Marketing</p>
+          <p class="plan__price">$99 <small>/ month, prepaid term</small></p>
+          <p class="plan__sub">Recurring growth service on top of either plan. Optional, and available to any client.</p>
+
+          <ul class="tiers">
+            <li class="tier"><b>$250</b><span>/ month standalone, billed monthly</span></li>
+            <li class="tier"><b>$150</b><span>/ month if you are on the Full Package</span></li>
+            <li class="tier tier--best"><b>$99</b><span>/ month &times; 24 months, paid upfront</span></li>
+          </ul>
+
+          <ul class="plan__list">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>SEO and <strong>Google Search</strong> campaigns</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Facebook / Meta</strong> and <strong>Instagram</strong> ads</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Lead generation and customer base activation</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Operational improvement and reporting</span></li>
+          </ul>
+
+          <div class="plan__foot">
+            <a class="btn btn--primary btn--block" data-mailto-subject="Marketing%20add-on%20enquiry">Add marketing to my plan</a>
+            <p class="plan__note">Prepaid term totals <strong>$2,376</strong> &mdash; a saving of $3,624 against the standalone monthly rate over 24 months.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CALCULATOR ================= -->
+  <section class="section" id="calculator">
+    <div class="wrap">
+      <span class="eyebrow">Your numbers, not ours</span>
+      <h2>Which fee structure actually costs you less</h2>
+      <p class="lede">
+        Plan&nbsp;2 gives you a choice between a fixed $150 per month and Bs&nbsp;1 per order. Which one wins depends entirely on
+        your monthly volume. Move the sliders &mdash; every figure below is recomputed live, on the Bs&nbsp;11.50 convention used in the proposal.
+      </p>
+
+      <div class="calc">
+        <div class="calc__grid">
+          <div class="calc__in">
+            <div class="field">
+              <label for="orders"><span>Delivery orders per month</span><output id="ordersOut">800</output></label>
+              <input type="range" id="orders" min="100" max="6000" step="25" value="800">
+            </div>
+            <div class="field">
+              <label for="ticket"><span>Average order ticket (Bs)</span><output id="ticketOut">Bs 60</output></label>
+              <input type="range" id="ticket" min="20" max="200" step="5" value="60">
+            </div>
+            <div class="field">
+              <label for="comm"><span>App commission you pay today</span><output id="commOut">25%</output></label>
+              <input type="range" id="comm" min="15" max="35" step="1" value="25">
+            </div>
+            <details class="adv">
+              <summary>Advanced settings</summary>
+              <div class="field">
+                <label for="rate"><span>Exchange rate (Bs per USD)</span><output id="rateOut">11.50</output></label>
+                <input type="range" id="rate" min="7" max="14" step="0.5" value="11.5">
+              </div>
+            </details>
+            <p class="calc__fine">
+              Nothing here is stored or sent anywhere. The sliders only change what this page shows you.
+            </p>
+          </div>
+
+          <div class="calc__out">
+            <div class="verdict">
+              <p class="verdict__label">Cheaper at your volume</p>
+              <p class="verdict__big" id="verdictBig">Per-order fee</p>
+              <p class="verdict__sub" id="verdictSub">&mdash;</p>
+            </div>
+
+            <dl class="outgrid">
+              <div class="outcell">
+                <dt>Bs 1 per order, this month</dt>
+                <dd><span id="cellPerOrder">&mdash;</span><small id="cellPerOrderBs"></small></dd>
+              </div>
+              <div class="outcell">
+                <dt>Fixed fee, this month</dt>
+                <dd><span id="cellFixed">$150.00</span><small id="cellFixedBs"></small></dd>
+              </div>
+              <div class="outcell">
+                <dt>Break-even volume</dt>
+                <dd><span id="cellBreakEven">&mdash;</span><small>orders per month</small></dd>
+              </div>
+              <div class="outcell">
+                <dt>Saving from choosing it</dt>
+                <dd><span id="cellSaving">&mdash;</span><small id="cellSavingYear"></small></dd>
+              </div>
+              <div class="outcell outcell--wide">
+                <dt>What the same orders cost through an app at your commission rate</dt>
+                <dd><span id="cellApp">&mdash;</span><small id="cellAppSub"></small></dd>
+              </div>
+              <div class="outcell outcell--wide">
+                <dt>Plan 2 first-year total against Plan 1&rsquo;s single payment</dt>
+                <dd><span id="cellYear">&mdash;</span><small id="cellYearSub"></small></dd>
+              </div>
+            </dl>
+
+            <p class="estflag" id="estFlag" hidden>
+              &#9888;&nbsp; Average ticket and app commission are still on the defaults shown here &mdash; they are my estimates, not your data.
+              Move them to your real numbers before you quote anyone.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tableshell">
+        <p class="tablehint">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12h8M12 8l4 4-4 4"/><circle cx="12" cy="12" r="9"/></svg>
+          Swipe the table sideways to see all four columns
+        </p>
+        <div class="tablewrap">
+          <table>
+            <caption>Marketing add-on over 24 months</caption>
+            <thead>
+              <tr>
+                <th scope="col">Add-on rate</th>
+                <th scope="col">Who pays it</th>
+                <th scope="col">Monthly</th>
+                <th scope="col">24-month total</th>
+                <th scope="col">Against standalone</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Standalone</th>
+                <td>Not a software customer</td>
+                <td class="num">$250</td>
+                <td class="num">$6,000</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <th scope="row">Discounted</th>
+                <td>Full Package (Plan&nbsp;1) customers</td>
+                <td class="num">$150</td>
+                <td class="num">$3,600</td>
+                <td class="num is-good">saves $2,400</td>
+              </tr>
+              <tr>
+                <th scope="row">Prepaid</th>
+                <td>24 months paid as one lump sum</td>
+                <td class="num">$99</td>
+                <td class="num">$2,376</td>
+                <td class="num is-good">saves $3,624</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <details class="sources">
+        <summary>Where every number above comes from</summary>
+        <p>
+          I would rather you check the arithmetic here than in a meeting. These are the formulas, and which inputs
+          are yours versus mine.
+        </p>
+        <p class="formula">
+          per-order fee = orders &times; Bs 1 &nbsp;&rarr;&nbsp; &divide; rate = USD<br>
+          break-even orders = $150 &times; rate<br>
+          app commission = orders &times; ticket &times; commission%<br>
+          Plan 2 year 1 = $2,500 + (12 &times; cheaper monthly fee)
+        </p>
+        <ul>
+          <li><b>Yours to correct:</b> orders per month, average ticket, app commission, exchange rate. The sliders exist so you can put your real figures in.</li>
+          <li><b>Mine, and defaults:</b> Bs 60 ticket, 25% commission, Bs 11.50 per USD. The 11.50 convention is shared with the rest of the pricing so both documents agree.</li>
+          <li><b>Fixed by the proposal:</b> $6,000 Plan&nbsp;1, $2,500 Plan&nbsp;2, $150 monthly, Bs 1 per order, and the three add-on rates.</li>
+          <li><b>Deliberately not shown:</b> what Plan&nbsp;1 costs after its two included licence months. Renewal terms live in the signed contract, so the calculator compares upfront payments only and says so.</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= COMPARE ================= -->
+  <section class="section" id="compare">
+    <div class="wrap">
+      <span class="eyebrow">Side by side</span>
+      <h2>Compare the plans</h2>
+      <p class="lede">Same core software on both. Choose ownership with a single payment, or a lower entry with ongoing fees.</p>
+
+      <p class="tablehint">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12h8M12 8l4 4-4 4"/><circle cx="12" cy="12" r="9"/></svg>
+        Swipe the table sideways to see all four columns
+      </p>
+      <div class="tableshell">
+      <div class="tablewrap">
+        <table>
+          <caption class="sr-only">Plan comparison across upfront cost, ongoing fee, licence, payment trigger, onboarding and best fit</caption>
+          <thead>
+            <tr>
+              <th scope="col">&nbsp;</th>
+              <th scope="col">Plan 1 &mdash; Full Package</th>
+              <th scope="col">Plan 2 &mdash; Software + Monthly</th>
+              <th scope="col">Marketing add-on</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Upfront cost</th>
+              <td><span class="num">$6,000</span></td>
+              <td><span class="num">$2,500</span></td>
+              <td>None &mdash; recurring service</td>
+            </tr>
+            <tr>
+              <th scope="row">Ongoing fee</th>
+              <td>None during the included 2-month licence</td>
+              <td><span class="num">$150</span>/month or <span class="num">Bs 1</span>/order</td>
+              <td><span class="num">$250</span> &middot; $150 &middot; $99 per month</td>
+            </tr>
+            <tr>
+              <th scope="row">Licence</th>
+              <td>2 months included from go-live</td>
+              <td>While fees remain current</td>
+              <td>Month-to-month, or 24-month prepaid term</td>
+            </tr>
+            <tr>
+              <th scope="row">Payment trigger</th>
+              <td>Upon contract signing</td>
+              <td>Upfront, then recurring</td>
+              <td>Monthly, or one lump sum for the term</td>
+            </tr>
+            <tr>
+              <th scope="row">Onboarding</th>
+              <td>Included</td>
+              <td>Included</td>
+              <td>Campaign setup included</td>
+            </tr>
+            <tr>
+              <th scope="row">Best fit</th>
+              <td>Predictable budget, established volume</td>
+              <td>Lower entry, cost follows activity</td>
+              <td>Operations that need more leads and repeat orders</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+      <p class="plan__note" style="margin-top:12px">All amounts exclude applicable taxes.</p>
+    </div>
+  </section>
+
+  <!-- ================= CURRENCY ================= -->
+  <section class="section section--alt" id="currency">
+    <div class="wrap">
+      <span class="eyebrow">Currency &amp; exchange rate</span>
+      <h2>Why one price is in Bs and the rest are in US dollars</h2>
+
+      <div class="fx">
+        <div class="fx__box">
+          <h3>The split, explained</h3>
+          <p>
+            Software prices, monthly fees and the marketing add-on are quoted and settled in <strong>US dollars</strong>.
+            The Plan&nbsp;2 per-order fee is quoted and settled in <strong>Bolivianos</strong>. No other line item is denominated in Bs.
+          </p>
+          <p>
+            Because the two Plan&nbsp;2 options sit in different currencies, the break-even point moves with the exchange rate.
+            At the Bs&nbsp;11.50 convention used throughout, the two cost the same at <strong>1,725 orders per month</strong> &mdash; below that,
+            paying per order is the cheaper structure. <a href="#calculator">Try it on your own volume</a>.
+          </p>
+          <ul class="fx__rates">
+            <li>Working rate<b>1 USD = Bs 11.50</b></li>
+            <li>Bs 1 per order equals<b>&asymp; $0.087</b></li>
+            <li>$150 per month equals<b>Bs 1,725</b></li>
+          </ul>
+          <p class="plan__note" style="margin-top:16px">
+            Bs&nbsp;11.50 is the single convention used for every conversion on this page and in the calculator, so the two fee
+            structures compare on the same basis. It does not bind either party. Bolivia has historically operated both an official
+            central bank rate and a prevailing market rate, and they can differ substantially &mdash; the rate source and review
+            frequency are named in the signed contract.
+          </p>
+        </div>
+
+        <div class="tablewrap tablewrap--plain">
+          <table style="min-width:0">
+            <caption>Which fee is cheaper at your volume</caption>
+            <thead>
+              <tr>
+                <th scope="col">Orders / month</th>
+                <th scope="col">Bs 1 / order</th>
+                <th scope="col">Fixed fee</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">300</th><td><span class="num">&asymp; $26</span></td><td>$150</td></tr>
+              <tr><th scope="row">600</th><td><span class="num">&asymp; $52</span></td><td>$150</td></tr>
+              <tr><th scope="row">1,000</th><td><span class="num">&asymp; $87</span></td><td>$150</td></tr>
+              <tr><th scope="row">1,725</th><td><span class="num">$150</span></td><td>$150</td></tr>
+              <tr><th scope="row">2,500</th><td><span class="num">&asymp; $217</span></td><td>$150</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="center">
+        <span class="eyebrow">Questions</span>
+        <h2>Before you choose a plan</h2>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>Do I get the same software on both plans?</summary>
+          <p>Yes. Both plans include the full delivery automation deployment, order intake and processing automation, and onboarding with initial configuration. The difference is the payment structure, not the feature set.</p>
+        </details>
+        <details>
+          <summary>What happens when the 2 included licence months end on Plan 1?</summary>
+          <p>Renewal terms after the included licence period are set out in your service contract, so there is no surprise change to your cost or access. Ask us and we will confirm them in writing before you sign.</p>
+        </details>
+        <details>
+          <summary>Can I change between the fixed monthly fee and the per-order fee?</summary>
+          <p>Your fee structure is chosen at contract signing and applies for the term of the agreement unless amended in writing. Review your average monthly order volume first &mdash; the currency note above shows where the two cross over.</p>
+        </details>
+        <details>
+          <summary>Is the marketing add-on required?</summary>
+          <p>No. It is optional and layered on top of either plan. If you take it while on the Full Package, the rate drops from $250 to $150 per month, or to $99 per month with the 24-month prepaid term.</p>
+        </details>
+        <details>
+          <summary>Are the marketing campaigns connected to my customer list?</summary>
+          <p>That is the point of the add-on. Alongside new lead generation, it runs re-engagement campaigns against the customer base you already have, so existing contacts convert into repeat delivery orders.</p>
+        </details>
+        <details>
+          <summary>What is not included in these prices?</summary>
+          <p>Applicable sales, VAT or withholding taxes are excluded and are the client&rsquo;s responsibility where legally required. Work outside the scope described in the proposal is quoted separately as a change order.</p>
+        </details>
+        <details>
+          <summary>How do I get started?</summary>
+          <p>Pick a plan and send it to us by email or WhatsApp. We confirm the scope and fee structure, issue the service contract, and schedule onboarding and configuration before your go-live date.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CLOSER ================= -->
+  <section class="section closer">
+    <div class="wrap">
+      <h2>Ready to automate your deliveries?</h2>
+      <p>Tell us your average monthly order volume and we will recommend which Plan&nbsp;2 fee structure costs you less, or quote the Full Package if ownership suits you better.</p>
+      <div class="closer__actions">
+        <a class="btn btn--light" data-mailto-subject="Delivery%20automation%20%E2%80%94%20plan%20enquiry">Email us your plan choice</a>
+        <a class="btn btn--outline-light" href="#pricing">Review the plans</a>
+      </div>
+      <p class="closer__meta" id="closerFallback" hidden>Not sure who to write to yet? Use the two-minute enquiry form and we reply on WhatsApp. <a href="stop-losing-orders.html#signup">Open the form</a></p>
+      <p class="closer__meta">
+        ClubeMkt &nbsp;&middot;&nbsp;
+        <span id="contactLinks"><a data-mail>hudson@clubemkt.digital</a> &nbsp;&middot;&nbsp; <a data-tel>+591 76451489</a> &nbsp;&middot;&nbsp; <a data-web>https://clubemkt.digital</a></span>
+        <span id="contactUnset" hidden>Contact details appear here once they are set in the CONFIG block at the end of this page.</span>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer__row">
+      <div><strong>ClubeMkt</strong> &mdash; fast food delivery automation software</div>
+      <div>
+        <a href="#pricing">Plans</a> &nbsp;&middot;&nbsp;
+        <a href="#calculator">Calculator</a> &nbsp;&middot;&nbsp;
+        <a href="#compare">Compare</a> &nbsp;&middot;&nbsp;
+        <a href="#currency">Currency note</a> &nbsp;&middot;&nbsp;
+        <a href="#faq">FAQ</a> &nbsp;&middot;&nbsp;
+        <a href="index.es.html" hreflang="es">Espa&ntilde;ol</a>
+      </div>
+    </div>
+    <p class="site-footer__legal">
+      Prices shown are proposal amounts in US dollars, except the Plan&nbsp;2 per-order fee, which is quoted and settled in Bolivianos.
+      All amounts exclude applicable taxes. This page summarises a pricing proposal; final rights and obligations are governed by the signed service contract.
+    </p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('navToggle');
+    var nav = document.getElementById('primaryNav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', function () {
+      var open = nav.getAttribute('data-open') === 'true';
+      nav.setAttribute('data-open', String(!open));
+      toggle.setAttribute('aria-expanded', String(!open));
+      toggle.textContent = open ? 'Menu' : 'Close';
+    });
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        nav.removeAttribute('data-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = 'Menu';
+      }
+    });
+  })();
+
+  (function () {
+    var PLAN1_UPFRONT = 6000;
+    var PLAN2_UPFRONT = 2500;
+    var MONTHLY_FEE = 150;
+    var PER_ORDER_BS = 1;
+    var DEFAULTS = { orders: 800, ticket: 60, comm: 25, rate: 11.5 };
+    var IDS = ['orders', 'ticket', 'comm', 'rate'];
+
+    var nf0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+    var nf2 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    function money(v) { return '$' + nf2.format(v); }
+    function money0(v) { return '$' + nf0.format(Math.round(v)); }
+    function bob(v) { return 'Bs ' + nf0.format(Math.round(v)); }
+    function text(id, s) { var el = document.getElementById(id); if (el) el.textContent = s; }
+
+    function val(id) {
+      var el = document.getElementById(id);
+      var v = el ? parseFloat(el.value) : NaN;
+      return isNaN(v) ? DEFAULTS[id] : v;
+    }
+
+    function render() {
+      var orders = val('orders'), ticket = val('ticket'), comm = val('comm') / 100, rate = val('rate');
+
+      text('ordersOut', nf0.format(orders));
+      text('ticketOut', bob(ticket));
+      text('commOut', nf0.format(comm * 100) + '%');
+      text('rateOut', nf2.format(rate));
+
+      var perOrderUsd = (orders * PER_ORDER_BS) / rate;
+      var breakEven = MONTHLY_FEE * rate;
+      var saving = Math.abs(MONTHLY_FEE - perOrderUsd);
+      var cheaper = saving < 0.5 ? 'even' : (perOrderUsd < MONTHLY_FEE ? 'per' : 'fixed');
+      var monthlyChoice = cheaper === 'fixed' ? MONTHLY_FEE : perOrderUsd;
+
+      if (cheaper === 'per') {
+        text('verdictBig', 'Per-order fee (Bs 1)');
+        text('verdictSub', 'At ' + nf0.format(orders) + ' orders you pay ' + bob(orders * PER_ORDER_BS) + ' \u2248 ' +
+          money(perOrderUsd) + ' a month instead of ' + money(MONTHLY_FEE) + '. That is ' + money(saving) +
+          ' less each month, ' + money0(saving * 12) + ' a year.');
+      } else if (cheaper === 'fixed') {
+        text('verdictBig', 'Fixed fee ($150 / month)');
+        text('verdictSub', 'At ' + nf0.format(orders) + ' orders the per-order fee would be ' + bob(orders * PER_ORDER_BS) +
+          ' = ' + money(perOrderUsd) + '. The fixed fee holds at ' + money(MONTHLY_FEE) + ', which is ' +
+          money(saving) + ' less each month, ' + money0(saving * 12) + ' a year.');
+      } else {
+        text('verdictBig', 'Neither \u2014 you are at break-even');
+        text('verdictSub', 'Both structures cost ' + money(MONTHLY_FEE) + ' at ' + nf0.format(Math.round(breakEven)) +
+          ' orders per month. Below that volume the per-order fee wins; above it, the fixed fee wins.');
+      }
+
+      text('cellPerOrder', money(perOrderUsd));
+      text('cellPerOrderBs', bob(orders * PER_ORDER_BS) + ' at ' + nf0.format(orders) + ' orders');
+      text('cellFixed', money(MONTHLY_FEE));
+      text('cellFixedBs', 'equals ' + bob(MONTHLY_FEE * rate) + ' at this rate');
+      text('cellBreakEven', nf0.format(Math.round(breakEven)));
+      text('cellSaving', money(saving) + ' / month');
+      text('cellSavingYear', money0(saving * 12) + ' per year');
+
+      var commPerOrder = ticket * comm;
+      var commMonthBs = orders * commPerOrder;
+      text('cellApp', bob(commMonthBs) + ' \u2248 ' + money0(commMonthBs / rate) + ' / month');
+      text('cellAppSub', 'That is Bs ' + nf2.format(commPerOrder) + ' per order against Bs 1 here \u2014 ' +
+        nf0.format(commPerOrder / PER_ORDER_BS) + 'x the per-order fee');
+
+      var plan2Year1 = PLAN2_UPFRONT + 12 * monthlyChoice;
+      var monthsToGap = monthlyChoice > 0 ? (PLAN1_UPFRONT - PLAN2_UPFRONT) / monthlyChoice : Infinity;
+      text('cellYear', money0(plan2Year1) + ' in year 1');
+      text('cellYearSub', 'Plan 1 asks ' + money0(PLAN1_UPFRONT) + ' up front against ' + money0(PLAN2_UPFRONT) +
+        ' here. The ' + money0(PLAN1_UPFRONT - PLAN2_UPFRONT) + ' difference is covered by ' +
+        (monthsToGap > 60 ? 'more than 5 years' : nf2.format(monthsToGap) + ' months') +
+        ' of fees at ' + money(monthlyChoice) + ' per month.');
+
+      var flag = document.getElementById('estFlag');
+      if (flag) {
+        flag.hidden = !(val('ticket') === DEFAULTS.ticket && val('comm') === DEFAULTS.comm);
+      }
+    }
+
+    IDS.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', render);
+    });
+    var verdict = document.getElementById('verdictBig');
+    if (verdict && verdict.parentElement) verdict.parentElement.setAttribute('aria-live', 'polite');
+    if (document.getElementById('orders')) render();
+  })();
+  (function () {
+    /* CONFIG — the only place contact details live on this page. A value still
+       wrapped in [brackets] counts as unset: the link is left inert instead of
+       publishing as a dead mailto, tel or site address. */
+    var CONFIG = {
+      email: 'hudson@clubemkt.digital',
+      phone: '+591 76451489',
+      website: 'https://clubemkt.digital'
+    };
+
+    function filled(v) {
+      var s = String(v === undefined || v === null ? '' : v);
+      return s.length > 0 && s.indexOf('[') === -1 && s.indexOf(']') === -1;
+    }
+    function inert(el) {
+      el.removeAttribute('href');
+      el.setAttribute('data-unset', 'true');
+      el.setAttribute('aria-disabled', 'true');
+    }
+    function each(sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
+
+    var hasEmail = filled(CONFIG.email);
+    each('[data-mailto-subject]', function (el) {
+      if (!hasEmail) { inert(el); return; }
+      el.setAttribute('href', 'mailto:' + CONFIG.email + '?subject=' + el.getAttribute('data-mailto-subject'));
+    });
+
+    var allContact = hasEmail && filled(CONFIG.phone) && filled(CONFIG.website);
+    if (allContact) {
+      var m = document.querySelector('[data-mail]');
+      var t = document.querySelector('[data-tel]');
+      var w = document.querySelector('[data-web]');
+      if (m) { m.setAttribute('href', 'mailto:' + CONFIG.email); m.textContent = CONFIG.email; }
+      if (t) { t.setAttribute('href', 'tel:' + CONFIG.phone.replace(/\s+/g, '')); t.textContent = CONFIG.phone; }
+      if (w) { w.setAttribute('href', CONFIG.website); w.textContent = CONFIG.website; }
+    }
+    var links = document.getElementById('contactLinks');
+    var unset = document.getElementById('contactUnset');
+    if (links && unset) { links.hidden = !allContact; unset.hidden = allContact; }
+    var fallback = document.getElementById('closerFallback');
+    if (fallback) fallback.hidden = hasEmail;
+  })();
+</script>
+</body>
+</html>

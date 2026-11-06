@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stop losing delivery orders at rush hour — delivery automation for fast food kitchens</title>
+<meta name="description" content="Orders arriving over WhatsApp, phone and the counter get dropped, retyped and chased. See how delivery automation fixes that for a single fast food kitchen — before you look at pricing." />
+<meta name="robots" content="index,follow" />
+<link rel="alternate" hreflang="es" href="stop-losing-orders.es.html" />
+<link rel="alternate" hreflang="en" href="stop-losing-orders.html" />
+<style>
+  /* ============================================================
+     CONTACT + BRAND — FILLED 2026-11-06
+       CONFIG.email             lead inbox (used by the form)
+       CONFIG.whatsappNumber    +591 76451489 click-to-chat
+       brand                    ClubeMkt
+     CONTACT + FORM BACKEND: everything is set in the CONFIG object near the
+     bottom of this file. A value left in [brackets] counts as unset, so the page
+     renders no link for it and the form shows the copy-and-send panel instead.
+     Set CONFIG.endpoint (e.g. '/api/lead') to post leads to a real endpoint.
+     Until then the submit button composes an email from the answers.
+     ============================================================ */
+  :root {
+    --navy: #12314e;
+    --navy-700: #0d2540;
+    --navy-300: #3d6a94;
+    --orange: #e8590c;
+    --orange-600: #cf4d09;
+    --red: #b3261e;
+    --red-50: #fdf3f2;
+    --red-line: #f2cfcb;
+    --green: #0b7a3b;
+    --green-50: #f1f8f3;
+    --ink: #1f2a37;
+    --ink-600: #4a5568;
+    --ink-400: #6b7280;
+    --line: #dfe3e8;
+    --line-soft: #eef1f4;
+    --surface: #ffffff;
+    --surface-alt: #f6f8fa;
+    --cream: #fff8ed;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
+    --shadow-md: 0 4px 6px -2px rgba(16,24,40,.05), 0 12px 24px -6px rgba(16,24,40,.12);
+    --shadow-lg: 0 20px 45px -12px rgba(18,49,78,.28);
+    --maxw: 1080px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px; line-height: 1.6; color: var(--ink); background: var(--surface); overflow-x: hidden;
+  }
+  svg { max-width: 100%; }
+  a { color: var(--navy); }
+  h1, h2, h3, h4 { line-height: 1.18; margin: 0 0 .5em; color: var(--navy); letter-spacing: -.02em; }
+  h1 { font-size: clamp(30px, 5.4vw, 52px); font-weight: 800; }
+  h2 { font-size: clamp(24px, 3.4vw, 36px); font-weight: 800; }
+  h3 { font-size: 18px; font-weight: 700; }
+  p { margin: 0 0 1em; }
+  .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); min-width: 0; }
+  .wrap > * { min-width: 0; }
+  /* grid/flex items default to min-width:auto, which lets long words and
+     <select> option text push a track wider than the viewport */
+  .hero__inner > *, .capture__grid > *, .row2 > *, .fix > *, .fixes > *,
+  .pains > *, .steps > *, .qualify > *, .qual > *, .faq > *, .capture__list li { min-width: 0; }
+  input, select, textarea { max-width: 100%; }
+  select { min-width: 0; }
+  .checks { min-width: 0; }
+  .section { padding-block: clamp(46px, 7vw, 84px); }
+  .section--alt { background: var(--surface-alt); border-block: 1px solid var(--line); }
+  .eyebrow { display: block; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+  .lede { font-size: clamp(16px, 1.7vw, 19px); color: var(--ink-600); max-width: 60ch; }
+  :focus-visible { outline: 3px solid rgba(232,89,12,.45); outline-offset: 2px; border-radius: 4px; }
+  .skip { position: absolute; left: -9999px; top: 0; background: var(--navy); color: #fff; padding: 12px 18px; z-index: 100; border-radius: 0 0 8px 0; }
+  .skip:focus { left: 0; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: inherit;
+    font-size: 15px; font-weight: 650; text-decoration: none; cursor: pointer; padding: 14px 24px;
+    border-radius: var(--radius-sm); border: 1px solid transparent; white-space: nowrap;
+    transition: background-color .15s ease, border-color .15s ease, transform .05s ease;
+  }
+  .btn--primary { background: var(--orange); color: #fff; }
+  .btn--primary:hover { background: var(--orange-600); }
+  .btn--ghost { background: transparent; color: var(--navy); border-color: var(--line); }
+  .btn--ghost:hover { border-color: var(--navy-300); background: var(--surface-alt); }
+  .btn--lg { font-size: 16.5px; padding: 16px 28px; }
+  /* a full-width button must be allowed to wrap: nowrap makes it overflow its own box
+     on a 320px viewport */
+  .btn--block { width: 100%; white-space: normal; }
+  .btn:active { transform: translateY(1px); }
+
+  /* ---------- minimal header: cold traffic should not wander ---------- */
+  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.94); backdrop-filter: saturate(180%) blur(10px); border-bottom: 1px solid var(--line); }
+  .site-header__row { display: flex; align-items: center; gap: 14px; min-height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 750; color: var(--navy); text-decoration: none; font-size: 15.5px; }
+  .brand__mark { width: 30px; height: 30px; border-radius: 8px; flex: none; background: linear-gradient(140deg, var(--navy), var(--navy-300)); display: grid; place-items: center; color: #fff; }
+  .header__links { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+  .header__links a.hlink { font-size: 14px; font-weight: 550; color: var(--ink-600); text-decoration: none; padding: 8px 10px; border-radius: 6px; }
+  .header__links a.hlink:hover { color: var(--navy); background: var(--surface-alt); }
+  @media (max-width: 560px) { .header__links .hlink { display: none; } }
+  @media (max-width: 400px) {
+    .site-header__row { gap: 8px; }
+    .brand > span:last-child { display: none; }
+    .header__links .btn { padding: 11px 14px; font-size: 14px; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero { background: linear-gradient(178deg, #fff 0%, var(--surface-alt) 100%); padding-block: clamp(44px, 6vw, 76px) clamp(38px, 5vw, 64px); }
+  .hero h1 { max-width: 820px; }
+  .hero p.lede { margin-top: 18px; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; align-items: center; }
+  .reassure { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 22px 0 0; padding: 0; list-style: none; font-size: 13.5px; color: var(--ink-600); }
+  .reassure li { display: flex; align-items: center; gap: 7px; }
+  .reassure svg { color: var(--green); flex: none; }
+
+  /* the "sound familiar" line that does the hooking */
+  .quote {
+    margin: 30px 0 0; padding: 20px 22px; background: #fff; border: 1px solid var(--red-line);
+    border-left: 4px solid var(--red); border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    max-width: 760px;
+  }
+  .quote p { margin: 0; font-size: 16.5px; color: var(--ink); font-style: italic; line-height: 1.5; }
+  .quote cite { display: block; margin-top: 8px; font-size: 12.5px; font-style: normal; color: var(--ink-400); letter-spacing: .04em; text-transform: uppercase; }
+
+  /* ---------- pain grid ---------- */
+  .pains { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 34px; }
+  .pain {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow-sm);
+    border-top: 3px solid var(--red-line);
+  }
+  .pain__head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 8px; }
+  .pain__icon { width: 32px; height: 32px; flex: none; border-radius: 8px; display: grid; place-items: center; background: var(--red-50); color: var(--red); }
+  .pain h3 { font-size: 16px; margin: 0; }
+  .pain p { margin: 0; font-size: 14.5px; color: var(--ink-600); line-height: 1.55; }
+  .pain__cost { margin-top: 12px; padding-top: 11px; border-top: 1px dashed var(--line); font-size: 13px; color: var(--red); font-weight: 600; }
+
+  /* ---------- pain -> solution rows ---------- */
+  .fixes { margin-top: 34px; display: grid; gap: 12px; }
+  .fix {
+    display: grid; grid-template-columns: 1fr 44px 1fr; gap: 0; align-items: stretch;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+  }
+  .fix__before, .fix__after { padding: 18px 20px; font-size: 14.5px; line-height: 1.5; }
+  .fix__before { background: var(--red-50); color: #6d2420; }
+  .fix__before strong { color: var(--red); }
+  .fix__after { background: var(--green-50); color: #14532d; }
+  .fix__after strong { color: var(--green); }
+  .fix__arrow { display: grid; place-items: center; background: #fff; color: var(--navy-300); border-inline: 1px solid var(--line); }
+  @media (max-width: 700px) {
+    .fix { grid-template-columns: 1fr; }
+    .fix__arrow { border-inline: 0; border-block: 1px solid var(--line); padding: 6px 0; }
+    /* rotate the icon only — rotating the cell turns a full-width row into a
+       350px-tall strip that paints over the before/after text */
+    .fix__arrow svg { transform: rotate(90deg); }
+  }
+
+  /* ---------- 3 steps ---------- */
+  .steps { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 34px; }
+  .step { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm); }
+  .step__num { width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+  .step p { margin: 0; font-size: 14.5px; color: var(--ink-600); }
+
+  /* ---------- qualifier ---------- */
+  .qualify { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 34px; }
+  .qual { border-radius: var(--radius); padding: 22px; border: 1px solid var(--line); background: #fff; }
+  .qual--yes { border-color: #bfe0cb; background: var(--green-50); }
+  .qual--no { border-color: var(--line); }
+  .qual h3 { font-size: 15px; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 14px; }
+  .qual--yes h3 { color: var(--green); }
+  .qual--no h3 { color: var(--ink-400); }
+  .qual ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .qual li { display: flex; gap: 10px; font-size: 14.5px; line-height: 1.5; }
+  .qual li svg { flex: none; margin-top: 3px; }
+  .qual--yes li svg { color: var(--green); }
+  .qual--no li svg { color: var(--ink-400); }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 780px; margin: 30px auto 0; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { list-style: none; cursor: pointer; padding: 17px 40px 17px 0; position: relative; font-size: 16px; font-weight: 650; color: var(--navy); }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 22px; color: var(--orange); }
+  .faq details[open] summary::after { content: "\2212"; }
+  .faq p { margin: 0 0 17px; font-size: 15px; color: var(--ink-600); max-width: 66ch; }
+  .todo { display: inline-block; margin-top: 4px; font-size: 12.5px; font-weight: 700; color: var(--amber, #b26a00); background: var(--cream); border: 1px solid #f3c9a0; border-radius: 6px; padding: 3px 8px; }
+
+  /* ---------- lead form ---------- */
+  .capture { background: linear-gradient(160deg, var(--navy) 0%, var(--navy-700) 100%); color: #fff; }
+  .capture__grid { display: grid; gap: clamp(26px, 4vw, 52px); grid-template-columns: .85fr 1.15fr; align-items: start; }
+  @media (max-width: 880px) { .capture__grid { grid-template-columns: 1fr; } }
+  .capture h2 { color: #fff; }
+  .capture p.sub { color: #c7d7e6; font-size: 16.5px; max-width: 44ch; }
+  .capture__list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
+  .capture__list li { display: flex; gap: 11px; font-size: 14.5px; color: #d6e5f2; line-height: 1.45; }
+  .capture__list svg { flex: none; margin-top: 2px; color: #7fd6a0; }
+  .capture__alt { margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.18); font-size: 14px; color: #b9d2e6; }
+  .capture__alt a { color: #fff; }
+
+  .formcard { background: #fff; border-radius: var(--radius); padding: clamp(22px, 3vw, 30px); box-shadow: var(--shadow-lg); color: var(--ink); }
+  .formcard h3 { margin-top: 0; font-size: 19px; }
+  .formcard > p { font-size: 14px; color: var(--ink-600); margin-bottom: 20px; }
+  .field { margin-bottom: 16px; }
+  .row2 { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+  label, .legend { display: block; font-size: 13.5px; font-weight: 650; color: var(--navy); margin-bottom: 6px; }
+  .hint { font-size: 12.5px; color: var(--ink-400); margin: 5px 0 0; }
+  input[type="text"], input[type="tel"], input[type="email"], select, textarea {
+    width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: #fff;
+    border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 11px 13px;
+  }
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 36px; }
+  textarea { min-height: 78px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { border-color: var(--navy-300); }
+  fieldset { border: 0; margin: 0 0 16px; padding: 0; }
+  .checks { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 4px; }
+  .check { display: flex; align-items: center; gap: 9px; font-size: 14.5px; font-weight: 400; color: var(--ink); background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 9px 12px; cursor: pointer; }
+  .check:hover { border-color: var(--navy-300); }
+  .check input { width: 17px; height: 17px; accent-color: var(--orange); flex: none; margin: 0; }
+  .err { display: none; font-size: 12.5px; font-weight: 600; color: var(--red); margin-top: 5px; }
+  .field[data-invalid="true"] input, .field[data-invalid="true"] select { border-color: var(--red); }
+  .field[data-invalid="true"] .err { display: block; }
+  .consent { font-size: 12.5px; color: var(--ink-400); margin: 14px 0 0; line-height: 1.5; }
+  .status { margin-top: 16px; font-size: 14px; border-radius: var(--radius-sm); padding: 14px 16px; display: none; }
+  .status[data-show="true"] { display: block; }
+  .status--ok { background: var(--green-50); border: 1px solid #bfe0cb; color: #14532d; }
+  .status--warn { background: var(--cream); border: 1px solid #f3c9a0; color: #7a3e06; }
+  .status--warn h4 { color: var(--orange); }
+  .status--bad { background: #fdf0ef; border: 1px solid #f2c4c0; color: #6d2420; }
+  .status--bad h4 { color: var(--red); }
+  .status h4 { margin: 0 0 6px; font-size: 15px; color: var(--green); }
+  .status textarea { margin-top: 10px; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; min-height: 120px; }
+  .status .btn { margin-top: 10px; font-size: 13.5px; padding: 9px 14px; }
+  .fallback__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .site-footer { background: #0b1f33; color: #8fb3d4; padding-block: 30px; font-size: 13.5px; }
+  .site-footer a { color: #c7d7e6; }
+  .site-footer__row { display: flex; flex-wrap: wrap; gap: 12px 26px; justify-content: space-between; align-items: baseline; }
+  .site-footer strong { color: #fff; }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__row">
+    <a class="brand" href="index.html">
+      <span class="brand__mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><path d="M4 15h16v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="8" cy="19" r="1.4"/><circle cx="16" cy="19" r="1.4"/></svg>
+      </span>
+      <span>ClubeMkt</span>
+    </a>
+    <div class="header__links">
+      <a class="hlink" href="index.html">Plans &amp; pricing</a>
+      <a class="hlink" href="stop-losing-orders.es.html" hreflang="es">Español</a>
+      <a class="btn btn--primary" href="#signup">Get in touch</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== HOOK ===================== -->
+  <section class="hero">
+    <div class="wrap hero__inner">
+      <span class="eyebrow">For fast food kitchens taking delivery orders</span>
+      <h1>Your delivery orders are getting lost between WhatsApp, the phone and the counter.</h1>
+      <p class="lede">
+        Someone copies them by hand. At rush hour, one gets missed. The customer calls twice, the rider calls
+        three times, and you are the person holding it all together. Delivery automation takes that off your staff.
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary btn--lg" href="#signup">Show me how it would work</a>
+        <a class="btn btn--ghost btn--lg" href="#pains">Sound familiar? See the list</a>
+      </div>
+      <ul class="reassure">
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>About a minute to send</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>No card details</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>We reply on WhatsApp</li>
+      </ul>
+
+      <div class="quote">
+        <p><strong>The moment it goes wrong:</strong> an order lands in WhatsApp at 8:15pm, the same customer rings at 8:20pm because nobody answered, and both get written down. Two trays are made, the customer has waited forty minutes, and nobody can tell you where the delay started.</p>
+        <cite>This page is about closing that one gap</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PAINS ===================== -->
+  <section class="section section--alt" id="pains">
+    <div class="wrap">
+      <span class="eyebrow">Sound familiar?</span>
+      <h2>Seven things that cost you orders every single day</h2>
+      <p class="lede">None of these are a staffing problem. They are what happens when orders arrive on four different channels and a person has to move them by hand.</p>
+
+      <div class="pains">
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+            <h3>Four channels, one pair of hands</h3>
+          </div>
+          <p>WhatsApp, phone, walk-in and delivery apps all land somewhere different. Somebody reads each one and types it again.</p>
+          <p class="pain__cost">Cost: staff time you already pay for, spent copying</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span>
+            <h3>Rush hour is when orders drop</h3>
+          </div>
+          <p>The busy hour is exactly when a message gets buried, an address is misread, or the same order is taken twice.</p>
+          <p class="pain__cost">Cost: refunds, remakes, a customer who never comes back</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>
+            <h3>&ldquo;Where is my order?&rdquo; calls</h3>
+          </div>
+          <p>Every status question interrupts whoever answers it, and they never arrive one at a time &mdash; they arrive in clusters.</p>
+          <p class="pain__cost">Cost: the counter stops serving the person in front of it</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            <h3>Nothing is ready when the rider is</h3>
+          </div>
+          <p>The rider calls the shop to ask what is next because nobody told them the sequence. Orders sit, and deliveries start late.</p>
+          <p class="pain__cost">Cost: late food, cold food, one-star reviews</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
+            <h3>You have no numbers at all</h3>
+          </div>
+          <p>You cannot say which item actually sells, what your peak hour truly is, or how many orders you lost last week.</p>
+          <p class="pain__cost">Cost: decisions made by feel, menu guesses</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/></svg></span>
+            <h3>The customer belongs to whoever took the order</h3>
+          </div>
+          <p>When an order arrives through an app, the phone number stays there. You cannot invite that customer back without paying for the same sale again.</p>
+          <p class="pain__cost">Cost: repeat sales you pay for twice</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+            <h3>You cannot step away</h3>
+          </div>
+          <p>If the owner is the dispatcher, the operation only runs properly when you are standing in the room. A day off costs money.</p>
+          <p class="pain__cost">Cost: the business cannot grow past your own hours</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PAIN -> SOLUTION ===================== -->
+  <section class="section" id="fixes">
+    <div class="wrap">
+      <span class="eyebrow">What changes</span>
+      <h2>Each problem, and what the software does about it</h2>
+      <p class="lede">This is not a different way to take orders. It is the same orders, moving through your kitchen without being retyped.</p>
+
+      <div class="fixes">
+        <div class="fix">
+          <div class="fix__before"><strong>Four channels, one pair of hands.</strong> Someone reads every message and types it again.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>Orders enter the system once.</strong> Intake and processing are automated, so nobody re-keys what a customer already sent.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>Rush hour drops.</strong> Buried messages, misread addresses, duplicate orders.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>Every order follows the same steps.</strong> The workflow is fixed and repeatable, so the busy hour behaves like the quiet one.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>Status calls all day.</strong> Staff stop serving the counter to answer the phone.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>Order status moves as the order does.</strong> The kitchen, the rider and the customer are looking at the same thing.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>Riders calling the shop.</strong> Nobody knows what is ready or what is next.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>Preparation and dispatch run in sequence.</strong> Orders are assigned in order, so food goes out when it is actually ready.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>No numbers.</strong> You cannot see what sells, when you peak, or what you lost.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>Your delivery operation becomes visible.</strong> With the marketing add-on you also get reporting and recommendations for growing it.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>The customer stays with the app.</strong> You cannot message them again without paying for the same sale twice.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>Every order adds to a list that is yours.</strong> The customer base the marketing add-on works against is built by the orders you already take.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>You are the dispatcher.</strong> The business only runs well when you are in it.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>The process runs without you in the room.</strong> That is the actual point of automation &mdash; and it is what frees you to open the second location.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT STARTS ===================== -->
+  <section class="section section--alt" id="how">
+    <div class="wrap">
+      <span class="eyebrow">How it starts</span>
+      <h2>Three steps, and you are not doing the setup</h2>
+      <div class="steps">
+        <article class="step">
+          <span class="step__num" aria-hidden="true">1</span>
+          <h3>Tell us how orders reach you today</h3>
+          <p>Send the short form below. We look at your channels and your volume and tell you plainly whether this fits your kitchen.</p>
+        </article>
+        <article class="step">
+          <span class="step__num" aria-hidden="true">2</span>
+          <h3>We deploy and configure it with you</h3>
+          <p>Onboarding and initial configuration are included on every plan. The software is set up for your operation before you go live.</p>
+        </article>
+        <article class="step">
+          <span class="step__num" aria-hidden="true">3</span>
+          <h3>Orders start flowing automatically</h3>
+          <p>From your go-live date, intake and processing run through the system instead of through someone&rsquo;s notebook.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUALIFIER ===================== -->
+  <section class="section" id="qualify">
+    <div class="wrap">
+      <span class="eyebrow">Is this you?</span>
+      <h2>Written for one kitchen, not a franchise</h2>
+      <div class="qualify">
+        <div class="qual qual--yes">
+          <h3>Strong fit if</h3>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>You run one or two fast food locations</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Delivery orders arrive over WhatsApp or phone</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Someone re-enters orders by hand today</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>You handle dispatch yourself</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>You want more repeat orders from customers you already have</span></li>
+          </ul>
+        </div>
+        <div class="qual qual--no">
+          <h3>Tell us first if</h3>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You have no delivery orders yet &mdash; we would start elsewhere</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You need several branches reporting into one dashboard</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You must integrate with a specific existing POS</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You only want advertising, with no delivery operation behind it</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ / OBJECTIONS ===================== -->
+  <section class="section section--alt" id="faq">
+    <div class="wrap">
+      <div class="center" style="text-align:center">
+        <span class="eyebrow">Fair questions</span>
+        <h2>What owners ask before they reply</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>We already take orders on WhatsApp. Why change?</summary>
+          <p>WhatsApp is fine for the customer and hard for the kitchen. The problem is not receiving the order &mdash; it is that a person then has to move it into preparation, into a rider&rsquo;s hands and into a record. Automation keeps WhatsApp as the front door and removes the copying behind it.</p>
+        </details>
+        <details>
+          <summary>Is this going to slow my staff down while they learn it?</summary>
+          <p>Setup and initial configuration are done with you during onboarding, before go-live, so your team meets a system that already matches how your kitchen works.</p>
+          <p><span class="todo">Confirm before publishing: typical staff training time</span></p>
+        </details>
+        <details>
+          <summary>Do I need to buy hardware?</summary>
+          <p><span class="todo">Confirm before publishing: whether any device, terminal or printer is needed, and who supplies it</span></p>
+          <p style="margin-top:10px">We will state this plainly in your quote so there is no surprise cost after signing.</p>
+        </details>
+        <details>
+          <summary>How long until it is running?</summary>
+          <p><span class="todo">Confirm before publishing: typical go-live timeline from signing</span></p>
+          <p style="margin-top:10px">The 2 months of licence included with the Full Package start on your go-live date, not on the day you sign.</p>
+        </details>
+        <details>
+          <summary>What does it cost, and is there a contract?</summary>
+          <p>Two ways to buy: own the software outright with one payment, or start with a lower upfront amount and pay monthly. Rights and obligations sit in the signed service contract, and you see the terms before you commit.</p>
+          <p style="margin-top:10px"><a href="index.html">See the plans and pricing &rarr;</a></p>
+        </details>
+        <details>
+          <summary>Nothing is free &mdash; what do you get from me replying?</summary>
+          <p>We get enough detail to tell you honestly whether this fits. If it does not, we say so rather than sell you something.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LEAD CAPTURE ===================== -->
+  <section class="section capture" id="signup">
+    <div class="wrap capture__grid">
+      <div>
+        <span class="eyebrow" style="color:#f5a25f">Next step</span>
+        <h2>Send us how orders reach you today</h2>
+        <p class="sub">Answer six short things and we will come back with how the flow changes for your kitchen &mdash; and which of the two ways to buy fits you.</p>
+        <ul class="capture__list">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>A real reply from a person, on WhatsApp</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>No pricing table needed to start the conversation</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Straight answer if it is not the right fit</span></li>
+        </ul>
+        <p class="capture__alt">
+          Rather just message us?&nbsp; <span id="altContact">Fill the form above and we reply on WhatsApp. Direct contact links appear here once the details below the CONFIG line in this page are real.</span>
+        </p>
+      </div>
+
+      <div class="formcard">
+        <h3>Tell us about your operation</h3>
+        <p>Six fields. Nothing here commits you to anything.</p>
+
+        <form id="leadForm" novalidate>
+          <div class="row2">
+            <div class="field">
+              <label for="business">Business name</label>
+              <input type="text" id="business" name="business" autocomplete="organization" required />
+              <p class="err">Please add the name of the kitchen.</p>
+            </div>
+            <div class="field">
+              <label for="contact">Your name</label>
+              <input type="text" id="contact" name="contact" autocomplete="name" required />
+              <p class="err">Please add your name.</p>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="phone">WhatsApp number</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+591 7 000 0000" required />
+              <p class="err">We need a number to reply on.</p>
+              <p class="hint">We message you here. We do not call you with offers.</p>
+            </div>
+            <div class="field">
+              <label for="email">Email <span style="font-weight:400;color:var(--ink-400)">(optional)</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" />
+              <p class="err">That email address looks incomplete.</p>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="volume">Delivery orders per day</label>
+              <select id="volume" name="volume" required>
+                <option value="">Choose one&hellip;</option>
+                <option>Fewer than 20</option>
+                <option>20 to 50</option>
+                <option>50 to 100</option>
+                <option>More than 100</option>
+                <option>Too irregular to know</option>
+              </select>
+              <p class="err">Pick the closest number.</p>
+            </div>
+            <div class="field">
+              <label for="pain">Which problem hurts most?</label>
+              <select id="pain" name="pain" required>
+                <option value="">Choose one&hellip;</option>
+                <option>Orders dropped at rush hour</option>
+                <option>Staff retyping orders by hand</option>
+                <option>&ldquo;Where is my order?&rdquo; calls</option>
+                <option>Riders not knowing what is ready</option>
+                <option>I cannot step away from dispatch</option>
+                <option>No numbers on what actually sells</option>
+                <option>Not enough repeat customers</option>
+              </select>
+              <p class="err">Pick the one that costs you most.</p>
+            </div>
+          </div>
+
+          <fieldset>
+            <legend class="legend">Where do orders arrive now?</legend>
+            <div class="checks">
+              <label class="check"><input type="checkbox" name="channel" value="WhatsApp" /> WhatsApp</label>
+              <label class="check"><input type="checkbox" name="channel" value="Phone" /> Phone calls</label>
+              <label class="check"><input type="checkbox" name="channel" value="Counter" /> Counter / walk-in</label>
+              <label class="check"><input type="checkbox" name="channel" value="Delivery apps" /> Delivery apps</label>
+              <label class="check"><input type="checkbox" name="channel" value="Instagram or Facebook" /> Instagram or Facebook</label>
+              <label class="check"><input type="checkbox" name="channel" value="Paper notebook" /> Paper notebook</label>
+            </div>
+            <p class="hint">Tick every one you recognise.</p>
+          </fieldset>
+
+          <div class="field">
+            <label for="notes">Anything else we should know? <span style="font-weight:400;color:var(--ink-400)">(optional)</span></label>
+            <textarea id="notes" name="notes" placeholder="For example: two riders, busiest 7pm to 9pm, we already lost orders last weekend"></textarea>
+          </div>
+
+          <button class="btn btn--primary btn--lg btn--block" type="submit">Send it &mdash; we reply on WhatsApp</button>
+          <p class="consent">
+            We use these details only to reply about your delivery operation. No card details, no obligation, and we
+            do not add you to a list.
+          </p>
+
+          <div class="status" id="statusBox" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer__row">
+      <div><strong>ClubeMkt</strong> &mdash; delivery automation for fast food kitchens</div>
+      <div><a href="index.html">Plans &amp; pricing</a> &nbsp;&middot;&nbsp; <a href="stop-losing-orders.es.html" hreflang="es">Leer en espa&ntilde;ol</a> &nbsp;&middot;&nbsp; <a href="#signup">Send your details</a></div>
+    </div>
+    <p style="margin:12px 0 0; font-size:12.5px; color:#6f93b4; max-width:78ch">
+      This page describes the problems the software addresses and how setup works. Prices, licence terms and obligations
+      are set out in the pricing proposal and the signed service contract.
+    </p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var form = document.getElementById('leadForm');
+  var box = document.getElementById('statusBox');
+
+  /* ===================== CONFIG =====================
+     This is the only place contact details live. A value still wrapped in [brackets]
+     counts as unset: the page then renders no link for it and the form falls back to
+     the copy-and-send panel, so a placeholder can never become a dead link. */
+  var CONFIG = {
+    endpoint: '',                                  // e.g. '/api/lead' once the backend exists
+    email: 'hudson@clubemkt.digital',
+    whatsappCountryCode: '591',
+    whatsappNumber: '76451489',
+    source: 'delivery automation landing page'
+  };
+
+  function filled(v) {
+    var s = String(v === undefined || v === null ? '' : v);
+    return s.length > 0 && s.indexOf('[') === -1 && s.indexOf(']') === -1;
+  }
+  function digits(v) { return String(v || '').replace(/\D/g, ''); }
+  function waHref(prefill) {
+    var n = digits(CONFIG.whatsappCountryCode) + digits(CONFIG.whatsappNumber);
+    if (!/^[0-9]{8,15}$/.test(n)) return '';
+    return 'https://wa.me/' + n + (prefill ? '?text=' + encodeURIComponent(prefill) : '');
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function buildDirectLinks() {
+    var host = document.getElementById('altContact');
+    if (!host) return;
+    var parts = [];
+    var wa = waHref('');
+    if (wa) parts.push('<a href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a>');
+    if (filled(CONFIG.email)) parts.push('<a href="mailto:' + esc(CONFIG.email) + '">' + esc(CONFIG.email) + '</a>');
+    if (parts.length) host.innerHTML = parts.join(' &nbsp;or&nbsp; ');
+  }
+
+  function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+  /* Same rules the server would apply, run here so nobody loses a form to a round trip. */
+  var RULES = {
+    business: function (v) { return v.length >= 2 ? '' : 'Please add the name of the kitchen.'; },
+    contact: function (v) { return v.length >= 2 ? '' : 'Please add your name.'; },
+    phone: function (v) { var d = digits(v); return (d.length >= 7 && d.length <= 15) ? '' : 'We need a WhatsApp number with 7 to 15 digits.'; },
+    volume: function (v) { return v ? '' : 'Pick the closest number.'; },
+    pain: function (v) { return v ? '' : 'Pick the one that costs you most.'; },
+    email: function (v) { return (v === '' || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) ? '' : 'That email address looks incomplete.'; }
+  };
+
+  function valid() {
+    var firstBad = null;
+    Object.keys(RULES).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var msg = RULES[id](el.value.trim());
+      var field = el.closest('.field');
+      field.setAttribute('data-invalid', String(msg !== ''));
+      if (msg) { var err = field.querySelector('.err'); if (err) err.textContent = msg; }
+      if (msg && !firstBad) firstBad = el;
+    });
+    if (firstBad) firstBad.focus();
+    return firstBad === null;
+  }
+
+  function clamp(v, max) { return String(v || '').trim().slice(0, max); }
+
+  function payload() {
+    var channels = Array.prototype.slice.call(form.querySelectorAll('input[name="channel"]:checked')).map(function (c) { return c.value; });
+    return {
+      business: clamp(val('business'), 120),
+      contact: clamp(val('contact'), 120),
+      phone: clamp(val('phone'), 24),
+      email: clamp(val('email'), 160),
+      volume: clamp(val('volume'), 40),
+      pain: clamp(val('pain'), 80),
+      channels: channels,
+      notes: clamp(val('notes'), 800),
+      lang: document.documentElement.lang || 'en',
+      source: CONFIG.source
+    };
+  }
+
+  function compose() {
+    var channels = Array.prototype.slice.call(form.querySelectorAll('input[name="channel"]:checked')).map(function (c) { var l = c.closest('label'); return l ? l.textContent.trim() : c.value; });
+    return [
+      'Business: ' + val('business'),
+      'Contact: ' + val('contact'),
+      'WhatsApp: ' + val('phone'),
+      'Email: ' + (val('email') || '(not given)'),
+      'Orders per day: ' + val('volume'),
+      'Biggest problem: ' + val('pain'),
+      'Order channels today: ' + (channels.length ? channels.join(', ') : '(none ticked)'),
+      'Notes: ' + (val('notes') || '(none)')
+    ].join('\n');
+  }
+
+  function show(html, kind) {
+    box.innerHTML = html;
+    box.setAttribute('data-show', 'true');
+    box.className = 'status status--' + (kind || 'ok');
+    box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+
+  function wireCopy() {
+    var copy = document.getElementById('copyBtn');
+    if (!copy) return;
+    copy.addEventListener('click', function () {
+      var ta = box.querySelector('textarea');
+      ta.removeAttribute('readonly');
+      ta.select();
+      var done = function (ok) { copy.textContent = ok ? 'Copied — now paste it in an email or WhatsApp' : 'Select the text and copy it manually'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(ta.value).then(function () { done(true); }, function () { done(false); });
+      } else {
+        try { done(document.execCommand('copy')); } catch (err) { done(false); }
+      }
+      ta.setAttribute('readonly', 'readonly');
+    });
+  }
+
+  // The composed text exists so a lead still has a way to reach us when POST has nowhere to go.
+  function fallbackPanel(body, reason) {
+    var subject = 'New enquiry \u2014 ' + val('business');
+    var mailHref = filled(CONFIG.email)
+      ? 'mailto:' + CONFIG.email + '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body + '\n\n\u2014 sent from the ' + CONFIG.source)
+      : '';
+    var whats = waHref(body);
+    show(
+      '<h4>' + esc(reason) + '</h4>' +
+      '<p style="margin:0">Nothing is lost. Copy the text below and send it to us &mdash; we read every one of these by hand.</p>' +
+      '<div class="fallback__actions">' +
+        (mailHref ? '<a class="btn btn--ghost" href="' + mailHref + '">Open in my mail app</a>' : '') +
+        (whats ? '<a class="btn btn--ghost" href="' + whats + '" target="_blank" rel="noopener">Open in WhatsApp</a>' : '') +
+      '</div>' +
+      '<textarea readonly rows="8" onclick="this.select()">' + esc(body) + '</textarea>' +
+      '<button class="btn btn--ghost" type="button" id="copyBtn">Copy these details</button>'
+    );
+    wireCopy();
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!valid()) return;
+
+    var body = compose();
+    var btn = form.querySelector('button[type="submit"]');
+
+    if (!filled(CONFIG.endpoint)) {
+      fallbackPanel(body, 'This page is not wired to a lead inbox yet');
+      return;
+    }
+
+    if (btn) btn.disabled = true;
+    show('<h4>Sending&hellip;</h4><p style="margin:0">One moment.</p>', 'warn');
+
+    fetch(CONFIG.endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload())
+    }).then(function (r) {
+      return r.json().then(
+        function (d) { return { status: r.status, data: d || {} }; },
+        function () { return { status: r.status, data: {} }; }
+      );
+    }).then(function (res) {
+      if (res.status >= 200 && res.status < 300 && res.data.ok) {
+        var whats = waHref(body);
+        show(
+          '<h4>Logged \u2014 we reply on WhatsApp</h4>' +
+          '<p style="margin:0">We have your details and will message the number you gave. To make sure we see it today, send this text as well:</p>' +
+          (whats ? '<a class="btn btn--ghost" href="' + whats + '" target="_blank" rel="noopener">Open in WhatsApp</a>' : '') +
+          '<textarea readonly rows="8" onclick="this.select()">' + esc(body) + '</textarea>'
+        );
+      } else if (res.status === 409) {
+        show('<h4>Already received</h4><p style="margin:0">That WhatsApp number came in a few minutes ago. We will reply to it &mdash; there is no need to send twice.</p>', 'warn');
+      } else if (res.status === 422) {
+        show('<h4>One field needs a look</h4><p style="margin:0">The server rejected: ' + esc((res.data.fields || []).join(', ') || 'details') + '. Correct it and send again.</p>', 'bad');
+      } else if (res.status === 501) {
+        fallbackPanel(body, 'Lead storage is not connected yet');
+      } else {
+        fallbackPanel(body, 'Something went wrong sending that');
+      }
+    }, function () {
+      fallbackPanel(body, 'We could not reach the server');
+    }).then(function () {
+      if (btn) btn.disabled = false;
+    });
+  });
+
+  form.addEventListener('input', function (e) {
+    var f = e.target.closest('.field');
+    if (f && f.getAttribute('data-invalid') === 'true' && e.target.value.trim() !== '') f.setAttribute('data-invalid', 'false');
+  });
+
+  buildDirectLinks();
+})();
+</script>
+</body>
+</html>
