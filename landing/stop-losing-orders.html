@@ -8,239 +8,11 @@
 <meta name="robots" content="index,follow" />
 <link rel="alternate" hreflang="es" href="stop-losing-orders.es.html" />
 <link rel="alternate" hreflang="en" href="stop-losing-orders.html" />
-<style>
-  /* ============================================================
-     CONTACT + BRAND — FILLED 2026-11-06
-       CONFIG.email             lead inbox (used by the form)
-       CONFIG.whatsappNumber    +591 76451489 click-to-chat
-       brand                    ClubeMkt
-     CONTACT + FORM BACKEND: everything is set in the CONFIG object near the
-     bottom of this file. A value left in [brackets] counts as unset, so the page
-     renders no link for it and the form shows the copy-and-send panel instead.
-     Set CONFIG.endpoint (e.g. '/api/lead') to post leads to a real endpoint.
-     Until then the submit button composes an email from the answers.
-     ============================================================ */
-  :root {
-    --navy: #12314e;
-    --navy-700: #0d2540;
-    --navy-300: #3d6a94;
-    --orange: #e8590c;
-    --orange-600: #cf4d09;
-    --red: #b3261e;
-    --red-50: #fdf3f2;
-    --red-line: #f2cfcb;
-    --green: #0b7a3b;
-    --green-50: #f1f8f3;
-    --ink: #1f2a37;
-    --ink-600: #4a5568;
-    --ink-400: #6b7280;
-    --line: #dfe3e8;
-    --line-soft: #eef1f4;
-    --surface: #ffffff;
-    --surface-alt: #f6f8fa;
-    --cream: #fff8ed;
-    --radius: 12px;
-    --radius-sm: 8px;
-    --shadow-sm: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
-    --shadow-md: 0 4px 6px -2px rgba(16,24,40,.05), 0 12px 24px -6px rgba(16,24,40,.12);
-    --shadow-lg: 0 20px 45px -12px rgba(18,49,78,.28);
-    --maxw: 1080px;
-  }
-  *, *::before, *::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  body {
-    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 16px; line-height: 1.6; color: var(--ink); background: var(--surface); overflow-x: hidden;
-  }
-  svg { max-width: 100%; }
-  a { color: var(--navy); }
-  h1, h2, h3, h4 { line-height: 1.18; margin: 0 0 .5em; color: var(--navy); letter-spacing: -.02em; }
-  h1 { font-size: clamp(30px, 5.4vw, 52px); font-weight: 800; }
-  h2 { font-size: clamp(24px, 3.4vw, 36px); font-weight: 800; }
-  h3 { font-size: 18px; font-weight: 700; }
-  p { margin: 0 0 1em; }
-  .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); min-width: 0; }
-  .wrap > * { min-width: 0; }
-  /* grid/flex items default to min-width:auto, which lets long words and
-     <select> option text push a track wider than the viewport */
-  .hero__inner > *, .capture__grid > *, .row2 > *, .fix > *, .fixes > *,
-  .pains > *, .steps > *, .qualify > *, .qual > *, .faq > *, .capture__list li { min-width: 0; }
-  input, select, textarea { max-width: 100%; }
-  select { min-width: 0; }
-  .checks { min-width: 0; }
-  .section { padding-block: clamp(46px, 7vw, 84px); }
-  .section--alt { background: var(--surface-alt); border-block: 1px solid var(--line); }
-  .eyebrow { display: block; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
-  .lede { font-size: clamp(16px, 1.7vw, 19px); color: var(--ink-600); max-width: 60ch; }
-  :focus-visible { outline: 3px solid rgba(232,89,12,.45); outline-offset: 2px; border-radius: 4px; }
-  .skip { position: absolute; left: -9999px; top: 0; background: var(--navy); color: #fff; padding: 12px 18px; z-index: 100; border-radius: 0 0 8px 0; }
-  .skip:focus { left: 0; }
-  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: inherit;
-    font-size: 15px; font-weight: 650; text-decoration: none; cursor: pointer; padding: 14px 24px;
-    border-radius: var(--radius-sm); border: 1px solid transparent; white-space: nowrap;
-    transition: background-color .15s ease, border-color .15s ease, transform .05s ease;
-  }
-  .btn--primary { background: var(--orange); color: #fff; }
-  .btn--primary:hover { background: var(--orange-600); }
-  .btn--ghost { background: transparent; color: var(--navy); border-color: var(--line); }
-  .btn--ghost:hover { border-color: var(--navy-300); background: var(--surface-alt); }
-  .btn--lg { font-size: 16.5px; padding: 16px 28px; }
-  /* a full-width button must be allowed to wrap: nowrap makes it overflow its own box
-     on a 320px viewport */
-  .btn--block { width: 100%; white-space: normal; }
-  .btn:active { transform: translateY(1px); }
-
-  /* ---------- minimal header: cold traffic should not wander ---------- */
-  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.94); backdrop-filter: saturate(180%) blur(10px); border-bottom: 1px solid var(--line); }
-  .site-header__row { display: flex; align-items: center; gap: 14px; min-height: 64px; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 750; color: var(--navy); text-decoration: none; font-size: 15.5px; }
-  .brand__mark { width: 30px; height: 30px; border-radius: 8px; flex: none; background: linear-gradient(140deg, var(--navy), var(--navy-300)); display: grid; place-items: center; color: #fff; }
-  .header__links { margin-left: auto; display: flex; align-items: center; gap: 6px; }
-  .header__links a.hlink { font-size: 14px; font-weight: 550; color: var(--ink-600); text-decoration: none; padding: 8px 10px; border-radius: 6px; }
-  .header__links a.hlink:hover { color: var(--navy); background: var(--surface-alt); }
-  @media (max-width: 560px) { .header__links .hlink { display: none; } }
-  @media (max-width: 400px) {
-    .site-header__row { gap: 8px; }
-    .brand > span:last-child { display: none; }
-    .header__links .btn { padding: 11px 14px; font-size: 14px; }
-  }
-
-  /* ---------- hero ---------- */
-  .hero { background: linear-gradient(178deg, #fff 0%, var(--surface-alt) 100%); padding-block: clamp(44px, 6vw, 76px) clamp(38px, 5vw, 64px); }
-  .hero h1 { max-width: 820px; }
-  .hero p.lede { margin-top: 18px; }
-  .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; align-items: center; }
-  .reassure { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 22px 0 0; padding: 0; list-style: none; font-size: 13.5px; color: var(--ink-600); }
-  .reassure li { display: flex; align-items: center; gap: 7px; }
-  .reassure svg { color: var(--green); flex: none; }
-
-  /* the "sound familiar" line that does the hooking */
-  .quote {
-    margin: 30px 0 0; padding: 20px 22px; background: #fff; border: 1px solid var(--red-line);
-    border-left: 4px solid var(--red); border-radius: var(--radius); box-shadow: var(--shadow-sm);
-    max-width: 760px;
-  }
-  .quote p { margin: 0; font-size: 16.5px; color: var(--ink); font-style: italic; line-height: 1.5; }
-  .quote cite { display: block; margin-top: 8px; font-size: 12.5px; font-style: normal; color: var(--ink-400); letter-spacing: .04em; text-transform: uppercase; }
-
-  /* ---------- pain grid ---------- */
-  .pains { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 34px; }
-  .pain {
-    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow-sm);
-    border-top: 3px solid var(--red-line);
-  }
-  .pain__head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 8px; }
-  .pain__icon { width: 32px; height: 32px; flex: none; border-radius: 8px; display: grid; place-items: center; background: var(--red-50); color: var(--red); }
-  .pain h3 { font-size: 16px; margin: 0; }
-  .pain p { margin: 0; font-size: 14.5px; color: var(--ink-600); line-height: 1.55; }
-  .pain__cost { margin-top: 12px; padding-top: 11px; border-top: 1px dashed var(--line); font-size: 13px; color: var(--red); font-weight: 600; }
-
-  /* ---------- pain -> solution rows ---------- */
-  .fixes { margin-top: 34px; display: grid; gap: 12px; }
-  .fix {
-    display: grid; grid-template-columns: 1fr 44px 1fr; gap: 0; align-items: stretch;
-    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
-  }
-  .fix__before, .fix__after { padding: 18px 20px; font-size: 14.5px; line-height: 1.5; }
-  .fix__before { background: var(--red-50); color: #6d2420; }
-  .fix__before strong { color: var(--red); }
-  .fix__after { background: var(--green-50); color: #14532d; }
-  .fix__after strong { color: var(--green); }
-  .fix__arrow { display: grid; place-items: center; background: #fff; color: var(--navy-300); border-inline: 1px solid var(--line); }
-  @media (max-width: 700px) {
-    .fix { grid-template-columns: 1fr; }
-    .fix__arrow { border-inline: 0; border-block: 1px solid var(--line); padding: 6px 0; }
-    /* rotate the icon only — rotating the cell turns a full-width row into a
-       350px-tall strip that paints over the before/after text */
-    .fix__arrow svg { transform: rotate(90deg); }
-  }
-
-  /* ---------- 3 steps ---------- */
-  .steps { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 34px; }
-  .step { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm); }
-  .step__num { width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 14px; font-weight: 700; margin-bottom: 14px; }
-  .step p { margin: 0; font-size: 14.5px; color: var(--ink-600); }
-
-  /* ---------- qualifier ---------- */
-  .qualify { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 34px; }
-  .qual { border-radius: var(--radius); padding: 22px; border: 1px solid var(--line); background: #fff; }
-  .qual--yes { border-color: #bfe0cb; background: var(--green-50); }
-  .qual--no { border-color: var(--line); }
-  .qual h3 { font-size: 15px; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 14px; }
-  .qual--yes h3 { color: var(--green); }
-  .qual--no h3 { color: var(--ink-400); }
-  .qual ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-  .qual li { display: flex; gap: 10px; font-size: 14.5px; line-height: 1.5; }
-  .qual li svg { flex: none; margin-top: 3px; }
-  .qual--yes li svg { color: var(--green); }
-  .qual--no li svg { color: var(--ink-400); }
-
-  /* ---------- FAQ ---------- */
-  .faq { max-width: 780px; margin: 30px auto 0; }
-  .faq details { border-bottom: 1px solid var(--line); }
-  .faq summary { list-style: none; cursor: pointer; padding: 17px 40px 17px 0; position: relative; font-size: 16px; font-weight: 650; color: var(--navy); }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 22px; color: var(--orange); }
-  .faq details[open] summary::after { content: "\2212"; }
-  .faq p { margin: 0 0 17px; font-size: 15px; color: var(--ink-600); max-width: 66ch; }
-
-  /* ---------- lead form ---------- */
-  .capture { background: linear-gradient(160deg, var(--navy) 0%, var(--navy-700) 100%); color: #fff; }
-  .capture__grid { display: grid; gap: clamp(26px, 4vw, 52px); grid-template-columns: .85fr 1.15fr; align-items: start; }
-  @media (max-width: 880px) { .capture__grid { grid-template-columns: 1fr; } }
-  .capture h2 { color: #fff; }
-  .capture p.sub { color: #c7d7e6; font-size: 16.5px; max-width: 44ch; }
-  .capture__list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
-  .capture__list li { display: flex; gap: 11px; font-size: 14.5px; color: #d6e5f2; line-height: 1.45; }
-  .capture__list svg { flex: none; margin-top: 2px; color: #7fd6a0; }
-  .capture__alt { margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.18); font-size: 14px; color: #b9d2e6; }
-  .capture__alt a { color: #fff; }
-
-  .formcard { background: #fff; border-radius: var(--radius); padding: clamp(22px, 3vw, 30px); box-shadow: var(--shadow-lg); color: var(--ink); }
-  .formcard h3 { margin-top: 0; font-size: 19px; }
-  .formcard > p { font-size: 14px; color: var(--ink-600); margin-bottom: 20px; }
-  .field { margin-bottom: 16px; }
-  .row2 { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
-  @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
-  label, .legend { display: block; font-size: 13.5px; font-weight: 650; color: var(--navy); margin-bottom: 6px; }
-  .hint { font-size: 12.5px; color: var(--ink-400); margin: 5px 0 0; }
-  input[type="text"], input[type="tel"], input[type="email"], select, textarea {
-    width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: #fff;
-    border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 11px 13px;
-  }
-  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 36px; }
-  textarea { min-height: 78px; resize: vertical; }
-  input:focus, select:focus, textarea:focus { border-color: var(--navy-300); }
-  fieldset { border: 0; margin: 0 0 16px; padding: 0; }
-  .checks { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 4px; }
-  .check { display: flex; align-items: center; gap: 9px; font-size: 14.5px; font-weight: 400; color: var(--ink); background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 9px 12px; cursor: pointer; }
-  .check:hover { border-color: var(--navy-300); }
-  .check input { width: 17px; height: 17px; accent-color: var(--orange); flex: none; margin: 0; }
-  .err { display: none; font-size: 12.5px; font-weight: 600; color: var(--red); margin-top: 5px; }
-  .field[data-invalid="true"] input, .field[data-invalid="true"] select { border-color: var(--red); }
-  .field[data-invalid="true"] .err { display: block; }
-  .consent { font-size: 12.5px; color: var(--ink-400); margin: 14px 0 0; line-height: 1.5; }
-  .status { margin-top: 16px; font-size: 14px; border-radius: var(--radius-sm); padding: 14px 16px; display: none; }
-  .status[data-show="true"] { display: block; }
-  .status--ok { background: var(--green-50); border: 1px solid #bfe0cb; color: #14532d; }
-  .status--warn { background: var(--cream); border: 1px solid #f3c9a0; color: #7a3e06; }
-  .status--warn h4 { color: var(--orange); }
-  .status--bad { background: #fdf0ef; border: 1px solid #f2c4c0; color: #6d2420; }
-  .status--bad h4 { color: var(--red); }
-  .status h4 { margin: 0 0 6px; font-size: 15px; color: var(--green); }
-  .status textarea { margin-top: 10px; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; min-height: 120px; }
-  .status .btn { margin-top: 10px; font-size: 13.5px; padding: 9px 14px; }
-  .fallback__actions { display: flex; flex-wrap: wrap; gap: 10px; }
-
-  .site-footer { background: #0b1f33; color: #8fb3d4; padding-block: 30px; font-size: 13.5px; }
-  .site-footer a { color: #c7d7e6; }
-  .site-footer__row { display: flex; flex-wrap: wrap; gap: 12px 26px; justify-content: space-between; align-items: baseline; }
-  .site-footer strong { color: #fff; }
-</style>
+<link rel="icon" type="image/png" href="brand/clubemkt-mark-gold.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="clubemkt.css" />
 </head>
 
 <body>
@@ -249,10 +21,8 @@
 <header class="site-header">
   <div class="wrap site-header__row">
     <a class="brand" href="index.html">
-      <span class="brand__mark" aria-hidden="true">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><path d="M4 15h16v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="8" cy="19" r="1.4"/><circle cx="16" cy="19" r="1.4"/></svg>
-      </span>
-      <span>ClubeMkt</span>
+      <span class="brand__mark" aria-hidden="true"><img src="brand/clubemkt-mark-gold.png" alt="" width="30" height="32" /></span>
+      <span class="wordmark"><b>clubemkt</b><span>digital</span></span>
     </a>
     <div class="header__links">
       <a class="hlink" href="index.html">Plans &amp; pricing</a>
@@ -271,11 +41,11 @@
       <h1>Your delivery orders are getting lost between WhatsApp, the phone and the counter.</h1>
       <p class="lede">
         Someone copies them by hand. At rush hour, one gets missed. The customer calls twice, the rider calls
-        three times, and you are the person holding it all together. Delivery automation takes that off your staff.
+        three times, and you are the person holding it all together. We close that gap inside a designed growth plan: the consultancy designs the shift, the software layer runs it.
       </p>
       <div class="hero__cta">
-        <a class="btn btn--primary btn--lg" href="#signup">Show me how it would work</a>
-        <a class="btn btn--ghost btn--lg" href="#pains">Sound familiar? See the list</a>
+        <a class="btn btn--primary btn--lg" href="#signup">Book the review</a>
+        <a class="btn btn--ghost btn--lg" href="#pains">See the seven gaps</a>
       </div>
       <ul class="reassure">
         <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>About a minute to send</li>
@@ -289,6 +59,39 @@
       </div>
     </div>
   </section>
+  <!-- ===================== THE ENGAGEMENT ===================== -->
+  <section class="section section--alt" id="method">
+    <div class="wrap">
+      <span class="eyebrow">The engagement</span>
+      <h2>You are not buying software. You are acquiring a designed shift.</h2>
+      <p class="lede">clubemkt digital works as your consultancy: we audit how your business sells online, design the
+      strategic plan, execute it and stay on the numbers. The delivery software is the infrastructure layer underneath
+      &mdash; the part that makes the plan operable every day.</p>
+      <div class="method">
+        <article class="phase">
+          <h3>Audit the baseline</h3>
+          <p>We map your channels, margins and customer data as they are today: apps, WhatsApp, phone, counter. The baseline is evidence from your operation, not opinion.</p>
+          <span class="phase__tag">Week 1</span>
+        </article>
+        <article class="phase">
+          <h3>Design the blueprint</h3>
+          <p>A customized web-marketing business plan: offer, positioning, funnel, pricing logic and the metrics that decide success. You approve it before anything ships.</p>
+          <span class="phase__tag">Your plan, signed off</span>
+        </article>
+        <article class="phase">
+          <h3>Deploy the system</h3>
+          <p>We build and launch it: conversion experience, lead capture, automation and the delivery software layer. Training in one session, live within a week of signing.</p>
+          <span class="phase__tag">Build + launch</span>
+        </article>
+        <article class="phase">
+          <h3>Steer with intelligence</h3>
+          <p>Every order writes a customer record. We read repeat rate, channel mix and margin with you each month and re-steer the plan. That loop is the business intelligence you keep.</p>
+          <span class="phase__tag">Ongoing</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
 
   <!-- ===================== PAINS ===================== -->
   <section class="section section--alt" id="pains">
@@ -515,7 +318,7 @@
   <section class="section capture" id="signup">
     <div class="wrap capture__grid">
       <div>
-        <span class="eyebrow" style="color:#f5a25f">Next step</span>
+        <span class="eyebrow">Next step</span>
         <h2>Send us how orders reach you today</h2>
         <p class="sub">Answer six short things and we will come back with how the flow changes for your kitchen &mdash; and which of the two ways to buy fits you.</p>
         <ul class="capture__list">
@@ -622,11 +425,12 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <div class="site-footer__row">
-      <div><strong>ClubeMkt</strong> &mdash; delivery automation for fast food kitchens</div>
+        <div class="brandplate"><img src="brand/clubemkt-logo-golden.webp" alt="clubemkt digital" width="320" height="93" loading="lazy" /></div>
+<div class="site-footer__row">
+      <div><strong>clubemkt digital</strong> &mdash; engineered growth systems for fast food kitchens</div>
       <div><a href="index.html">Plans &amp; pricing</a> &nbsp;&middot;&nbsp; <a href="stop-paying-commission.html">App commission savings</a> &nbsp;&middot;&nbsp; <a href="stop-losing-orders.es.html" hreflang="es">Leer en espa&ntilde;ol</a> &nbsp;&middot;&nbsp; <a href="#signup">Send your details</a></div>
     </div>
-    <p style="margin:12px 0 0; font-size:12.5px; color:#6f93b4; max-width:78ch">
+    <p style="margin:12px 0 0; font-size:12.5px; color:var(--muted-2); max-width:78ch">
       This page describes the problems the software addresses and how setup works. Prices, licence terms and obligations
       are set out in the pricing proposal and the signed service contract.
     </p>
@@ -833,6 +637,37 @@
 
   buildDirectLinks();
 })();
+</script>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && 'IntersectionObserver' in window) {
+      var targets = document.querySelectorAll('.card, .phase, .plan, .pain, .step, .fix, .qual');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      Array.prototype.forEach.call(targets, function (el, i) {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i % 4) * 70 + 'ms';
+        io.observe(el);
+      });
+    }
+    var nav = document.querySelector('.nav');
+    if (nav) {
+      var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
+      var secs = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+      var spy = function () {
+        var y = window.scrollY + 120, current = null;
+        secs.forEach(function (s) { if (s.offsetTop <= y) current = s.id; });
+        links.forEach(function (a) { a.classList.toggle('is-active', a.getAttribute('href') === '#' + current); });
+      };
+      window.addEventListener('scroll', spy, { passive: true });
+      spy();
+    }
+  })();
 </script>
 </body>
 </html>

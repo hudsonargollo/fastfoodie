@@ -3,353 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Fast Food Delivery Automation — Plans &amp; Pricing</title>
+<title>clubemkt digital — Growth Consultancy &amp; Delivery Automation for Fast Food</title>
 <meta name="description" content="Delivery automation software for fast food operations. Own it outright with the Full Package, start lower with a monthly plan, and add social, search and lead-generation marketing." />
 <link rel="alternate" hreflang="es" href="index.es.html" />
 <link rel="alternate" hreflang="en" href="index.html" />
-<style>
-  /* ============================================================
-     CONTACT + BRAND — FILLED 2026-11-06
-     Contact links are built at runtime from the CONFIG block at the end of this
-     file's script: email · phone · website. A value left in [brackets] counts as
-     unset, so its link stays inert rather than shipping as a dead href.
-     ClubeMkt is plain text in the header, the closer and the footer.
-     ============================================================ */
-  :root {
-    --navy: #12314e;
-    --navy-700: #0d2540;
-    --navy-300: #3d6a94;
-    --orange: #e8590c;
-    --orange-600: #cf4d09;
-    --amber: #b26a00;
-    --green: #0b7a3b;
-    --ink: #1f2a37;
-    --ink-600: #4a5568;
-    --ink-400: #6b7280;
-    --line: #dfe3e8;
-    --line-soft: #eef1f4;
-    --surface: #ffffff;
-    --surface-alt: #f6f8fa;
-    --cream: #fff8ed;
-    --radius: 12px;
-    --radius-sm: 8px;
-    --shadow-sm: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .08);
-    --shadow-md: 0 4px 6px -2px rgba(16, 24, 40, .05), 0 12px 24px -6px rgba(16, 24, 40, .12);
-    --shadow-lg: 0 20px 45px -12px rgba(18, 49, 78, .28);
-    --maxw: 1120px;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; }
-
-  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--ink);
-    background: var(--surface);
-    overflow-x: hidden;
-  }
-
-  img, svg { max-width: 100%; }
-  a { color: var(--navy); }
-  h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 .5em; color: var(--navy); letter-spacing: -.015em; }
-
-  .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); }
-  .section { padding-block: clamp(48px, 8vw, 88px); }
-  .section--alt { background: var(--surface-alt); border-block: 1px solid var(--line); }
-  .eyebrow {
-    display: block; font-size: 12px; font-weight: 700; letter-spacing: .12em;
-    text-transform: uppercase; color: var(--orange); margin-bottom: 10px;
-  }
-  .lede { font-size: clamp(16px, 1.6vw, 18px); color: var(--ink-600); max-width: 62ch; margin: 0; }
-  .center { text-align: center; }
-  .center .lede { margin-inline: auto; }
-
-  :focus-visible { outline: 3px solid rgba(232, 89, 12, .45); outline-offset: 2px; border-radius: 4px; }
-
-  .skip {
-    position: absolute; left: -9999px; top: 0; background: var(--navy); color: #fff;
-    padding: 12px 18px; z-index: 100; border-radius: 0 0 8px 0;
-  }
-  .skip:focus { left: 0; }
-
-  /* ---------- buttons ---------- */
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    font-size: 15px; font-weight: 650; text-decoration: none; cursor: pointer;
-    padding: 13px 22px; border-radius: var(--radius-sm); border: 1px solid transparent;
-    transition: background-color .15s ease, border-color .15s ease, transform .05s ease;
-    white-space: nowrap;
-  }
-  .btn--primary { background: var(--orange); color: #fff; }
-  .btn--primary:hover { background: var(--orange-600); }
-  .btn--ghost { background: transparent; color: var(--navy); border-color: var(--line); }
-  .btn--ghost:hover { border-color: var(--navy-300); background: var(--surface-alt); }
-  .btn--light { background: #fff; color: var(--navy); }
-  .btn--light:hover { background: var(--line-soft); }
-  .btn--outline-light { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .45); }
-  .btn--outline-light:hover { border-color: #fff; background: rgba(255, 255, 255, .1); }
-  .btn:active { transform: translateY(1px); }
-  /* a full-width button must be allowed to wrap: nowrap makes it overflow its own box
-     on a 320px viewport */
-  .btn--block { width: 100%; white-space: normal; }
-  /* gated contact links: pointer-events makes sure an unfilled placeholder
-     cannot be clicked into a broken mailto/tel/site address */
-  [data-unset="true"] { opacity: .5; pointer-events: none; text-decoration: none; }
-
-  /* ---------- header ---------- */
-  .site-header {
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(255, 255, 255, .92);
-    backdrop-filter: saturate(180%) blur(10px);
-    border-bottom: 1px solid var(--line);
-  }
-  .site-header__row { display: flex; align-items: center; gap: 16px; min-height: 68px; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 750; color: var(--navy); text-decoration: none; font-size: 16px; letter-spacing: -.01em; }
-  .brand__mark {
-    width: 30px; height: 30px; border-radius: 8px; flex: none;
-    background: linear-gradient(140deg, var(--navy) 0%, var(--navy-300) 100%);
-    display: grid; place-items: center; color: #fff;
-  }
-  .nav { margin-left: auto; display: flex; align-items: center; gap: 4px; }
-  .nav a {
-    color: var(--ink-600); text-decoration: none; font-size: 14.5px; font-weight: 550;
-    padding: 8px 12px; border-radius: 6px;
-  }
-  .nav a:hover { color: var(--navy); background: var(--surface-alt); }
-  .header-cta { margin-left: 8px; }
-  .nav-toggle {
-    display: none; margin-left: auto; background: #fff; border: 1px solid var(--line);
-    border-radius: 8px; padding: 8px 12px; font: inherit; font-size: 14px; font-weight: 600; color: var(--navy); cursor: pointer;
-  }
-
-  @media (max-width: 860px) {
-    .nav-toggle { display: block; }
-    .nav {
-      position: absolute; inset: 100% 0 auto 0; display: none; flex-direction: column;
-      align-items: stretch; gap: 2px; padding: 10px clamp(16px, 4vw, 32px) 18px;
-      background: #fff; border-bottom: 1px solid var(--line); box-shadow: var(--shadow-md); margin-left: 0;
-    }
-    .nav[data-open="true"] { display: flex; }
-    .nav a { padding: 12px 10px; font-size: 15px; }
-    .header-cta { display: none; }
-  }
-
-  /* ---------- hero ---------- */
-  .hero { background: linear-gradient(175deg, #fff 0%, var(--surface-alt) 100%); padding-block: clamp(44px, 7vw, 84px) clamp(40px, 6vw, 72px); }
-  .hero__grid { display: grid; gap: clamp(32px, 5vw, 56px); align-items: center; grid-template-columns: 1.05fr .95fr; }
-  .hero h1 { font-size: clamp(30px, 5.1vw, 50px); font-weight: 800; letter-spacing: -.03em; }
-  .hero p.lede { font-size: clamp(16px, 1.7vw, 19px); }
-  .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 26px 0 0; padding: 0; list-style: none; }
-  .chips li {
-    display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 550;
-    color: var(--ink-600); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px;
-  }
-  .chips svg { color: var(--green); flex: none; }
-
-  @media (max-width: 900px) { .hero__grid { grid-template-columns: 1fr; } }
-
-  /* hero visual: order-flow card, pure CSS */
-  .flow {
-    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-700) 100%);
-    border-radius: var(--radius); padding: clamp(18px, 2.4vw, 26px); box-shadow: var(--shadow-lg);
-    color: #fff; position: relative; overflow: hidden;
-  }
-  .flow::after {
-    content: ""; position: absolute; width: 260px; height: 260px; right: -90px; top: -110px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(232, 89, 12, .38), transparent 68%);
-  }
-  .flow__title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; position: relative; }
-  .flow__title strong { font-size: 15px; font-weight: 700; }
-  .flow__title span { font-size: 12px; color: #9dbdd9; letter-spacing: .06em; text-transform: uppercase; }
-  .flow ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; position: relative; }
-  .flow li {
-    display: flex; align-items: center; gap: 12px; background: rgba(255, 255, 255, .07);
-    border: 1px solid rgba(255, 255, 255, .12); border-radius: 10px; padding: 11px 13px; font-size: 14px;
-  }
-  .flow li b { font-weight: 650; }
-  .flow li small { display: block; color: #a9c6e0; font-size: 12px; font-weight: 400; }
-  .flow__num {
-    width: 26px; height: 26px; flex: none; border-radius: 50%; background: var(--orange);
-    display: grid; place-items: center; font-size: 13px; font-weight: 700;
-  }
-  .flow__foot {
-    margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .16);
-    display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: #b9d2e6; position: relative;
-  }
-
-  /* ---------- feature grid ---------- */
-  .grid { display: grid; gap: clamp(16px, 2vw, 22px); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 36px; }
-  .card {
-    background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
-    padding: clamp(20px, 2.4vw, 26px); box-shadow: var(--shadow-sm);
-  }
-  .card__icon {
-    width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
-    background: var(--cream); color: var(--orange); margin-bottom: 14px;
-  }
-  .card h3 { font-size: 16.5px; margin-bottom: 6px; }
-  .card p { margin: 0; font-size: 14.5px; color: var(--ink-600); line-height: 1.55; }
-
-  /* ---------- pricing ---------- */
-  .plans { display: grid; gap: clamp(16px, 1.6vw, 20px); grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); margin-top: 36px; align-items: start; }
-  .plan {
-    display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line);
-    border-radius: var(--radius); padding: clamp(22px, 2.4vw, 28px); box-shadow: var(--shadow-sm);
-    min-width: 0;
-  }
-  .plan--featured { border-color: var(--navy); box-shadow: var(--shadow-md); position: relative; }
-  .plan--addon { background: linear-gradient(180deg, #fff 0%, var(--cream) 140%); border-color: #f3c9a0; }
-  .badge {
-    position: absolute; top: -12px; left: clamp(22px, 2.4vw, 28px);
-    background: var(--navy); color: #fff; font-size: 11.5px; font-weight: 700; letter-spacing: .07em;
-    text-transform: uppercase; padding: 5px 11px; border-radius: 999px;
-  }
-  .plan__name { font-size: 13px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-400); margin: 0 0 6px; }
-  .plan__price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; color: var(--navy); font-size: clamp(34px, 4vw, 42px); font-weight: 800; letter-spacing: -.03em; line-height: 1; margin-bottom: 8px; }
-  .plan__price small { font-size: 15px; font-weight: 600; color: var(--ink-400); letter-spacing: 0; }
-  .plan__sub { font-size: 14.5px; color: var(--ink-600); margin: 0 0 18px; min-height: 0; }
-  .plan__list { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 11px; }
-  .plan__list li { display: flex; gap: 10px; font-size: 14.5px; color: var(--ink); line-height: 1.5; }
-  .plan__list svg { flex: none; margin-top: 3px; color: var(--green); }
-  .plan__list .is-muted { color: var(--ink-400); }
-  .plan__list .is-muted svg { color: var(--ink-400); }
-  .plan__foot { margin-top: auto; }
-  .plan__note { font-size: 12.5px; color: var(--ink-400); margin: 12px 0 0; line-height: 1.45; }
-
-  .tiers { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 0 0 18px; padding: 0; list-style: none; }
-  .tier { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
-  .tier b { display: block; font-size: 21px; color: var(--navy); font-weight: 800; letter-spacing: -.02em; }
-  .tier span { display: block; font-size: 12.5px; color: var(--ink-400); line-height: 1.4; margin-top: 3px; }
-  .tier--best { border-color: var(--orange); background: var(--cream); }
-  .tier--best b { color: var(--orange-600); }
-
-  /* ---------- comparison table ---------- */
-  .tablehint {
-    display: none; align-items: center; gap: 7px; margin: 26px 0 8px;
-    font-size: 12.5px; font-weight: 600; color: var(--ink-400);
-  }
-  @media (max-width: 767px) { .tablehint { display: flex; } }
-  .tableshell { position: relative; margin-top: 32px; }
-  @media (max-width: 767px) { .tableshell { margin-top: 0; } }
-  .tableshell::after {
-    content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 34px; pointer-events: none;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff 78%); border-radius: 0 var(--radius) var(--radius) 0;
-  }
-  @media (min-width: 768px) { .tableshell::after { display: none; } }
-  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; -webkit-overflow-scrolling: touch; }
-  .tablewrap--plain { margin-top: 0; }
-  table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 14.5px; }
-  caption { text-align: left; padding: 16px 18px 0; color: var(--ink-400); font-size: 13px; }
-  th, td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
-  thead th { background: var(--navy); color: #fff; font-size: 13px; font-weight: 650; letter-spacing: .02em; }
-  thead th:first-child { border-top-left-radius: 0; }
-  tbody th { font-weight: 600; color: var(--ink-600); background: var(--surface-alt); width: 22%; }
-  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
-  .num { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--navy); }
-
-  /* ---------- currency callout ---------- */
-  .fx { display: grid; gap: clamp(18px, 2.4vw, 28px); grid-template-columns: 1.2fr 1fr; align-items: start; margin-top: 34px; }
-  @media (max-width: 820px) { .fx { grid-template-columns: 1fr; } }
-  .fx__box { background: #fff; border: 1px solid #f3c9a0; border-left: 4px solid var(--orange); border-radius: var(--radius); padding: clamp(20px, 2.4vw, 26px); }
-  .fx__box h3 { margin-top: 0; }
-  .fx__box p { font-size: 14.5px; color: var(--ink-600); margin: 0 0 12px; }
-  .fx__rates { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin: 18px 0 0; padding: 0; list-style: none; }
-  .fx__rates li { background: var(--surface-alt); border: 1px solid var(--line); border-radius: 8px; padding: 11px 13px; font-size: 13px; color: var(--ink-600); }
-  .fx__rates b { display: block; color: var(--navy); font-size: 15px; font-weight: 700; margin-top: 2px; }
-
-  /* ---------- FAQ ---------- */
-  .faq { max-width: 820px; margin: 34px auto 0; }
-  .faq details { border-bottom: 1px solid var(--line); }
-  .faq summary {
-    list-style: none; cursor: pointer; padding: 18px 40px 18px 0; position: relative;
-    font-size: 16px; font-weight: 650; color: var(--navy);
-  }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after {
-    content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-    font-size: 22px; font-weight: 400; color: var(--orange); line-height: 1;
-  }
-  .faq details[open] summary::after { content: "\2212"; }
-  .faq p { margin: 0 0 18px; font-size: 15px; color: var(--ink-600); max-width: 68ch; }
-
-  /* ---------- closing CTA ---------- */
-  .closer { background: linear-gradient(150deg, var(--navy) 0%, var(--navy-700) 100%); color: #fff; border-radius: 0; }
-  .closer h2 { color: #fff; font-size: clamp(24px, 3.4vw, 34px); letter-spacing: -.02em; }
-  .closer p { color: #c7d7e6; font-size: 16.5px; max-width: 58ch; margin: 0 0 26px; }
-  .closer__actions { display: flex; flex-wrap: wrap; gap: 12px; }
-  .closer__meta { margin-top: 24px; font-size: 13.5px; color: #9dbdd9; }
-  .closer__meta a { color: #cfe2f2; }
-
-  /* ---------- footer ---------- */
-  .site-footer { background: #0b1f33; color: #8fb3d4; padding-block: 34px; font-size: 13.5px; }
-  .site-footer__row { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: baseline; justify-content: space-between; }
-  .site-footer strong { color: #fff; }
-  .site-footer a { color: #c7d7e6; text-decoration: none; }
-  .site-footer a:hover { text-decoration: underline; }
-  .site-footer__legal { margin-top: 14px; font-size: 12.5px; color: #6f93b4; max-width: 78ch; }
-
-  /* ---------- calculator ---------- */
-  .calc {
-    margin-top: 34px; background: #fff; border: 1px solid var(--line);
-    border-radius: var(--radius); box-shadow: var(--shadow-md);
-  }
-  .calc__grid {
-    display: grid; grid-template-columns: minmax(260px, .95fr) minmax(300px, 1.05fr);
-    gap: clamp(18px, 2.6vw, 32px); padding: clamp(20px, 2.8vw, 30px); min-width: 0;
-  }
-  .calc__grid > * { min-width: 0; }
-  .calc__in { display: grid; gap: 18px; align-content: start; min-width: 0; }
-  .field label {
-    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
-    font-size: 13.5px; font-weight: 600; color: var(--ink-600); margin-bottom: 6px;
-  }
-  .field output { font-size: 15.5px; font-weight: 800; color: var(--navy); font-variant-numeric: tabular-nums; }
-  .field input[type="range"] { width: 100%; margin: 0; accent-color: var(--orange); cursor: ew-resize; height: 26px; }
-  .adv { font-size: 13.5px; }
-  .adv summary { color: var(--ink-400); cursor: pointer; font-weight: 600; }
-  .adv[open] { display: grid; gap: 16px; padding-top: 12px; }
-  .adv .field { margin-top: 4px; }
-  .calc__out { display: grid; gap: 16px; align-content: start; min-width: 0; }
-  .verdict { border-left: 4px solid var(--orange); padding-left: 16px; min-width: 0; }
-  .verdict__label { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-400); }
-  .verdict__big { margin: 4px 0 0; font-size: clamp(21px, 2.6vw, 28px); font-weight: 800; color: var(--navy); line-height: 1.15; letter-spacing: -.02em; }
-  .verdict__sub { margin: 7px 0 0; font-size: 14.5px; color: var(--ink-600); }
-  .outgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; min-width: 0; }
-  .outcell { background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 11px 13px; min-width: 0; }
-  .outcell--wide { grid-column: 1 / -1; }
-  .outcell dt { font-size: 12px; color: var(--ink-400); margin: 0; line-height: 1.35; }
-  .outcell dd { margin: 4px 0 0; font-size: 16px; font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; }
-  .outcell dd small { display: block; font-size: 12.5px; font-weight: 600; color: var(--ink-400); margin-top: 2px; }
-  .is-bad { color: #b4271e !important; }
-  .is-good { color: var(--green) !important; }
-  .estflag { background: var(--cream); border: 1px solid #f3c9a0; border-radius: var(--radius-sm); padding: 10px 13px; font-size: 13px; color: #7a3e06; line-height: 1.45; }
-  .calc__fine { margin: 0; font-size: 12.5px; color: var(--ink-400); line-height: 1.5; }
-
-  /* ---------- methodology ---------- */
-  .sources { margin-top: 26px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(16px, 2vw, 22px); }
-  .sources summary { font-size: 15px; font-weight: 700; color: var(--navy); cursor: pointer; }
-  .sources p { font-size: 14.5px; color: var(--ink-600); margin: 14px 0 0; max-width: 74ch; }
-  .sources ul { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-  .sources li { font-size: 14px; color: var(--ink-600); border-left: 3px solid var(--line); padding: 2px 0 2px 13px; line-height: 1.5; }
-  .sources li b { color: var(--navy); }
-  .formula {
-    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; line-height: 1.7;
-    background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm);
-    padding: 13px 15px; overflow-x: auto; color: var(--ink);
-  }
-  @media (max-width: 860px) {
-    .calc__grid { grid-template-columns: 1fr; }
-    .outgrid { grid-template-columns: 1fr; }
-  }
-
-  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-</style>
+<link rel="icon" type="image/png" href="brand/clubemkt-mark-gold.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="clubemkt.css" />
 </head>
 
 <body>
@@ -358,10 +20,8 @@
 <header class="site-header">
   <div class="wrap site-header__row">
     <a class="brand" href="#top">
-      <span class="brand__mark" aria-hidden="true">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><path d="M4 15h16v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="8" cy="19" r="1.4"/><circle cx="16" cy="19" r="1.4"/></svg>
-      </span>
-      <span>ClubeMkt</span>
+      <span class="brand__mark" aria-hidden="true"><img src="brand/clubemkt-mark-gold.png" alt="" width="30" height="32" /></span>
+      <span class="wordmark"><b>clubemkt</b><span>digital</span></span>
     </a>
 
     <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">Menu</button>
@@ -387,16 +47,16 @@
   <section class="hero">
     <div class="wrap hero__grid">
       <div>
-        <span class="eyebrow">Fast food delivery automation</span>
-        <h1>Take orders automatically. Stop losing them to chaos.</h1>
+        <span class="eyebrow">Consultancy &middot; strategy &middot; execution</span>
+        <h1>A consultancy that designs your growth. <em>Software that runs it.</em></h1>
         <p class="lede">
-          Delivery automation software built for fast food kitchens. Orders come in, get processed and move through
-          your operation without someone retyping them. Buy the software outright, or start with a lower upfront
-          cost and pay as you grow.
+          clubemkt digital audits how your kitchen sells online, designs the strategic plan and executes it:
+          marketing, funnel, automation and the delivery software layer underneath. You acquire business
+          intelligence and a designed shift &mdash; the technology is the infrastructure that makes it run.
         </p>
         <div class="hero__actions">
-          <a class="btn btn--primary" href="#pricing">View the two plans</a>
-          <a class="btn btn--ghost" href="#marketing">Add marketing &amp; leads</a>
+          <a class="btn btn--primary" href="#pricing">Choose your engagement</a>
+          <a class="btn btn--ghost" href="#method">See the method</a>
         </div>
         <ul class="chips">
           <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>One-time ownership option</li>
@@ -423,13 +83,46 @@
       </div>
     </div>
   </section>
+  <!-- ===================== THE ENGAGEMENT ===================== -->
+  <section class="section section--alt" id="method">
+    <div class="wrap">
+      <span class="eyebrow">The engagement</span>
+      <h2>You are not buying software. You are acquiring a designed shift.</h2>
+      <p class="lede">clubemkt digital works as your consultancy: we audit how your business sells online, design the
+      strategic plan, execute it and stay on the numbers. The delivery software is the infrastructure layer underneath
+      &mdash; the part that makes the plan operable every day.</p>
+      <div class="method">
+        <article class="phase">
+          <h3>Audit the baseline</h3>
+          <p>We map your channels, margins and customer data as they are today: apps, WhatsApp, phone, counter. The baseline is evidence from your operation, not opinion.</p>
+          <span class="phase__tag">Week 1</span>
+        </article>
+        <article class="phase">
+          <h3>Design the blueprint</h3>
+          <p>A customized web-marketing business plan: offer, positioning, funnel, pricing logic and the metrics that decide success. You approve it before anything ships.</p>
+          <span class="phase__tag">Your plan, signed off</span>
+        </article>
+        <article class="phase">
+          <h3>Deploy the system</h3>
+          <p>We build and launch it: conversion experience, lead capture, automation and the delivery software layer. Training in one session, live within a week of signing.</p>
+          <span class="phase__tag">Build + launch</span>
+        </article>
+        <article class="phase">
+          <h3>Steer with intelligence</h3>
+          <p>Every order writes a customer record. We read repeat rate, channel mix and margin with you each month and re-steer the plan. That loop is the business intelligence you keep.</p>
+          <span class="phase__tag">Ongoing</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
 
   <!-- ================= FEATURES ================= -->
   <section class="section" id="how">
     <div class="wrap">
       <span class="eyebrow">What it does</span>
       <h2>Built around the way a fast food kitchen actually runs</h2>
-      <p class="lede">Every plan includes the same core software. The difference is how you pay for it, not what you get.</p>
+      <p class="lede">Every engagement runs on the same core software layer. The difference is how you pay for it, not what you get.</p>
 
       <div class="grid">
         <article class="card">
@@ -859,15 +552,15 @@
   <!-- ================= CLOSER ================= -->
   <section class="section closer">
     <div class="wrap">
-      <h2>Ready to automate your deliveries?</h2>
-      <p>Tell us your average monthly order volume and we will recommend which Plan&nbsp;2 fee structure costs you less, or quote the Full Package if a single annual payment suits you better.</p>
+      <h2>Book the review. Leave with a plan.</h2>
+      <p>Bring your monthly order volume and your channel mix. We leave the call with the fee structure that costs you less, the first move of your strategic plan, and a date to deploy it.</p>
       <div class="closer__actions">
-        <a class="btn btn--light" data-mailto-subject="Delivery%20automation%20%E2%80%94%20plan%20enquiry">Email us your plan choice</a>
-        <a class="btn btn--outline-light" href="#pricing">Review the plans</a>
+        <a class="btn btn--light" data-mailto-subject="Delivery%20automation%20%E2%80%94%20plan%20enquiry">Book the proposal review</a>
+        <a class="btn btn--outline-light" href="#pricing">Review the engagements</a>
       </div>
       <p class="closer__meta" id="closerFallback" hidden>Not sure who to write to yet? Use the two-minute enquiry form and we reply on WhatsApp. <a href="stop-losing-orders.html#signup">Open the form</a></p>
       <p class="closer__meta">
-        ClubeMkt &nbsp;&middot;&nbsp;
+        clubemkt digital &nbsp;&middot;&nbsp;
         <span id="contactLinks"><a data-mail>hudson@clubemkt.digital</a> &nbsp;&middot;&nbsp; <a data-tel>+591 76451489</a> &nbsp;&middot;&nbsp; <a data-web>https://clubemkt.digital</a></span>
         <span id="contactUnset" hidden>Contact details appear here once they are set in the CONFIG block at the end of this page.</span>
       </p>
@@ -877,9 +570,11 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <div class="site-footer__row">
-      <div><strong>ClubeMkt</strong> &mdash; fast food delivery automation software</div>
+        <div class="brandplate"><img src="brand/clubemkt-logo-golden.webp" alt="clubemkt digital" width="320" height="93" loading="lazy" /></div>
+<div class="site-footer__row">
+      <div><strong>clubemkt digital</strong> &mdash; engineered growth systems for fast food delivery</div>
       <div>
+        <a href="#method">The method</a> &nbsp;&middot;&nbsp;
         <a href="#pricing">Plans</a> &nbsp;&middot;&nbsp;
         <a href="#calculator">Calculator</a> &nbsp;&middot;&nbsp;
         <a href="#compare">Compare</a> &nbsp;&middot;&nbsp;
@@ -1044,6 +739,37 @@
     if (links && unset) { links.hidden = !allContact; unset.hidden = allContact; }
     var fallback = document.getElementById('closerFallback');
     if (fallback) fallback.hidden = hasEmail;
+  })();
+</script>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && 'IntersectionObserver' in window) {
+      var targets = document.querySelectorAll('.card, .phase, .plan, .pain, .step, .fix, .qual');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      Array.prototype.forEach.call(targets, function (el, i) {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i % 4) * 70 + 'ms';
+        io.observe(el);
+      });
+    }
+    var nav = document.querySelector('.nav');
+    if (nav) {
+      var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
+      var secs = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+      var spy = function () {
+        var y = window.scrollY + 120, current = null;
+        secs.forEach(function (s) { if (s.offsetTop <= y) current = s.id; });
+        links.forEach(function (a) { a.classList.toggle('is-active', a.getAttribute('href') === '#' + current); });
+      };
+      window.addEventListener('scroll', spy, { passive: true });
+      spy();
+    }
   })();
 </script>
 </body>
