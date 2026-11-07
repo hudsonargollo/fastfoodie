@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>GTM Playbook · clubemkt digital</title>
+<link rel="icon" type="image/png" href="../brand/clubemkt-mark-gold.png" />
+<link rel="stylesheet" href="../clubemkt.css?v=4" />
+<style>
+  /* ---------- language switching ---------- */
+  .l-es { display: none; }
+  body.lang-es .l-en { display: none; }
+  body.lang-es .l-es { display: block; }
+  body.lang-es span.l-es, body.lang-es a.l-es { display: inline; }
+
+  /* ---------- password gate ---------- */
+  .gate { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px;
+    background:
+      radial-gradient(60% 45% at 50% 0%, rgba(212, 175, 55, .10), transparent 70%),
+      linear-gradient(180deg, #101214 0%, #0a0a0c 60%, #060608 100%); }
+  .gate__card { width: 100%; max-width: 420px; text-align: center; padding: clamp(26px, 5vw, 44px);
+    background: linear-gradient(180deg, var(--surface-2), var(--surface)); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow-md); }
+  .gate__logo { width: min(240px, 70%); height: auto; margin: 0 auto 20px; display: block;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,.5)) drop-shadow(0 0 14px rgba(212,175,55,.14)); }
+  .gate__card .eyebrow { justify-content: center; font-size: 10px; }
+  .gate__card .eyebrow::after { display: none; }
+  .gate__card h1 { font-size: clamp(20px, 4vw, 26px); margin-bottom: 8px; }
+  .gate__sub { color: var(--muted); font-size: 14px; margin: 0 0 22px; line-height: 1.6; }
+  .gate__form { display: grid; gap: 12px; }
+  .gate__form input { width: 100%; font: inherit; font-size: 15px; color: var(--white); background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 13px;
+    text-align: center; font-family: var(--font-mono); letter-spacing: .12em; transition: border-color .15s ease, box-shadow .15s ease; }
+  .gate__form input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212, 175, 55, .18); outline: none; }
+  .gate__err { margin: 14px 0 0; color: #ff7a6e; font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; }
+  .gate.shake .gate__card { animation: gate-shake .38s ease; }
+  @keyframes gate-shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-9px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(4px)} }
+  .gate__note { margin: 20px 0 0; font-size: 11.5px; color: var(--muted-2); }
+
+  /* ---------- playbook layout ---------- */
+  .pb-hero { padding-block: clamp(56px, 9vw, 110px) clamp(40px, 6vw, 72px); }
+  .pb-hero h1 { font-size: clamp(30px, 5vw, 52px); max-width: 20ch; }
+  .pb-hero h1 em { font-style: normal; color: var(--gold); }
+  .pb-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .pb-chip { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--silver); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 13px;
+    background: var(--surface); text-decoration: none; }
+  .pb-chip:hover { border-color: var(--gold-line); color: var(--gold); }
+  .pb-chip b { color: var(--gold); font-weight: 700; }
+
+  .pb-grid2 { display: grid; gap: clamp(14px, 2vw, 20px); grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); margin-top: 32px; }
+  .pb-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 2.6vw, 28px); }
+  .pb-card h3 { font-size: 15px; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-family: var(--font-mono); }
+  .pb-card p, .pb-card li { color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+  .pb-card ul { margin: 0; padding-left: 18px; display: grid; gap: 7px; }
+  .pb-card li::marker { color: var(--gold); }
+  .pb-card b, .pb-card strong { color: var(--silver); }
+
+  .pb-table { width: 100%; border-collapse: collapse; margin-top: 28px; font-size: 14px; }
+  .pb-table th { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--gold);
+    text-align: left; padding: 12px 14px; background: var(--surface-3); border-bottom: 1px solid var(--line); }
+  .pb-table td { padding: 12px 14px; border-bottom: 1px solid var(--line-soft); color: var(--muted); vertical-align: top; line-height: 1.55; }
+  .pb-table td b { color: var(--silver); }
+  .pb-table .num { font-family: var(--font-mono); color: var(--gold); font-weight: 700; white-space: nowrap; }
+  .pb-tableshell { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
+  .pb-tableshell .pb-table { margin-top: 0; min-width: 560px; }
+
+  /* ---------- cadence timeline ---------- */
+  .pb-days { display: grid; gap: 12px; margin-top: 32px; }
+  .pb-day { display: grid; grid-template-columns: 86px 1fr; gap: 16px; align-items: start; background: var(--surface);
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; }
+  .pb-day__n { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--gold);
+    text-transform: uppercase; padding-top: 2px; }
+  .pb-day__b { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+  .pb-day__b b { color: var(--silver); }
+  .pb-day__ch { display: inline-block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--gold); border: 1px solid var(--gold-line); border-radius: 3px; padding: 2px 7px; margin-right: 8px; }
+
+  /* ---------- script cards ---------- */
+  .pb-scripts { display: grid; gap: 18px; margin-top: 32px; }
+  .script { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .script__head { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 13px 18px; border-bottom: 1px solid var(--line-soft); background: var(--surface-2); }
+  .script__tag { font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+  .script__when { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted-2); letter-spacing: .08em; }
+  .copy { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--silver); background: transparent; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 7px 13px; cursor: pointer; transition: border-color .18s ease, color .18s ease, background-color .18s ease; white-space: nowrap; }
+  .copy:hover { border-color: transparent; color: #e8cb88;
+    background: linear-gradient(var(--surface), var(--surface)) padding-box, linear-gradient(180deg, #f0d68a, #8a5f2c) border-box; }
+  .copy.copied { border-color: var(--gold-line); color: var(--gold); }
+  .script__body { padding: 18px 20px; font-size: 15px; line-height: 1.7; color: var(--silver); white-space: pre-wrap; }
+  .script__body p { margin: 0 0 12px; }
+  .script__body p:last-child { margin-bottom: 0; }
+  .script__subject { display: block; padding: 12px 20px 0; font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); }
+  .script__subject b { color: var(--gold); font-weight: 700; }
+  .tok { font-family: var(--font-mono); font-size: .92em; color: var(--gold); background: var(--gold-dim);
+    border-radius: 3px; padding: 1px 5px; white-space: nowrap; }
+  .script__note { padding: 0 20px 16px; font-size: 12.5px; color: var(--muted-2); line-height: 1.55; }
+
+  /* ---------- call script stages ---------- */
+  .pb-stage { border-left: 2px solid var(--gold-line); padding-left: 18px; margin-top: 26px; }
+  .pb-stage > h3 { font-family: var(--font-mono); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .pb-stage > p { color: var(--muted); font-size: 13.5px; margin: 0 0 12px; }
+
+  /* ---------- objections ---------- */
+  .pb-obj { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+  .pb-obj__q { font-size: 15px; color: var(--white); font-weight: 600; margin: 0 0 10px; }
+  .pb-obj__q::before { content: "“"; color: var(--gold); }
+  .pb-obj__q::after { content: "”"; color: var(--gold); }
+
+  /* ---------- checklist ---------- */
+  .pb-check { display: grid; gap: 9px; margin-top: 24px; }
+  .pb-check li { list-style: none; display: flex; gap: 11px; align-items: baseline; color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+  .pb-check li::before { content: "▸"; color: var(--gold); flex: none; }
+  .pb-check b { color: var(--silver); }
+
+  .pb-lock { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 9px 13px; cursor: pointer; }
+  .pb-lock:hover { color: var(--gold); border-color: var(--gold-line); }
+  #langToggle { min-width: 92px; }
+
+  @media (max-width: 1000px) { .site-header .nav { display: none; } }
+  @media (max-width: 560px) {
+    .pb-day { grid-template-columns: 1fr; gap: 6px; }
+    .script__head { flex-wrap: wrap; }
+    .script__body { padding: 16px; font-size: 14.5px; }
+    #langToggle { min-width: 0; }
+  }
+  @media print {
+    .site-header, .gate, .copy, .pb-lock, .pb-chips { display: none !important; }
+    body { background: #fff; }
+    .pb-card, .script, .pb-day, .pb-obj { border-color: #ccc; background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================= PASSWORD GATE ======================= -->
+<div class="gate" id="gate">
+  <div class="gate__card">
+    <img class="gate__logo" src="../brand/clubemkt-logo-header.png" alt="clubemkt digital" width="240" height="70" />
+    <span class="eyebrow">Restricted · Restringido</span>
+    <h1>GTM Playbook<br /><span style="color:var(--gold)">Manual de ventas</span></h1>
+    <p class="gate__sub">Sales enablement for the delivery-automation consultancy.<br />Material interno de ventas de la consultoría de delivery.</p>
+    <form class="gate__form" id="gateForm" autocomplete="off">
+      <input type="password" id="gatePass" placeholder="Password · Contraseña" autocomplete="current-password" aria-label="Password" />
+      <button class="btn btn--primary btn--block" type="submit">Unlock · Abrir</button>
+    </form>
+    <p class="gate__err" id="gateErr" hidden>Wrong password · Contraseña incorrecta</p>
+    <p class="gate__note">clubemkt digital · hudson@clubemkt.digital · +591 76451489</p>
+  </div>
+</div>
+
+<!-- ======================= PLAYBOOK ======================= -->
+<div id="playbook" hidden>
+
+<header class="site-header">
+  <div class="wrap site-header__row">
+    <a class="brand" href="#top" aria-label="clubemkt digital">
+      <img class="brand__logo" src="../brand/clubemkt-logo-header.png" alt="clubemkt digital" width="138" height="40" />
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#strategy" class="l-en">Strategy</a><a href="#strategy" class="l-es">Estrategia</a>
+      <a href="#cadence" class="l-en">Cadence</a><a href="#cadence" class="l-es">Cadencia</a>
+      <a href="#whatsapp">WhatsApp</a>
+      <a href="#email">Email</a>
+      <a href="#call" class="l-en">Call</a><a href="#call" class="l-es">Llamada</a>
+      <a href="#objections" class="l-en">Objections</a><a href="#objections" class="l-es">Objeciones</a>
+      <a href="#metrics" class="l-en">Metrics</a><a href="#metrics" class="l-es">Métricas</a>
+    </nav>
+    <div class="header__links">
+      <button class="btn btn--ghost" id="langToggle" type="button">Español</button>
+      <button class="pb-lock" id="lockBtn" type="button"><span class="l-en">Lock</span><span class="l-es">Cerrar</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="pb-hero">
+    <div class="wrap">
+      <span class="eyebrow"><span class="l-en">clubemkt digital · sales enablement</span><span class="l-es">clubemkt digital · material de ventas</span></span>
+      <h1 class="l-en">Go-to-market for the <em>delivery consultancy</em> offer.</h1>
+      <h1 class="l-es">Go-to-market de la <em>consultoría de delivery</em>.</h1>
+      <p class="lede l-en">The plan, the cadence and the exact words — WhatsApp, email and phone — to sell business intelligence for restaurants that deliver. They are not buying software; they are acquiring a consultancy that designs and executes the shift in how they sell online. The software is the layer that runs it.</p>
+      <p class="lede l-es">El plan, la cadencia y las palabras exactas — WhatsApp, email y teléfono — para vender inteligencia de negocio a restaurantes que hacen delivery. No compran software: contratan una consultoría que diseña y ejecuta el cambio en cómo venden en línea. El software es la capa que lo opera.</p>
+      <div class="pb-chips">
+        <a class="pb-chip" href="#strategy"><b>01</b> <span class="l-en">Strategy</span><span class="l-es">Estrategia</span></a>
+        <a class="pb-chip" href="#cadence"><b>02</b> <span class="l-en">14-day cadence</span><span class="l-es">Cadencia 14 días</span></a>
+        <a class="pb-chip" href="#whatsapp"><b>03</b> WhatsApp ×5</a>
+        <a class="pb-chip" href="#email"><b>04</b> Email ×4</a>
+        <a class="pb-chip" href="#call"><b>05</b> <span class="l-en">Call script</span><span class="l-es">Guion de llamada</span></a>
+        <a class="pb-chip" href="#objections"><b>06</b> <span class="l-en">Objections ×6</span><span class="l-es">Objeciones ×6</span></a>
+        <a class="pb-chip" href="#metrics"><b>07</b> <span class="l-en">Metrics &amp; launch</span><span class="l-es">Métricas y lanzamiento</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 STRATEGY -->
+  <section class="section section--alt" id="strategy">
+    <div class="wrap">
+      <span class="eyebrow"><span class="l-en">01 · Strategy</span><span class="l-es">01 · Estrategia</span></span>
+      <h2 class="l-en">Who we sell to, and what we actually sell</h2>
+      <h2 class="l-es">A quién vendemos y qué vendemos realmente</h2>
+
+      <div class="pb-grid2">
+        <div class="pb-card">
+          <h3 class="l-en">Ideal customer</h3><h3 class="l-es">Cliente ideal</h3>
+          <ul class="l-en">
+            <li><b>Fast-food restaurants in Bolivia</b> — broaster chicken, burgers, pizza, wings; 1–3 locations, plus dark kitchens.</li>
+            <li><b>Already delivering</b> through PedidosYa or similar apps, and taking orders by WhatsApp/phone.</li>
+            <li><b>200+ delivery orders a month</b> — enough volume for the commission math to hurt.</li>
+            <li><b>Owner-operated</b>: the person you message is the person who signs.</li>
+            <li>Pain signals: complains about app commissions, loses orders in manual entry, has no customer list of their own.</li>
+          </ul>
+          <ul class="l-es">
+            <li><b>Restaurantes de comida rápida en Bolivia</b> — pollo broaster, hamburguesas, pizza, alitas; 1–3 sucursales, y cocinas ocultas.</li>
+            <li><b>Ya hacen delivery</b> por PedidosYa o apps similares, y toman pedidos por WhatsApp/teléfono.</li>
+            <li><b>200+ pedidos de delivery al mes</b> — volumen suficiente para que la comisión duela.</li>
+            <li><b>Atendidos por su dueño</b>: a quien le escribes es quien firma.</li>
+            <li>Señales de dolor: se queja de las comisiones, pierde pedidos en el ingreso manual, no tiene base de clientes propia.</li>
+          </ul>
+        </div>
+        <div class="pb-card">
+          <h3 class="l-en">Positioning</h3><h3 class="l-es">Posicionamiento</h3>
+          <ul class="l-en">
+            <li><b>We are a consultancy, not a software vendor.</b> We audit how the kitchen sells online, design the strategic plan, and execute it.</li>
+            <li><b>The hook is the commission math:</b> the app found that customer once — it charges you every time they come back.</li>
+            <li><b>The promise is ownership:</b> your customer base, your repeat orders, your channel.</li>
+            <li><b>The proof is speed:</b> training in one session, staff taking orders the same day, live within a week of signing, no hardware to buy.</li>
+          </ul>
+          <ul class="l-es">
+            <li><b>Somos una consultoría, no un vendedor de software.</b> Auditamos cómo la cocina vende en línea, diseñamos el plan estratégico y lo ejecutamos.</li>
+            <li><b>El gancho es la matemática de la comisión:</b> la app encontró a ese cliente una vez — te cobra cada vez que vuelve.</li>
+            <li><b>La promesa es propiedad:</b> tu base de clientes, tus pedidos recurrentes, tu canal.</li>
+            <li><b>La prueba es velocidad:</b> capacitación en una sesión, el personal tomando pedidos el mismo día, en vivo en una semana desde la firma, sin comprar hardware.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pb-tableshell">
+        <table class="pb-table">
+          <thead>
+            <tr>
+              <th><span class="l-en">Offer</span><span class="l-es">Oferta</span></th>
+              <th><span class="l-en">Price</span><span class="l-es">Precio</span></th>
+              <th><span class="l-en">What it covers</span><span class="l-es">Qué incluye</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Plan 1 · Full Package</b></td>
+              <td class="num">$2,000 <span class="l-en">one-time</span><span class="l-es">pago único</span></td>
+              <td><span class="l-en">1 year of licence from go-live, no monthly fee. 100% due at contract signing. Full deployment + onboarding.</span><span class="l-es">1 año de licencia desde la puesta en marcha, sin cuota mensual. 100% al firmar. Despliegue completo + onboarding.</span></td>
+            </tr>
+            <tr>
+              <td><b>Plan 2 · Software + Monthly</b></td>
+              <td class="num">$1,000 <span class="l-en">upfront</span><span class="l-es">inicial</span></td>
+              <td><span class="l-en">Then choose one at signing: <b>$150/month</b> (USD) or <b>Bs 1 per order</b> (BOB). Lower entry, payments follow activity.</span><span class="l-es">Luego elige una al firmar: <b>$150/mes</b> (USD) o <b>Bs 1 por pedido</b> (BOB). Entrada baja, el pago sigue a la actividad.</span></td>
+            </tr>
+            <tr>
+              <td><b class="l-en">Add-on · Marketing</b><b class="l-es">Add-on · Marketing</b></td>
+              <td class="num">$99–250<span class="l-en">/mo</span><span class="l-es">/mes</span></td>
+              <td><span class="l-en">$250/mo standalone · $150/mo on Full Package · $99/mo × 24 prepaid ($2,376 total, saves $3,624). SEO/Google, Meta ads, lead gen, reporting.</span><span class="l-es">$250/mes solo · $150/mes con Full Package · $99/mes × 24 prepagado ($2.376 total, ahorra $3.624). SEO/Google, anuncios Meta, generación de leads, reportes.</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="script__note" style="padding:14px 4px 0">
+        <span class="l-en">Reference rate: 1 USD = Bs 11,50 (06 Nov 2026). Plan 2 per-order fee is quoted and settled in Bolivianos; everything else in USD. Amounts exclude taxes. Never quote a platform's commission as fact — ask the owner for their real rate and use the live calculator.</span>
+        <span class="l-es">Tipo de cambio de referencia: 1 USD = Bs 11,50 (06 nov 2026). La tarifa por pedido del Plan 2 se cotiza y paga en bolivianos; todo lo demás en USD. Montos sin impuestos. Nunca cites la comisión de una plataforma como hecho — pide al dueño su tasa real y usa la calculadora en vivo.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 02 CADENCE -->
+  <section class="section" id="cadence">
+    <div class="wrap">
+      <span class="eyebrow"><span class="l-en">02 · Cadence</span><span class="l-es">02 · Cadencia</span></span>
+      <h2 class="l-en">The 14-day sequence</h2>
+      <h2 class="l-es">La secuencia de 14 días</h2>
+      <p class="lede l-en">WhatsApp-first for Bolivia. Every touch has one job: move the owner to a 20-minute proposal review where we run their numbers live. Stop the sequence the moment they reply — a conversation replaces the cadence.</p>
+      <p class="lede l-es">WhatsApp primero para Bolivia. Cada contacto tiene un solo trabajo: llevar al dueño a una revisión de propuesta de 20 minutos donde corremos sus números en vivo. Detén la secuencia en cuanto responda — una conversación reemplaza la cadencia.</p>
+
+      <div class="pb-days">
+        <div class="pb-day"><span class="pb-day__n"><span class="l-en">Day 0</span><span class="l-es">Día 0</span></span><div class="pb-day__b"><span class="pb-day__ch">WhatsApp</span><b class="l-en">First touch (W1).</b><b class="l-es">Primer contacto (W1).</b> <span class="l-en">Personal, one question about their weekly delivery volume. No links, no pitch deck.</span><span class="l-es">Personal, una pregunta sobre su volumen semanal de delivery. Sin enlaces, sin presentación.</span></div></div>
+        <div class="pb-day"><span class="pb-day__n"><span class="l-en">Day 1</span><span class="l-es">Día 1</span></span><div class="pb-day__b"><span class="pb-day__ch"><span class="l-en">Call</span><span class="l-es">Llamada</span></span><b class="l-en">Call between 15:00–17:00</b><b class="l-es">Llamar entre 15:00–17:00</b> <span class="l-en">(after lunch rush, before dinner). Use the call script; if no answer, leave voicemail C7 and continue the sequence.</span><span class="l-es">(tras el almuerzo, antes de la cena). Usa el guion; si no contesta, deja el buzón C7 y sigue la secuencia.</span></div></div>
+        <div class="pb-day"><span class="pb-day__n"><span class="l-en">Day 2</span><span class="l-es">Día 2</span></span><div class="pb-day__b"><span class="pb-day__ch">Email</span><b class="l-en">Cold intro (E1).</b><b class="l-es">Introducción (E1).</b> <span class="l-en">The consultancy framing in writing, with the three pillars and a single CTA.</span><span class="l-es">El encuadre de consultoría por escrito, con los tres pilares y un solo CTA.</span></div></div>
+        <div class="pb-day"><span class="pb-day__n"><span class="l-en">Day 4</span><span class="l-es">Día 4</span></span><div class="pb-day__b"><span class="pb-day__ch">WhatsApp</span><b class="l-en">Value follow-up (W2).</b><b class="l-es">Seguimiento de valor (W2).</b> <span class="l-en">Send the calculator link and ask them to plug in their own numbers.</span><span class="l-es">Envía el enlace de la calculadora y pídele que ingrese sus propios números.</span></div></div>
+        <div class="pb-day"><span class="pb-day__n"><span class="l-en">Day 7</span><span class="l-es">Día 7</span></span><div class="pb-day__b"><span class="pb-day__ch"><span class="l-en">Call</span><span class="l-es">Llamada</span></span><b class="l-en">Second call attempt.</b><b class="l-es">Segundo intento de llamada.</b> <span class="l-en">Different time of day. If connected, go straight to discovery and book the review.</span><span class="l-es">Otra hora del día. Si contesta, ve directo al descubrimiento y agenda la revisión.</span></div></div>
+        <div class="pb-day"><span class="pb-day__n"><span class="l-en">Day 10</span><span class="l-es">Día 10</span></span><div class="pb-day__b"><span class="pb-day__ch">Email</span><b class="l-en">Savings math (E2).</b><b class="l-es">Matemática del ahorro (E2).</b> <span class="l-en">The commission illustration with their volume, clearly marked as an example.</span><span class="l-es">La ilustración de comisión con su volumen, marcada claramente como ejemplo.</span></div></div>
+        <div class="pb-day"><span class="pb-day__n"><span class="l-en">Day 12</span><span class="l-es">Día 12</span></span><div class="pb-day__b"><span class="pb-day__ch">WhatsApp</span><b class="l-en">Commission angle (W3).</b><b class="l-es">Ángulo de comisión (W3).</b> <span class="l-en">The returning-customer insight + the savings page link.</span><span class="l-es">La idea del cliente que vuelve + el enlace de la página de ahorro.</span></div></div>
+        <div class="pb-day"><span class="pb-day__n"><span class="l-en">Day 14</span><span class="l-es">Día 14</span></span><div class="pb-day__b"><span class="pb-day__ch">WhatsApp</span><b class="l-en">Breakup (W5).</b><b class="l-es">Cierre (W5).</b> <span class="l-en">Close the loop politely, leave the door open, move them to a 60-day nurture list.</span><span class="l-es">Cierra el ciclo con cortesía, deja la puerta abierta, pásalo a una lista de seguimiento a 60 días.</span></div></div>
+      </div>
+      <p class="script__note" style="padding:16px 4px 0">
+        <span class="l-en">After a connected call or a booked review: send W4 (recap) the same day, then E3 (proposal recap) after the review. Referrals and walk-ins skip to discovery directly.</span>
+        <span class="l-es">Tras una llamada conectada o una revisión agendada: envía W4 (resumen) el mismo día, luego E3 (resumen de propuesta) después de la revisión. Referidos y visitas presenciales saltan directo al descubrimiento.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- 03 WHATSAPP -->
+  <section class="section section--alt" id="whatsapp">
+    <div class="wrap">
+      <span class="eyebrow"><span class="l-en">03 · WhatsApp scripts</span><span class="l-es">03 · Guiones de WhatsApp</span></span>
+      <h2 class="l-en">Five messages, one job each</h2>
+      <h2 class="l-es">Cinco mensajes, un trabajo cada uno</h2>
+      <p class="lede l-en">Replace the gold tokens before sending. Keep it conversational — these read like a person, not a broadcast. Send from the business number, one message at a time.</p>
+      <p class="lede l-es">Reemplaza los tokens dorados antes de enviar. Mantén el tono conversacional — que se lea como una persona, no como difusión. Envía desde el número del negocio, un mensaje a la vez.</p>
+
+      <div class="pb-scripts">
+
+        <article class="script">
+          <div class="script__head"><span class="script__tag">W1 · <span class="l-en">First touch</span><span class="l-es">Primer contacto</span></span><span class="script__when"><span class="l-en">Day 0 · cold</span><span class="l-es">Día 0 · frío</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">Hi {{name}}, Hudson here from clubemkt digital. We work with restaurants in {{city}} that deliver: we design the plan that moves your repeat customers off the apps' commission and onto your own channel — and we run the software that makes it automatic.
+
+Quick question: roughly how many delivery orders does {{restaurant}} do in a week?</div>
+          <div class="script__body l-es" lang="es">Hola {{name}}, soy Hudson de clubemkt digital. Trabajamos con restaurantes en {{city}} que hacen delivery: diseñamos el plan que mueve a tus clientes recurrentes de la comisión de las apps a tu propio canal — y operamos el software que lo hace automático.
+
+Pregunta rápida: ¿cuántos pedidos de delivery hace {{restaurant}} en una semana, más o menos?</div>
+          <p class="script__note"><span class="l-en">Goal: a reply with a number. Any answer opens discovery — do not pitch yet.</span><span class="l-es">Meta: una respuesta con un número. Cualquier respuesta abre el descubrimiento — no vendas todavía.</span></p>
+        </article>
+
+        <article class="script">
+          <div class="script__head"><span class="script__tag">W2 · <span class="l-en">Value follow-up</span><span class="l-es">Seguimiento de valor</span></span><span class="script__when"><span class="l-en">Day 4</span><span class="l-es">Día 4</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">{{name}}, following up on my message. I'd rather show you than tell you: this calculator runs your own numbers — your order volume, your ticket, your commission — and shows what your delivery operation keeps vs. what it hands to the apps.
+
+Takes 60 seconds: https://software.clubemkt.digital/index.html#calculator
+
+If the number surprises you, I'll walk you through it on a 20-minute call. What afternoon works this week?</div>
+          <div class="script__body l-es" lang="es">{{name}}, doy seguimiento a mi mensaje. Prefiero mostrarte que contarte: esta calculadora corre tus propios números — tu volumen de pedidos, tu ticket, tu comisión — y muestra qué se queda tu operación de delivery y qué se lleva las apps.
+
+Toma 60 segundos: https://software.clubemkt.digital/index.es.html#calculator
+
+Si el número te sorprende, te lo explico en una llamada de 20 minutos. ¿Qué tarde te queda bien esta semana?</div>
+          <p class="script__note"><span class="l-en">Goal: get them to touch the calculator. A prospect who enters their own numbers sells themselves.</span><span class="l-es">Meta: que toquen la calculadora. Un prospecto que ingresa sus propios números se vende solo.</span></p>
+        </article>
+
+        <article class="script">
+          <div class="script__head"><span class="script__tag">W3 · <span class="l-en">Commission angle</span><span class="l-es">Ángulo de comisión</span></span><span class="script__when"><span class="l-en">Day 12</span><span class="l-es">Día 12</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">{{name}}, one idea worth 30 seconds of your time:
+
+The app found that customer once. It charges you every time they come back.
+
+Your regulars — the people who already love {{restaurant}} — are the most expensive orders you send through the apps. We build the channel that keeps them yours, and the consultancy plan that fills it. The full picture is here: https://software.clubemkt.digital/stop-paying-commission.html
+
+Worth a 20-minute review with your numbers?</div>
+          <div class="script__body l-es" lang="es">{{name}}, una idea que vale 30 segundos de tu tiempo:
+
+La app encontró a ese cliente una vez. Te cobra cada vez que vuelve.
+
+Tus clientes habituales — los que ya aman {{restaurant}} — son los pedidos más caros que mandas por las apps. Construimos el canal que los mantiene tuyos, y el plan de consultoría que lo llena. El panorama completo está aquí: https://software.clubemkt.digital/stop-paying-commission.es.html
+
+¿Vale una revisión de 20 minutos con tus números?</div>
+          <p class="script__note"><span class="l-en">Goal: reframe the app from "sales channel" to "tax on loyalty". Then book the review.</span><span class="l-es">Meta: reencuadrar la app de "canal de ventas" a "impuesto a la lealtad". Luego agenda la revisión.</span></p>
+        </article>
+
+        <article class="script">
+          <div class="script__head"><span class="script__tag">W4 · <span class="l-en">Post-call recap</span><span class="l-es">Resumen post-llamada</span></span><span class="script__when"><span class="l-en">Same day</span><span class="l-es">Mismo día</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">{{name}}, great talking today. As agreed:
+
+• You're doing around {{volume}} delivery orders a month, mostly through {{channel}}.
+• We'll review the plan that moves your repeat customers to your own channel.
+• Our proposal review is {{day}} at {{time}} — 20 minutes, your numbers on screen.
+
+I'll send the agenda by email. If anything changes, just reply here. — Hudson, clubemkt digital</div>
+          <div class="script__body l-es" lang="es">{{name}}, un gusto hablar hoy. Como acordamos:
+
+• Haces unos {{volume}} pedidos de delivery al mes, sobre todo por {{channel}}.
+• Revisaremos el plan que mueve tus clientes recurrentes a tu propio canal.
+• Nuestra revisión de propuesta es el {{day}} a las {{time}} — 20 minutos, tus números en pantalla.
+
+Te envío la agenda por email. Si algo cambia, responde por aquí. — Hudson, clubemkt digital</div>
+          <p class="script__note"><span class="l-en">Goal: lock the appointment in writing while the conversation is warm.</span><span class="l-es">Meta: fijar la cita por escrito mientras la conversación está caliente.</span></p>
+        </article>
+
+        <article class="script">
+          <div class="script__head"><span class="script__tag">W5 · <span class="l-en">Breakup</span><span class="l-es">Cierre</span></span><span class="script__when"><span class="l-en">Day 14 · last</span><span class="l-es">Día 14 · último</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">{{name}}, I'll close the loop so I'm not crowding your inbox. The offer stands whenever delivery volume makes it worth revisiting: a consultancy plan that keeps your repeat customers on your own channel, live within a week of signing.
+
+If it's a "not now", no problem — I'll check back in a couple of months. If it's a "no", tell me and I won't write again. Either way, I'm rooting for {{restaurant}}. — Hudson</div>
+          <div class="script__body l-es" lang="es">{{name}}, cierro el ciclo para no llenar tu bandeja. La oferta sigue en pie cuando el volumen de delivery haga valer la pena revisarla: un plan de consultoría que mantiene tus clientes recurrentes en tu propio canal, en vivo en una semana desde la firma.
+
+Si es un "ahora no", no hay problema — vuelvo en un par de meses. Si es un "no", dímelo y no vuelvo a escribir. De cualquier forma, le voy bien a {{restaurant}}. — Hudson</div>
+          <p class="script__note"><span class="l-en">Goal: a clean exit that often triggers the reply the whole sequence was waiting for.</span><span class="l-es">Meta: una salida limpia que suele provocar la respuesta que toda la secuencia esperaba.</span></p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 EMAIL -->
+  <section class="section" id="email">
+    <div class="wrap">
+      <span class="eyebrow"><span class="l-en">04 · Email scripts</span><span class="l-es">04 · Guiones de email</span></span>
+      <h2 class="l-en">Four emails that carry the argument</h2>
+      <h2 class="l-es">Cuatro emails que sostienen el argumento</h2>
+      <p class="lede l-en">Email is where the reasoning lives. Each one ends with a single, low-friction ask. Copy includes the subject line.</p>
+      <p class="lede l-es">El email es donde vive el argumento. Cada uno termina con una sola petición de baja fricción. La copia incluye el asunto.</p>
+
+      <div class="pb-scripts">
+
+        <article class="script">
+          <div class="script__head"><span class="script__tag">E1 · <span class="l-en">Cold intro</span><span class="l-es">Introducción fría</span></span><span class="script__when"><span class="l-en">Day 2</span><span class="l-es">Día 2</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <span class="script__subject l-en"><b>Subject:</b> {{restaurant}}'s repeat customers are paying the app twice</span>
+          <span class="script__subject l-es"><b>Asunto:</b> Los clientes recurrentes de {{restaurant}} le pagan dos veces a la app</span>
+          <div class="script__body l-en" lang="en">Hi {{name}},
+
+I'm Hudson, from clubemkt digital. We're a consultancy for restaurants that deliver — not a software vendor. We audit how your kitchen sells online, design the strategic plan, and execute it. The software is just the layer that runs it.
+
+Three things we fix for operations like {{restaurant}}:
+
+1. The commission on loyalty. The app found that customer once; it charges you every time they come back. Your regulars should be your cheapest orders, not your most expensive.
+2. The customer base you don't own. Every order through an app is a customer you can't call back. We build the channel and the list that stay yours.
+3. The manual work. Orders captured and processed automatically, staff trained in one session, live within a week of signing. No hardware to buy.
+
+Worth 20 minutes? I'll run your own numbers on our calculator and show you the plan. Reply with an afternoon that works, or book directly: https://software.clubemkt.digital/index.html#capture
+
+Hudson · clubemkt digital
+hudson@clubemkt.digital · +591 76451489</div>
+          <div class="script__body l-es" lang="es">Hola {{name}},
+
+Soy Hudson, de clubemkt digital. Somos una consultoría para restaurantes que hacen delivery — no un vendedor de software. Auditamos cómo tu cocina vende en línea, diseñamos el plan estratégico y lo ejecutamos. El software es solo la capa que lo opera.
+
+Tres cosas que arreglamos para operaciones como {{restaurant}}:
+
+1. La comisión sobre la lealtad. La app encontró a ese cliente una vez; te cobra cada vez que vuelve. Tus habituales deberían ser tus pedidos más baratos, no los más caros.
+2. La base de clientes que no es tuya. Cada pedido por una app es un cliente al que no puedes volver a llamar. Construimos el canal y la lista que se quedan contigo.
+3. El trabajo manual. Pedidos capturados y procesados automáticamente, personal capacitado en una sesión, en vivo en una semana desde la firma. Sin comprar hardware.
+
+¿Vale 20 minutos? Corro tus propios números en nuestra calculadora y te muestro el plan. Responde con una tarde que te quede bien, o agenda directo: https://software.clubemkt.digital/index.es.html#capture
+
+Hudson · clubemkt digital
+hudson@clubemkt.digital · +591 76451489</div>
+        </article>
+
+        <article class="script">
+          <div class="script__head"><span class="script__tag">E2 · <span class="l-en">Savings math</span><span class="l-es">Matemática del ahorro</span></span><span class="script__when"><span class="l-en">Day 10</span><span class="l-es">Día 10</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <span class="script__subject l-en"><b>Subject:</b> The commission math for {{restaurant}} (your numbers)</span>
+          <span class="script__subject l-es"><b>Asunto:</b> La matemática de la comisión para {{restaurant}} (tus números)</span>
+          <div class="script__body l-en" lang="en">Hi {{name}},
+
+A quick illustration — replace these with your real figures and it becomes your business case.
+
+Say {{restaurant}} does 600 delivery orders a month, half of them returning customers, at an average ticket of Bs 60. If your app commission is 20%, the commission on those 300 returning orders alone is about Bs 3,600 a month — roughly $313 at the reference rate of Bs 11.50 per dollar.
+
+Those are customers who already chose you. You're paying a finder's fee on them every single month.
+
+Our Plan 2 starts at $1,000 and then Bs 1 per order — on 600 orders that's Bs 600 a month for the whole operation, not a percentage of your loyal customers' tickets.
+
+Plug your real volume, ticket and commission in here and see your own number: https://software.clubemkt.digital/index.html#calculator
+
+Then let's spend 20 minutes on the plan that keeps it. What afternoon works?
+
+Hudson · clubemkt digital</div>
+          <div class="script__body l-es" lang="es">Hola {{name}},
+
+Una ilustración rápida — reemplaza estas cifras con las tuyas y se convierte en tu caso de negocio.
+
+Supón que {{restaurant}} hace 600 pedidos de delivery al mes, la mitad clientes recurrentes, con un ticket promedio de Bs 60. Si tu comisión de app es 20%, la comisión solo sobre esos 300 pedidos recurrentes es unos Bs 3.600 al mes — cerca de $313 al tipo de cambio de referencia de Bs 11,50 por dólar.
+
+Son clientes que ya te eligieron. Les pagas una comisión de descubrimiento todos los meses.
+
+Nuestro Plan 2 parte de $1.000 y luego Bs 1 por pedido — con 600 pedidos son Bs 600 al mes por toda la operación, no un porcentaje del ticket de tus clientes leales.
+
+Ingresa tu volumen, ticket y comisión reales aquí y mira tu propio número: https://software.clubemkt.digital/index.es.html#calculator
+
+Luego dediquemos 20 minutos al plan que lo conserva. ¿Qué tarde te queda bien?
+
+Hudson · clubemkt digital</div>
+          <p class="script__note"><span class="l-en">The 20% / Bs 60 figures are an illustration, never a claim about any platform's rate. Swap in the owner's real numbers before sending.</span><span class="l-es">Las cifras de 20% / Bs 60 son una ilustración, nunca una afirmación sobre la tasa de ninguna plataforma. Sustituye los números reales del dueño antes de enviar.</span></p>
+        </article>
+
+        <article class="script">
+          <div class="script__head"><span class="script__tag">E3 · <span class="l-en">Proposal recap</span><span class="l-es">Resumen de propuesta</span></span><span class="script__when"><span class="l-en">After the review</span><span class="l-es">Tras la revisión</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <span class="script__subject l-en"><b>Subject:</b> {{restaurant}} × clubemkt — the plan we reviewed</span>
+          <span class="script__subject l-es"><b>Asunto:</b> {{restaurant}} × clubemkt — el plan que revisamos</span>
+          <div class="script__body l-en" lang="en">Hi {{name}},
+
+Thank you for the review today. Here's what we walked through, in writing:
+
+The engagement: a consultancy that designs and executes the shift in how {{restaurant}} sells online — your own channel for repeat customers, automated order intake, and the software layer underneath. Training in one session, live within a week of signing, no hardware.
+
+Two ways to buy the software layer:
+• Plan 1 — Full Package: $2,000 one-time, 1 year of licence from go-live, no monthly fee. 100% at signing.
+• Plan 2 — Software + Monthly: $1,000 upfront, then your choice at signing of $150/month (USD) or Bs 1 per order (BOB).
+
+Optional marketing add-on: $250/month standalone, $150/month on the Full Package, or $99/month × 24 prepaid ($2,376 total — saves $3,624).
+
+Your numbers from the calculator: {{savings}}.
+
+Next step: pick the structure and we agree the go-live date before you sign — not after. Reply here or call me at +591 76451489 and I'll prepare the contract.
+
+Hudson · clubemkt digital
+hudson@clubemkt.digital</div>
+          <div class="script__body l-es" lang="es">Hola {{name}},
+
+Gracias por la revisión de hoy. Esto es lo que repasamos, por escrito:
+
+El compromiso: una consultoría que diseña y ejecuta el cambio en cómo {{restaurant}} vende en línea — tu propio canal para clientes recurrentes, captura automática de pedidos, y la capa de software debajo. Capacitación en una sesión, en vivo en una semana desde la firma, sin hardware.
+
+Dos formas de comprar la capa de software:
+• Plan 1 — Full Package: $2.000 pago único, 1 año de licencia desde la puesta en marcha, sin cuota mensual. 100% al firmar.
+• Plan 2 — Software + Mensual: $1.000 inicial, luego tu elección al firmar entre $150/mes (USD) o Bs 1 por pedido (BOB).
+
+Add-on de marketing opcional: $250/mes solo, $150/mes con el Full Package, o $99/mes × 24 prepagado ($2.376 total — ahorra $3.624).
+
+Tus números de la calculadora: {{savings}}.
+
+Siguiente paso: elige la estructura y acordamos la fecha de puesta en marcha antes de firmar — no después. Responde aquí o llámame al +591 76451489 y preparo el contrato.
+
+Hudson · clubemkt digital
+hudson@clubemkt.digital</div>
+        </article>
+
+        <article class="script">
+          <div class="script__head"><span class="script__tag">E4 · <span class="l-en">Final check-in</span><span class="l-es">Último contacto</span></span><span class="script__when"><span class="l-en">Day 14</span><span class="l-es">Día 14</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <span class="script__subject l-en"><b>Subject:</b> Closing the loop — {{restaurant}}</span>
+          <span class="script__subject l-es"><b>Asunto:</b> Cierro el ciclo — {{restaurant}}</span>
+          <div class="script__body l-en" lang="en">Hi {{name}},
+
+I haven't heard back, so I'll assume the timing isn't right and stop writing.
+
+The door stays open: whenever delivery volume makes the app commissions worth revisiting, the plan is ready and we can have you live within a week of signing.
+
+One reply — "later" or "not interested" — is all I need to do the right thing.
+
+Either way, I'm rooting for {{restaurant}}.
+
+Hudson · clubemkt digital
+hudson@clubemkt.digital · +591 76451489</div>
+          <div class="script__body l-es" lang="es">Hola {{name}},
+
+No he tenido respuesta, así que asumo que no es el momento y dejo de escribir.
+
+La puerta queda abierta: cuando el volumen de delivery haga valer la pena revisar las comisiones de las apps, el plan está listo y podemos tenerte en vivo en una semana desde la firma.
+
+Una respuesta — "después" o "no me interesa" — es todo lo que necesito para hacer lo correcto.
+
+De cualquier forma, le voy bien a {{restaurant}}.
+
+Hudson · clubemkt digital
+hudson@clubemkt.digital · +591 76451489</div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 CALL -->
+  <section class="section section--alt" id="call">
+    <div class="wrap">
+      <span class="eyebrow"><span class="l-en">05 · Call script</span><span class="l-es">05 · Guion de llamada</span></span>
+      <h2 class="l-en">The call, stage by stage</h2>
+      <h2 class="l-es">La llamada, etapa por etapa</h2>
+      <p class="lede l-en">Call after the lunch rush (15:00–17:00). The whole call has one objective: book the 20-minute proposal review. Never try to close the sale on a cold call — close the next step.</p>
+      <p class="lede l-es">Llama después del almuerzo (15:00–17:00). Toda la llamada tiene un objetivo: agendar la revisión de propuesta de 20 minutos. Nunca intentes cerrar la venta en una llamada fría — cierra el siguiente paso.</p>
+
+      <div class="pb-stage">
+        <h3><span class="l-en">Stage 1 · Opener + permission</span><span class="l-es">Etapa 1 · Apertura + permiso</span></h3>
+        <p class="l-en">Warm, unhurried, honest about who you are. Ask for the 30 seconds — the pause is the technique.</p>
+        <p class="l-es">Cálido, sin prisa, honesto sobre quién eres. Pide los 30 segundos — la pausa es la técnica.</p>
+        <article class="script">
+          <div class="script__head"><span class="script__tag">C1 · <span class="l-en">Opener</span><span class="l-es">Apertura</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">Hi, is this {{name}}? … {{name}}, Hudson here, from clubemkt digital. We're a consultancy for restaurants that deliver — I'll be honest, this is a sales call, but it's about a number most owners never sit down and calculate. Did I catch you with 30 seconds?
+
+[If yes → Stage 2. If "busy" → "Totally understand — is after the lunch rush better, around 3? I'll call then." Book the callback and hang up.]</div>
+          <div class="script__body l-es" lang="es">Hola, ¿hablo con {{name}}? … {{name}}, soy Hudson, de clubemkt digital. Somos una consultoría para restaurantes que hacen delivery — seré honesto, es una llamada de ventas, pero se trata de un número que la mayoría de los dueños nunca se sienta a calcular. ¿Te agarro con 30 segundos?
+
+[Si sí → Etapa 2. Si "estoy ocupado" → "Te entiendo perfecto — ¿te queda mejor después del almuerzo, tipo 3? Te llamo a esa hora." Agenda la devolución y cuelga.]</div>
+        </article>
+      </div>
+
+      <div class="pb-stage">
+        <h3><span class="l-en">Stage 2 · The hook</span><span class="l-es">Etapa 2 · El gancho</span></h3>
+        <p class="l-en">One sentence that reframes the app. Then stop talking and let it land.</p>
+        <p class="l-es">Una frase que reencuadra la app. Luego deja de hablar y deja que aterrice.</p>
+        <article class="script">
+          <div class="script__head"><span class="script__tag">C2 · <span class="l-en">Hook</span><span class="l-es">Gancho</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">Here's the idea: the delivery app found that customer once — but it charges you every time they come back. Your regulars, the people who already love {{restaurant}}, are the most expensive orders you send through the apps. We design the plan that keeps those customers on your own channel, and we run the software that makes it automatic.
+
+Can I ask you three quick questions about how {{restaurant}} delivers today?</div>
+          <div class="script__body l-es" lang="es">Esta es la idea: la app de delivery encontró a ese cliente una vez — pero te cobra cada vez que vuelve. Tus habituales, la gente que ya ama {{restaurant}}, son los pedidos más caros que mandas por las apps. Diseñamos el plan que mantiene esos clientes en tu propio canal, y operamos el software que lo hace automático.
+
+¿Te hago tres preguntas rápidas de cómo hace delivery {{restaurant}} hoy?</div>
+        </article>
+      </div>
+
+      <div class="pb-stage">
+        <h3><span class="l-en">Stage 3 · Discovery</span><span class="l-es">Etapa 3 · Descubrimiento</span></h3>
+        <p class="l-en">Listen more than you talk. Write the answers down — they become the calculator inputs and the proposal.</p>
+        <p class="l-es">Escucha más de lo que hablas. Anota las respuestas — se vuelven los datos de la calculadora y la propuesta.</p>
+        <article class="script">
+          <div class="script__head"><span class="script__tag">C3 · <span class="l-en">Five questions</span><span class="l-es">Cinco preguntas</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">1. Roughly how many delivery orders do you do in a week — all channels added up?
+2. What's the split: how much comes through the apps, and how much through your own WhatsApp or phone?
+3. What commission does the app actually charge you? (Their number, never yours.)
+4. When a customer orders through the app — do you get their name and number to call them back, or does the app keep them?
+5. When an order comes in now, what happens — does someone re-type it, or does it flow straight to the kitchen?
+
+[Mirror the pain back:] "So you're doing {{volume}} orders, paying around {{commission}}% on customers who already know you, and the app keeps the customer list. That's exactly the situation we fix."</div>
+          <div class="script__body l-es" lang="es">1. ¿Cuántos pedidos de delivery haces en una semana, más o menos — sumando todos los canales?
+2. ¿Cómo se reparte: cuánto va por las apps y cuánto por tu propio WhatsApp o teléfono?
+3. ¿Qué comisión te cobra realmente la app? (Su número, nunca el tuyo.)
+4. Cuando un cliente pide por la app — ¿te quedan su nombre y número para volver a llamarlo, o la app se los queda?
+5. Cuando entra un pedido ahora, ¿qué pasa — alguien lo vuelve a teclear o fluye directo a la cocina?
+
+[Devuelve el dolor:] "Entonces haces {{volume}} pedidos, pagas cerca de {{commission}}% sobre clientes que ya te conocen, y la app se queda con la lista de clientes. Esa es exactamente la situación que arreglamos."</div>
+        </article>
+      </div>
+
+      <div class="pb-stage">
+        <h3><span class="l-en">Stage 4 · The bridge</span><span class="l-es">Etapa 4 · El puente</span></h3>
+        <p class="l-en">Position the consultancy, name the speed, keep pricing for the review.</p>
+        <p class="l-es">Posiciona la consultoría, nombra la velocidad, deja los precios para la revisión.</p>
+        <article class="script">
+          <div class="script__head"><span class="script__tag">C4 · <span class="l-en">Pitch</span><span class="l-es">Pitch</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">What we do is not sell you an app. We work as your consultancy: we audit how you sell online, design the strategic plan — your own channel, your customer base, your repeat orders — and execute it. The software is the infrastructure underneath.
+
+And it's fast: your staff is trained in one session and taking orders the same day. You're live within a week of signing. There's no hardware to buy.
+
+There are two ways to structure it — a one-time full package, or a lower entry with a monthly or per-order fee in bolivianos. The right one depends on your volume, which is exactly what the review is for.</div>
+          <div class="script__body l-es" lang="es">Lo que hacemos no es venderte una app. Trabajamos como tu consultoría: auditamos cómo vendes en línea, diseñamos el plan estratégico — tu propio canal, tu base de clientes, tus pedidos recurrentes — y lo ejecutamos. El software es la infraestructura debajo.
+
+Y es rápido: tu personal se capacita en una sesión y toma pedidos el mismo día. Estás en vivo en una semana desde la firma. No hay hardware que comprar.
+
+Hay dos formas de estructurarlo — un paquete completo de pago único, o una entrada más baja con cuota mensual o por pedido en bolivianos. La correcta depende de tu volumen, y para eso es justamente la revisión.</div>
+        </article>
+      </div>
+
+      <div class="pb-stage">
+        <h3><span class="l-en">Stage 5 · The calculator moment</span><span class="l-es">Etapa 5 · El momento de la calculadora</span></h3>
+        <p class="l-en">If they're at a screen, do it live. If not, paint the picture and send the link right after.</p>
+        <p class="l-es">Si están frente a una pantalla, hazlo en vivo. Si no, pinta la imagen y envía el enlace justo después.</p>
+        <article class="script">
+          <div class="script__head"><span class="script__tag">C5 · <span class="l-en">Live numbers</span><span class="l-es">Números en vivo</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">Do me a favor — open software.clubemkt.digital on your phone or computer. There's a calculator there. Put in the {{volume}} orders you told me, your average ticket, and the {{commission}}% the app charges you.
+
+[Wait while they do it.]
+
+That number on screen is what your delivery operation keeps versus what it hands over. I'm not asking you to believe me — I'm asking you to look at your own arithmetic. That's the first thing we go through in the review.</div>
+          <div class="script__body l-es" lang="es">Hazme un favor — abre software.clubemkt.digital en tu teléfono o computadora. Hay una calculadora ahí. Pon los {{volume}} pedidos que me dijiste, tu ticket promedio, y el {{commission}}% que te cobra la app.
+
+[Espera mientras lo hace.]
+
+Ese número en pantalla es lo que tu operación de delivery conserva versus lo que entrega. No te pido que me creas — te pido que mires tu propia aritmética. Eso es lo primero que repasamos en la revisión.</div>
+        </article>
+      </div>
+
+      <div class="pb-stage">
+        <h3><span class="l-en">Stage 6 · The close</span><span class="l-es">Etapa 6 · El cierre</span></h3>
+        <p class="l-en">Alternative-choice close on the review, not the sale. Confirm in writing the same day (W4).</p>
+        <p class="l-es">Cierre de alternativa sobre la revisión, no la venta. Confirma por escrito el mismo día (W4).</p>
+        <article class="script">
+          <div class="script__head"><span class="script__tag">C6 · <span class="l-en">Book the review</span><span class="l-es">Agendar la revisión</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">Here's the next step: a 20-minute proposal review. I bring the plan structured around the numbers you just gave me, you see exactly what it costs and what it keeps, and you decide with real arithmetic — no pressure.
+
+Does tomorrow at 3 in the afternoon work, or is Thursday morning better?
+
+[Confirm day + time + channel.] Perfect — {{day}} at {{time}}. I'll send you a WhatsApp right now to lock it, and the agenda by email. Thank you, {{name}} — you're going to like what your own numbers say.</div>
+          <div class="script__body l-es" lang="es">El siguiente paso es este: una revisión de propuesta de 20 minutos. Llevo el plan estructurado con los números que me acabas de dar, ves exactamente cuánto cuesta y cuánto conserva, y decides con aritmética real — sin presión.
+
+¿Te queda mañana a las 3 de la tarde, o es mejor el jueves en la mañana?
+
+[Confirma día + hora + canal.] Perfecto — {{day}} a las {{time}}. Te mando un WhatsApp ahora mismo para fijarlo, y la agenda por email. Gracias, {{name}} — te va a gustar lo que dicen tus propios números.</div>
+        </article>
+      </div>
+
+      <div class="pb-stage">
+        <h3><span class="l-en">Stage 7 · Voicemail</span><span class="l-es">Etapa 7 · Buzón de voz</span></h3>
+        <p class="l-en">Under 20 seconds. Name, reason, one number, done. Then continue the cadence.</p>
+        <p class="l-es">Menos de 20 segundos. Nombre, motivo, un número, listo. Luego continúa la cadencia.</p>
+        <article class="script">
+          <div class="script__head"><span class="script__tag">C7 · <span class="l-en">Voicemail</span><span class="l-es">Buzón de voz</span></span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+          <div class="script__body l-en" lang="en">Hi {{name}}, Hudson from clubemkt digital. We help restaurants keep their repeat customers off the apps' commission — I have a question about {{restaurant}}'s delivery volume. I'll try you again after the lunch rush, or reach me at +591 76451489. Thanks.</div>
+          <div class="script__body l-es" lang="es">Hola {{name}}, soy Hudson de clubemkt digital. Ayudamos a restaurantes a mantener sus clientes recurrentes fuera de la comisión de las apps — tengo una pregunta sobre el volumen de delivery de {{restaurant}}. Te vuelvo a llamar después del almuerzo, o encuéntrame en el +591 76451489. Gracias.</div>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 06 OBJECTIONS -->
+  <section class="section" id="objections">
+    <div class="wrap">
+      <span class="eyebrow"><span class="l-en">06 · Objections</span><span class="l-es">06 · Objeciones</span></span>
+      <h2 class="l-en">What they'll say, and what you say back</h2>
+      <h2 class="l-es">Lo que dirán, y qué respondes</h2>
+      <p class="lede l-en">Acknowledge, reframe, return to the review. Never argue. The response is copyable — adapt the tokens.</p>
+      <p class="lede l-es">Reconoce, reencuadra, vuelve a la revisión. Nunca discutas. La respuesta es copiable — adapta los tokens.</p>
+
+      <div class="pb-grid2">
+
+        <div class="pb-obj">
+          <p class="pb-obj__q l-en">It's too expensive.</p><p class="pb-obj__q l-es">Es muy caro.</p>
+          <article class="script">
+            <div class="script__head"><span class="script__tag">O1</span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+            <div class="script__body l-en" lang="en">Compared to what? If the app takes 20% of a Bs 60 ticket, that's Bs 12 on every order — including the regulars who already chose you. Plan 2 is Bs 1 per order, not a percentage of your ticket. On your volume the question isn't whether you can afford the plan; it's how many more months of commission you want to pay on customers who are already yours. Let's run your real numbers in the review — 20 minutes.</div>
+            <div class="script__body l-es" lang="es">¿Comparado con qué? Si la app se lleva el 20% de un ticket de Bs 60, son Bs 12 en cada pedido — incluidos los habituales que ya te eligieron. El Plan 2 es Bs 1 por pedido, no un porcentaje de tu ticket. Con tu volumen la pregunta no es si puedes pagar el plan; es cuántos meses más de comisión quieres pagar sobre clientes que ya son tuyos. Corramos tus números reales en la revisión — 20 minutos.</div>
+          </article>
+        </div>
+
+        <div class="pb-obj">
+          <p class="pb-obj__q l-en">I already sell on PedidosYa.</p><p class="pb-obj__q l-es">Ya vendo por PedidosYa.</p>
+          <article class="script">
+            <div class="script__head"><span class="script__tag">O2</span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+            <div class="script__body l-en" lang="en">Good — keep it. The apps are useful for discovery: they put your kitchen in front of people who'd never heard of you. The problem is what happens next: the customer who already loves you orders again through the app, and you pay the finder's fee again. We don't replace the app; we build the channel where your repeat customers live, so the app becomes your acquisition tool instead of your tax on loyalty.</div>
+            <div class="script__body l-es" lang="es">Bien — mantenla. Las apps sirven para descubrir: ponen tu cocina frente a gente que nunca había oído de ti. El problema es lo que sigue: el cliente que ya te ama vuelve a pedir por la app, y pagas la comisión de nuevo. No reemplazamos la app; construimos el canal donde viven tus clientes recurrentes, para que la app sea tu herramienta de adquisición y no tu impuesto a la lealtad.</div>
+          </article>
+        </div>
+
+        <div class="pb-obj">
+          <p class="pb-obj__q l-en">I don't have time for this.</p><p class="pb-obj__q l-es">No tengo tiempo para esto.</p>
+          <article class="script">
+            <div class="script__head"><span class="script__tag">O3</span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+            <div class="script__body l-en" lang="en">That's exactly why it's built this way. We do the configuration — your menu, your channels, your staff logins. Your only time investment is one training session, and your staff is taking orders on it the same day. You're live within a week of signing, and the go-live date is agreed before you sign, not after. Twenty minutes for the review is the whole ask.</div>
+            <div class="script__body l-es" lang="es">Por eso mismo está construido así. Nosotros hacemos la configuración — tu menú, tus canales, los accesos de tu personal. Tu única inversión de tiempo es una sesión de capacitación, y tu personal toma pedidos el mismo día. Estás en vivo en una semana desde la firma, y la fecha se acuerda antes de firmar, no después. Veinte minutos para la revisión es todo lo que pido.</div>
+          </article>
+        </div>
+
+        <div class="pb-obj">
+          <p class="pb-obj__q l-en">My staff won't use technology.</p><p class="pb-obj__q l-es">Mi personal no usa tecnología.</p>
+          <article class="script">
+            <div class="script__head"><span class="script__tag">O4</span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+            <div class="script__body l-en" lang="en">If they can use WhatsApp, they can run this. There's no hardware to buy and no learning curve to ride out in the middle of service — training is one working session, and they're taking orders the same day. The system removes work instead of adding it: orders arrive captured and processed, nobody re-types anything.</div>
+            <div class="script__body l-es" lang="es">Si saben usar WhatsApp, saben operar esto. No hay hardware que comprar ni curva de aprendizaje que sufrir en medio del servicio — la capacitación es una sesión de trabajo, y toman pedidos el mismo día. El sistema quita trabajo en vez de agregarlo: los pedidos llegan capturados y procesados, nadie vuelve a teclear nada.</div>
+          </article>
+        </div>
+
+        <div class="pb-obj">
+          <p class="pb-obj__q l-en">Just send me information.</p><p class="pb-obj__q l-es">Solo envíame información.</p>
+          <article class="script">
+            <div class="script__head"><span class="script__tag">O5</span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+            <div class="script__body l-en" lang="en">I'll send you the page right now — but information alone won't tell you anything, because the number that matters is yours. Give me your weekly volume and the commission the app charges you, and the page's calculator turns it into your business case in 60 seconds. Better: 20 minutes on a call and I run it with you. What afternoon works?</div>
+            <div class="script__body l-es" lang="es">Te envío la página ahora mismo — pero la información sola no te dice nada, porque el número que importa es el tuyo. Dame tu volumen semanal y la comisión que te cobra la app, y la calculadora de la página lo convierte en tu caso de negocio en 60 segundos. Mejor: 20 minutos en una llamada y lo corro contigo. ¿Qué tarde te queda bien?</div>
+          </article>
+        </div>
+
+        <div class="pb-obj">
+          <p class="pb-obj__q l-en">How do I know this works?</p><p class="pb-obj__q l-es">¿Cómo sé que esto funciona?</p>
+          <article class="script">
+            <div class="script__head"><span class="script__tag">O6</span><button class="copy" type="button"><span class="l-en">Copy</span><span class="l-es">Copiar</span></button></div>
+            <div class="script__body l-en" lang="en">You don't have to take my word — the review runs on your numbers, not a testimonial. You see the arithmetic before you sign anything, the go-live date is fixed in the contract before payment, and the work is configuration, not a science project: your menu, your channels, your staff. If the numbers don't convince you in 20 minutes, we shake hands and part as friends.</div>
+            <div class="script__body l-es" lang="es">No tienes que creerme — la revisión corre con tus números, no con un testimonio. Ves la aritmética antes de firmar nada, la fecha de puesta en marcha queda fija en el contrato antes del pago, y el trabajo es configuración, no un proyecto experimental: tu menú, tus canales, tu personal. Si los números no te convencen en 20 minutos, nos damos la mano y quedamos como amigos.</div>
+          </article>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 METRICS -->
+  <section class="section section--alt" id="metrics">
+    <div class="wrap">
+      <span class="eyebrow"><span class="l-en">07 · Metrics &amp; launch</span><span class="l-es">07 · Métricas y lanzamiento</span></span>
+      <h2 class="l-en">Targets, funnel math, and the first 30 days</h2>
+      <h2 class="l-es">Metas, matemática del embudo y los primeros 30 días</h2>
+
+      <div class="pb-tableshell">
+        <table class="pb-table">
+          <thead>
+            <tr>
+              <th><span class="l-en">Weekly activity</span><span class="l-es">Actividad semanal</span></th>
+              <th><span class="l-en">Target</span><span class="l-es">Meta</span></th>
+              <th><span class="l-en">Notes</span><span class="l-es">Notas</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><b class="l-en">New prospects listed</b><b class="l-es">Prospectos nuevos listados</b></td><td class="num">40</td><td><span class="l-en">Name, owner, WhatsApp, city, app presence, est. volume.</span><span class="l-es">Nombre, dueño, WhatsApp, ciudad, presencia en apps, volumen estimado.</span></td></tr>
+            <tr><td><b class="l-en">First touches sent (W1)</b><b class="l-es">Primeros contactos (W1)</b></td><td class="num">40</td><td><span class="l-en">Personalized, one at a time, business number.</span><span class="l-es">Personalizados, uno a uno, número del negocio.</span></td></tr>
+            <tr><td><b class="l-en">Replies / conversations</b><b class="l-es">Respuestas / conversaciones</b></td><td class="num">10</td><td><span class="l-en">~25% reply rate is the bar; below it, fix the opener.</span><span class="l-es">~25% de respuesta es el listón; por debajo, arregla la apertura.</span></td></tr>
+            <tr><td><b class="l-en">Calls connected</b><b class="l-es">Llamadas conectadas</b></td><td class="num">8</td><td><span class="l-en">15:00–17:00 window; two attempts per prospect.</span><span class="l-es">Ventana 15:00–17:00; dos intentos por prospecto.</span></td></tr>
+            <tr><td><b class="l-en">Proposal reviews booked</b><b class="l-es">Revisiones agendadas</b></td><td class="num">5</td><td><span class="l-en">The only metric that predicts revenue.</span><span class="l-es">La única métrica que predice ingresos.</span></td></tr>
+            <tr><td><b class="l-en">Signed engagements / month</b><b class="l-es">Compromisos firmados / mes</b></td><td class="num">4–6</td><td><span class="l-en">~40–50% of reviews close with their own numbers on screen.</span><span class="l-es">~40–50% de las revisiones cierran con sus propios números en pantalla.</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pb-grid2">
+        <div class="pb-card">
+          <h3 class="l-en">Funnel math (monthly)</h3><h3 class="l-es">Matemática del embudo (mensual)</h3>
+          <p class="l-en">160 first touches → 40 replies → 20 reviews → <b>8–10 signed</b>. At a 6/4 split of Plan 2 / Plan 1 that's roughly <b>$14,000 upfront</b> plus recurring $150/mo or Bs 1/order accounts — before the marketing add-on. Treat these as planning targets, not promises; recalibrate after the first 30 days of real reply data.</p>
+          <p class="l-es">160 primeros contactos → 40 respuestas → 20 revisiones → <b>8–10 firmados</b>. Con una mezcla 6/4 de Plan 2 / Plan 1 son cerca de <b>$14.000 iniciales</b> más cuentas recurrentes de $150/mes o Bs 1/pedido — antes del add-on de marketing. Tómalo como metas de planificación, no promesas; recalibra tras los primeros 30 días de datos reales.</p>
+        </div>
+        <div class="pb-card">
+          <h3 class="l-en">Rules of the road</h3><h3 class="l-es">Reglas del camino</h3>
+          <ul class="l-en">
+            <li><b>One ask per touch.</b> Every message ends with exactly one question or one booking.</li>
+            <li><b>Their numbers, never yours.</b> Commission rates and volumes come from the owner; the calculator does the arguing.</li>
+            <li><b>Stop on reply.</b> A live conversation always replaces the sequence.</li>
+            <li><b>Log everything.</b> Date, channel, script used, answer, next step — the list is the asset.</li>
+            <li><b>Respect the exit.</b> A "no" is removed immediately; a "later" goes to 60-day nurture.</li>
+          </ul>
+          <ul class="l-es">
+            <li><b>Una petición por contacto.</b> Cada mensaje termina con exactamente una pregunta o una agenda.</li>
+            <li><b>Sus números, nunca los tuyos.</b> Las tasas de comisión y volúmenes vienen del dueño; la calculadora hace el argumento.</li>
+            <li><b>Detente ante una respuesta.</b> Una conversación viva siempre reemplaza la secuencia.</li>
+            <li><b>Registra todo.</b> Fecha, canal, guion usado, respuesta, siguiente paso — la lista es el activo.</li>
+            <li><b>Respeta la salida.</b> Un "no" se elimina de inmediato; un "después" va a seguimiento a 60 días.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="margin-top:40px; font-family:var(--font-mono); font-size:14px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold)"><span class="l-en">The first 30 days</span><span class="l-es">Los primeros 30 días</span></h3>
+      <ul class="pb-check l-en">
+        <li><b>Week 1 — Build the list.</b> 200 prospects from Google Maps, PedidosYa listings and local food groups. Owner name + WhatsApp for each. Send the first 40 W1 touches.</li>
+        <li><b>Week 2 — Work the phones.</b> First call attempts on every reply, run the cadence on the rest. Goal: 5 booked reviews. Refine the opener from real reply data.</li>
+        <li><b>Week 3 — Run reviews, send proposals.</b> Calculator live in every review; E3 recap the same day. Goal: first 2–4 signatures with go-live dates agreed before signing.</li>
+        <li><b>Week 4 — Onboard and multiply.</b> Deliver the one-session trainings, hit the go-live dates, ask every new client for one referral, and write the first case study with real numbers.</li>
+      </ul>
+      <ul class="pb-check l-es">
+        <li><b>Semana 1 — Construye la lista.</b> 200 prospectos de Google Maps, listados de PedidosYa y grupos locales de comida. Nombre del dueño + WhatsApp de cada uno. Envía los primeros 40 contactos W1.</li>
+        <li><b>Semana 2 — Trabaja los teléfonos.</b> Primer intento de llamada a cada respuesta, corre la cadencia con el resto. Meta: 5 revisiones agendadas. Refina la apertura con datos reales.</li>
+        <li><b>Semana 3 — Corre revisiones, envía propuestas.</b> Calculadora en vivo en cada revisión; resumen E3 el mismo día. Meta: primeras 2–4 firmas con fechas de puesta en marcha acordadas antes de firmar.</li>
+        <li><b>Semana 4 — Incorpora y multiplica.</b> Entrega las capacitaciones de una sesión, cumple las fechas, pide un referido a cada cliente nuevo, y escribe el primer caso de éxito con números reales.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="brandplate"><img src="../brand/clubemkt-logo-header.png" alt="clubemkt digital" width="320" height="93" loading="lazy" /></div>
+    <div class="site-footer__row">
+      <div><strong>clubemkt digital</strong> — <span class="l-en">internal sales playbook · delivery consultancy</span><span class="l-es">manual interno de ventas · consultoría de delivery</span></div>
+      <div>
+        <a href="../index.html">Landing EN</a> &nbsp;&middot;&nbsp;
+        <a href="../index.es.html">Landing ES</a> &nbsp;&middot;&nbsp;
+        <a href="../stop-paying-commission.html"><span class="l-en">Commission savings</span><span class="l-es">Ahorro de comisiones</span></a> &nbsp;&middot;&nbsp;
+        <a href="mailto:hudson@clubemkt.digital">hudson@clubemkt.digital</a> &nbsp;&middot;&nbsp;
+        <a href="https://wa.me/59176451489">+591 76451489</a>
+      </div>
+    </div>
+    <p class="site-footer__legal">
+      <span class="l-en">Internal enablement material. Prices are proposal amounts in USD except the Plan 2 per-order fee (BOB); reference rate 1 USD = Bs 11,50 (06 Nov 2026); amounts exclude taxes. The password gate is a casual access screen, not encryption — do not store credentials or client data here.</span>
+      <span class="l-es">Material interno de capacitación. Los precios son montos de propuesta en USD salvo la tarifa por pedido del Plan 2 (BOB); tipo de cambio de referencia 1 USD = Bs 11,50 (06 nov 2026); montos sin impuestos. La contraseña es una pantalla de acceso casual, no cifrado — no guardes credenciales ni datos de clientes aquí.</span>
+    </p>
+  </div>
+</footer>
+
+</div><!-- /playbook -->
+
+<script>
+(function () {
+  'use strict';
+  var PASS = 'clubemkt26';
+  var KEY = 'cmkt-gtm-access';
+  var LANGKEY = 'cmkt-gtm-lang';
+  var gate = document.getElementById('gate');
+  var book = document.getElementById('playbook');
+  var form = document.getElementById('gateForm');
+  var input = document.getElementById('gatePass');
+  var err = document.getElementById('gateErr');
+
+  /* ----- language ----- */
+  function setLang(es) {
+    document.body.classList.toggle('lang-es', es);
+    document.documentElement.lang = es ? 'es' : 'en';
+    document.getElementById('langToggle').textContent = es ? 'English' : 'Español';
+    try { sessionStorage.setItem(LANGKEY, es ? 'es' : 'en'); } catch (e) {}
+  }
+  var savedLang = null;
+  try { savedLang = sessionStorage.getItem(LANGKEY); } catch (e) {}
+  var startEs = savedLang ? savedLang === 'es' : (navigator.language || 'en').toLowerCase().indexOf('es') === 0;
+  setLang(startEs);
+  document.getElementById('langToggle').addEventListener('click', function () {
+    setLang(!document.body.classList.contains('lang-es'));
+  });
+
+  /* ----- gate ----- */
+  function unlock() {
+    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+    if (gate) gate.remove();
+    book.hidden = false;
+    document.body.classList.add('unlocked');
+    window.scrollTo(0, 0);
+  }
+  var granted = false;
+  try { granted = sessionStorage.getItem(KEY) === '1'; } catch (e) {}
+  if (granted) { unlock(); }
+  else if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (input.value === PASS) { unlock(); }
+      else {
+        err.hidden = false;
+        gate.classList.add('shake');
+        input.select();
+        setTimeout(function () { gate.classList.remove('shake'); }, 420);
+      }
+    });
+    input.focus();
+  }
+  var lockBtn = document.getElementById('lockBtn');
+  if (lockBtn) lockBtn.addEventListener('click', function () {
+    try { sessionStorage.removeItem(KEY); } catch (e) {}
+    location.reload();
+  });
+
+  /* ----- copy buttons ----- */
+  function copyText(text, done) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { fallback(text, done); });
+    } else { fallback(text, done); }
+  }
+  function fallback(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    done(ok);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.copy'), function (btn) {
+    btn.addEventListener('click', function () {
+      var card = btn.closest('.script');
+      if (!card) return;
+      var es = document.body.classList.contains('lang-es');
+      var body = card.querySelector(es ? '.script__body.l-es' : '.script__body.l-en');
+      if (!body) return;
+      var subject = card.querySelector(es ? '.script__subject.l-es' : '.script__subject.l-en');
+      var text = (subject ? subject.innerText + '\n\n' : '') + body.innerText;
+      copyText(text, function (ok) {
+        var orig = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.textContent = ok ? (es ? '✓ Copiado' : '✓ Copied') : (es ? 'Error' : 'Failed');
+        setTimeout(function () { btn.classList.remove('copied'); btn.innerHTML = orig; }, 1600);
+      });
+    });
+  });
+
+  /* ----- scrollspy + reveal ----- */
+  if ('IntersectionObserver' in window) {
+    var links = document.querySelectorAll('.nav a[href^="#"]');
+    var map = {};
+    Array.prototype.forEach.call(links, function (a) {
+      var id = a.getAttribute('href').slice(1);
+      (map[id] = map[id] || []).push(a);
+    });
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          Array.prototype.forEach.call(links, function (a) { a.classList.remove('is-active'); });
+          (map[en.target.id] || []).forEach(function (a) { a.classList.add('is-active'); });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    Array.prototype.forEach.call(document.querySelectorAll('main section[id]'), function (s) { spy.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
