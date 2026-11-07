@@ -1,0 +1,22 @@
+[Unit]
+Description=ClubeMkt lead capture (software.clubemkt.digital /api/lead)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/var/www/clubemkt-leads
+Environment=LEAD_HOST=127.0.0.1
+Environment=LEAD_PORT=8410
+Environment=LEAD_DB=/var/lib/clubemkt-leads/leads.db
+ExecStart=/usr/bin/python3 /var/www/clubemkt-leads/lead_service.py
+Restart=always
+RestartSec=5
+StateDirectory=clubemkt-leads
+NoNewPrivileges=yes
+ProtectSystem=full
+ProtectHome=read-only
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target
