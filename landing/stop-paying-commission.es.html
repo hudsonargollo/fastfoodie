@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Deje de pagar comisión por pedidos que ya son suyos — mueva sus pedidos a su propio canal</title>
+<meta name="description" content="Cada pedido repetido que llega por PedidosYa, Uber Eats o Rappi le vuelve a costar comisión. Vea cuánto ahorra una cocina de comida rápida al migrar ese volumen a su propio canal, y qué recupera cuando el registro del cliente es suyo." />
+<meta name="robots" content="index,follow" />
+<link rel="alternate" hreflang="es" href="stop-paying-commission.es.html" />
+<link rel="alternate" hreflang="en" href="stop-paying-commission.html" />
+<style>
+  /* ============================================================
+     AGGREGATOR COMMISSION + RETENTION PAGE
+     Contact + form backend are set in the CONFIG object near the bottom of this
+     file. A value left in [brackets] counts as unset, so the page renders no link
+     for it and the form shows the copy-and-send panel instead.
+     Every commercial figure lives in ONE place: PER_ORDER_BS, PLAN1_USD, PLAN2_USD
+     and the DEFAULTS object in the calculator script at the bottom of this file.
+     The written examples on the page are derived from those same numbers.
+     ============================================================ */
+  :root {
+    --navy: #12314e;
+    --navy-700: #0d2540;
+    --navy-300: #3d6a94;
+    --orange: #e8590c;
+    --orange-600: #cf4d09;
+    --red: #b3261e;
+    --red-50: #fdf3f2;
+    --red-line: #f2cfcb;
+    --green: #0b7a3b;
+    --green-50: #f1f8f3;
+    --ink: #1f2a37;
+    --ink-600: #4a5568;
+    --ink-400: #6b7280;
+    --line: #dfe3e8;
+    --line-soft: #eef1f4;
+    --surface: #ffffff;
+    --surface-alt: #f6f8fa;
+    --cream: #fff8ed;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
+    --shadow-md: 0 4px 6px -2px rgba(16,24,40,.05), 0 12px 24px -6px rgba(16,24,40,.12);
+    --shadow-lg: 0 20px 45px -12px rgba(18,49,78,.28);
+    --maxw: 1080px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px; line-height: 1.6; color: var(--ink); background: var(--surface); overflow-x: hidden;
+  }
+  svg { max-width: 100%; }
+  a { color: var(--navy); }
+  h1, h2, h3, h4 { line-height: 1.18; margin: 0 0 .5em; color: var(--navy); letter-spacing: -.02em; }
+  h1 { font-size: clamp(30px, 5.4vw, 52px); font-weight: 800; }
+  h2 { font-size: clamp(24px, 3.4vw, 36px); font-weight: 800; }
+  h3 { font-size: 18px; font-weight: 700; }
+  p { margin: 0 0 1em; }
+  .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); min-width: 0; }
+  .wrap > * { min-width: 0; }
+  /* grid/flex items default to min-width:auto, which lets long words and
+     <select> option text push a track wider than the viewport */
+  .hero__inner > *, .capture__grid > *, .row2 > *, .fix > *, .fixes > *,
+  .pains > *, .steps > *, .qualify > *, .qual > *, .faq > *, .grid > *,
+  .calc__grid > *, .outgrid > *, .outcell > *, .capture__list li { min-width: 0; }
+  input, select, textarea { max-width: 100%; }
+  select { min-width: 0; }
+  .checks { min-width: 0; }
+  .section { padding-block: clamp(46px, 7vw, 84px); }
+  .section--alt { background: var(--surface-alt); border-block: 1px solid var(--line); }
+  .eyebrow { display: block; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+  .lede { font-size: clamp(16px, 1.7vw, 19px); color: var(--ink-600); max-width: 60ch; }
+  :focus-visible { outline: 3px solid rgba(232,89,12,.45); outline-offset: 2px; border-radius: 4px; }
+  .skip { position: absolute; left: -9999px; top: 0; background: var(--navy); color: #fff; padding: 12px 18px; z-index: 100; border-radius: 0 0 8px 0; }
+  .skip:focus { left: 0; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: inherit;
+    font-size: 15px; font-weight: 650; text-decoration: none; cursor: pointer; padding: 14px 24px;
+    border-radius: var(--radius-sm); border: 1px solid transparent; white-space: nowrap;
+    transition: background-color .15s ease, border-color .15s ease, transform .05s ease;
+  }
+  .btn--primary { background: var(--orange); color: #fff; }
+  .btn--primary:hover { background: var(--orange-600); }
+  .btn--ghost { background: transparent; color: var(--navy); border-color: var(--line); }
+  .btn--ghost:hover { border-color: var(--navy-300); background: var(--surface-alt); }
+  .btn--lg { font-size: 16.5px; padding: 16px 28px; }
+  /* a full-width button must be allowed to wrap: nowrap makes it overflow its own box
+     on a 320px viewport */
+  .btn--block { width: 100%; white-space: normal; }
+  .btn:active { transform: translateY(1px); }
+
+  /* ---------- minimal header: cold traffic should not wander ---------- */
+  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.94); backdrop-filter: saturate(180%) blur(10px); border-bottom: 1px solid var(--line); }
+  .site-header__row { display: flex; align-items: center; gap: 14px; min-height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 750; color: var(--navy); text-decoration: none; font-size: 15.5px; }
+  .brand__mark { width: 30px; height: 30px; border-radius: 8px; flex: none; background: linear-gradient(140deg, var(--navy), var(--navy-300)); display: grid; place-items: center; color: #fff; }
+  .header__links { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+  .header__links a.hlink { font-size: 14px; font-weight: 550; color: var(--ink-600); text-decoration: none; padding: 8px 10px; border-radius: 6px; }
+  .header__links a.hlink:hover { color: var(--navy); background: var(--surface-alt); }
+  @media (max-width: 700px) { .header__links .hlink--extra { display: none; } }
+  @media (max-width: 560px) { .header__links .hlink { display: none; } }
+  @media (max-width: 400px) {
+    .site-header__row { gap: 8px; }
+    .brand > span:last-child { display: none; }
+    .header__links .btn { padding: 11px 14px; font-size: 14px; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero { background: linear-gradient(178deg, #fff 0%, var(--surface-alt) 100%); padding-block: clamp(44px, 6vw, 76px) clamp(38px, 5vw, 64px); }
+  .hero h1 { max-width: 820px; }
+  .hero p.lede { margin-top: 18px; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; align-items: center; }
+  /* the Spanish labels here are longer than the English ones; nowrap pushes a 320px viewport */
+  .hero__cta .btn { white-space: normal; }
+  .reassure { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 22px 0 0; padding: 0; list-style: none; font-size: 13.5px; color: var(--ink-600); }
+  .reassure li { display: flex; align-items: center; gap: 7px; }
+  .reassure svg { color: var(--green); flex: none; }
+
+  .quote {
+    margin: 30px 0 0; padding: 20px 22px; background: #fff; border: 1px solid var(--red-line);
+    border-left: 4px solid var(--red); border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    max-width: 760px;
+  }
+  .quote p { margin: 0; font-size: 16.5px; color: var(--ink); font-style: italic; line-height: 1.5; }
+  .quote cite { display: block; margin-top: 8px; font-size: 12.5px; font-style: normal; color: var(--ink-400); letter-spacing: .04em; text-transform: uppercase; }
+
+  /* ---------- money-leak grid ---------- */
+  .pains { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 34px; }
+  .pain {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow-sm);
+    border-top: 3px solid var(--red-line);
+  }
+  .pain__head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 8px; }
+  .pain__icon { width: 32px; height: 32px; flex: none; border-radius: 8px; display: grid; place-items: center; background: var(--red-50); color: var(--red); }
+  .pain h3 { font-size: 16px; margin: 0; }
+  .pain p { margin: 0; font-size: 14.5px; color: var(--ink-600); line-height: 1.55; }
+  .pain__cost { margin-top: 12px; padding-top: 11px; border-top: 1px dashed var(--line); font-size: 13px; color: var(--red); font-weight: 600; }
+
+  /* ---------- before -> after rows ---------- */
+  .fixes { margin-top: 34px; display: grid; gap: 12px; }
+  .fix {
+    display: grid; grid-template-columns: 1fr 44px 1fr; gap: 0; align-items: stretch;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+  }
+  .fix__before, .fix__after { padding: 18px 20px; font-size: 14.5px; line-height: 1.5; }
+  .fix__before { background: var(--red-50); color: #6d2420; }
+  .fix__before strong { color: var(--red); }
+  .fix__after { background: var(--green-50); color: #14532d; }
+  .fix__after strong { color: var(--green); }
+  .fix__arrow { display: grid; place-items: center; background: #fff; color: var(--navy-300); border-inline: 1px solid var(--line); }
+  @media (max-width: 700px) {
+    .fix { grid-template-columns: 1fr; }
+    .fix__arrow { border-inline: 0; border-block: 1px solid var(--line); padding: 6px 0; }
+    /* rotate the icon only — rotating the cell turns a full-width row into a
+       350px-tall strip that paints over the before/after text */
+    .fix__arrow svg { transform: rotate(90deg); }
+  }
+
+  /* ---------- capability cards ---------- */
+  .grid { display: grid; gap: clamp(16px, 2vw, 22px); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 34px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 2.4vw, 26px); box-shadow: var(--shadow-sm); }
+  .card__icon { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--cream); color: var(--orange); margin-bottom: 14px; }
+  .card h3 { font-size: 16.5px; margin-bottom: 6px; }
+  .card p { margin: 0; font-size: 14.5px; color: var(--ink-600); line-height: 1.55; }
+  .card__tag { display: inline-block; margin-top: 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-400); background: var(--surface-alt); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+  .card__tag--addon { color: var(--orange-600); background: var(--cream); border-color: #f3c9a0; }
+
+  /* ---------- 3 steps ---------- */
+  .steps { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 34px; }
+  .step { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm); }
+  .step__num { width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+  .step p { margin: 0; font-size: 14.5px; color: var(--ink-600); }
+
+  /* ---------- honest caveat box ---------- */
+  .caveat { margin-top: 26px; background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--navy-300); border-radius: var(--radius); padding: clamp(18px, 2.4vw, 24px); }
+  .caveat h3 { font-size: 16px; margin-bottom: 10px; }
+  .caveat ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+  .caveat li { font-size: 14.5px; color: var(--ink-600); line-height: 1.55; }
+  .caveat li strong { color: var(--navy); }
+
+  /* ---------- qualifier ---------- */
+  .qualify { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 34px; }
+  .qual { border-radius: var(--radius); padding: 22px; border: 1px solid var(--line); background: #fff; }
+  .qual--yes { border-color: #bfe0cb; background: var(--green-50); }
+  .qual--no { border-color: var(--line); }
+  .qual h3 { font-size: 15px; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 14px; }
+  .qual--yes h3 { color: var(--green); }
+  .qual--no h3 { color: var(--ink-400); }
+  .qual ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .qual li { display: flex; gap: 10px; font-size: 14.5px; line-height: 1.5; }
+  .qual li svg { flex: none; margin-top: 3px; }
+  .qual--yes li svg { color: var(--green); }
+  .qual--no li svg { color: var(--ink-400); }
+
+  /* ---------- tables ---------- */
+  .tablehint { display: none; align-items: center; gap: 7px; margin: 26px 0 8px; font-size: 12.5px; font-weight: 600; color: var(--ink-400); }
+  @media (max-width: 767px) { .tablehint { display: flex; } }
+  .tableshell { position: relative; margin-top: 32px; }
+  @media (max-width: 767px) { .tableshell { margin-top: 0; } }
+  .tableshell::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 34px; pointer-events: none;
+    background: linear-gradient(90deg, rgba(255,255,255,0), #fff 78%); border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  @media (min-width: 768px) { .tableshell::after { display: none; } }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14.5px; }
+  caption { text-align: left; padding: 16px 18px 0; color: var(--ink-400); font-size: 13px; }
+  th, td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  thead th { background: var(--navy); color: #fff; font-size: 13px; font-weight: 650; letter-spacing: .02em; }
+  tbody th { font-weight: 600; color: var(--ink-600); background: var(--surface-alt); width: 34%; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  .num { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--navy); }
+  .is-bad { color: var(--red) !important; }
+  .is-good { color: var(--green) !important; }
+  .tablefoot { margin-top: 12px; font-size: 12.5px; color: var(--ink-400); line-height: 1.5; max-width: 78ch; }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 780px; margin: 30px auto 0; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { list-style: none; cursor: pointer; padding: 17px 40px 17px 0; position: relative; font-size: 16px; font-weight: 650; color: var(--navy); }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 22px; color: var(--orange); }
+  .faq details[open] summary::after { content: "\2212"; }
+  .faq p { margin: 0 0 17px; font-size: 15px; color: var(--ink-600); max-width: 66ch; }
+
+  /* ---------- calculator ---------- */
+  .calc { margin-top: 34px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-md); }
+  .calc__grid {
+    display: grid; grid-template-columns: minmax(260px, .95fr) minmax(300px, 1.05fr);
+    gap: clamp(18px, 2.6vw, 32px); padding: clamp(20px, 2.8vw, 30px); min-width: 0;
+  }
+  .calc__in { display: grid; gap: 18px; align-content: start; min-width: 0; }
+  .sfield > label {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    font-size: 13.5px; font-weight: 600; color: var(--ink-600); margin-bottom: 6px;
+  }
+  .sfield output { font-size: 15.5px; font-weight: 800; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .sfield input[type="range"] { width: 100%; margin: 0; accent-color: var(--orange); cursor: ew-resize; height: 26px; }
+  .adv { font-size: 13.5px; }
+  .adv summary { color: var(--ink-400); cursor: pointer; font-weight: 600; }
+  .adv[open] { display: grid; gap: 16px; padding-top: 12px; }
+  .calc__out { display: grid; gap: 16px; align-content: start; min-width: 0; }
+  .verdict { border-left: 4px solid var(--orange); padding-left: 16px; min-width: 0; }
+  .verdict__label { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-400); }
+  .verdict__big { margin: 4px 0 0; font-size: clamp(21px, 2.6vw, 28px); font-weight: 800; color: var(--navy); line-height: 1.15; letter-spacing: -.02em; }
+  .verdict__sub { margin: 7px 0 0; font-size: 14.5px; color: var(--ink-600); }
+  .outgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; min-width: 0; }
+  .outcell { background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 11px 13px; min-width: 0; }
+  .outcell--wide { grid-column: 1 / -1; }
+  .outcell dt { font-size: 12px; color: var(--ink-400); margin: 0; line-height: 1.35; }
+  .outcell dd { margin: 4px 0 0; font-size: 16px; font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .outcell dd small { display: block; font-size: 12.5px; font-weight: 600; color: var(--ink-400); margin-top: 2px; }
+  .estflag { background: var(--cream); border: 1px solid #f3c9a0; border-radius: var(--radius-sm); padding: 10px 13px; font-size: 13px; color: #7a3e06; line-height: 1.45; }
+  .calc__fine { margin: 0; font-size: 12.5px; color: var(--ink-400); line-height: 1.5; }
+  @media (max-width: 860px) {
+    .calc__grid { grid-template-columns: 1fr; }
+    .outgrid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- methodology ---------- */
+  .sources { margin-top: 26px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(16px, 2vw, 22px); }
+  .sources summary { font-size: 15px; font-weight: 700; color: var(--navy); cursor: pointer; }
+  .sources p { font-size: 14.5px; color: var(--ink-600); margin: 14px 0 0; max-width: 74ch; }
+  .sources ul { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .sources li { font-size: 14px; color: var(--ink-600); border-left: 3px solid var(--line); padding: 2px 0 2px 13px; line-height: 1.5; }
+  .sources li b { color: var(--navy); }
+  .formula {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.7;
+    background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 13px 15px; overflow-x: auto; color: var(--ink);
+  }
+
+  /* ---------- lead form ---------- */
+  .capture { background: linear-gradient(160deg, var(--navy) 0%, var(--navy-700) 100%); color: #fff; }
+  .capture__grid { display: grid; gap: clamp(26px, 4vw, 52px); grid-template-columns: .85fr 1.15fr; align-items: start; }
+  @media (max-width: 880px) { .capture__grid { grid-template-columns: 1fr; } }
+  .capture h2 { color: #fff; }
+  .capture p.sub { color: #c7d7e6; font-size: 16.5px; max-width: 44ch; }
+  .capture__list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
+  .capture__list li { display: flex; gap: 11px; font-size: 14.5px; color: #d6e5f2; line-height: 1.45; }
+  .capture__list svg { flex: none; margin-top: 2px; color: #7fd6a0; }
+  .capture__alt { margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.18); font-size: 14px; color: #b9d2e6; }
+  .capture__alt a { color: #fff; }
+
+  .formcard { background: #fff; border-radius: var(--radius); padding: clamp(22px, 3vw, 30px); box-shadow: var(--shadow-lg); color: var(--ink); }
+  .formcard h3 { margin-top: 0; font-size: 19px; }
+  .formcard > p { font-size: 14px; color: var(--ink-600); margin-bottom: 20px; }
+  .field { margin-bottom: 16px; }
+  .field > label { display: block; font-size: 13.5px; font-weight: 650; color: var(--navy); margin-bottom: 6px; }
+  .row2 { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+  .legend { display: block; font-size: 13.5px; font-weight: 650; color: var(--navy); margin-bottom: 6px; }
+  .hint { font-size: 12.5px; color: var(--ink-400); margin: 5px 0 0; }
+  input[type="text"], input[type="tel"], input[type="email"], select, textarea {
+    width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: #fff;
+    border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 11px 13px;
+  }
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 36px; }
+  textarea { min-height: 78px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { border-color: var(--navy-300); }
+  fieldset { border: 0; margin: 0 0 16px; padding: 0; }
+  .checks { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 4px; }
+  .check { display: flex; align-items: center; gap: 9px; font-size: 14.5px; font-weight: 400; color: var(--ink); background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 9px 12px; cursor: pointer; }
+  .check:hover { border-color: var(--navy-300); }
+  .check input { width: 17px; height: 17px; accent-color: var(--orange); flex: none; margin: 0; }
+  .err { display: none; font-size: 12.5px; font-weight: 600; color: var(--red); margin-top: 5px; }
+  .field[data-invalid="true"] input, .field[data-invalid="true"] select { border-color: var(--red); }
+  .field[data-invalid="true"] .err { display: block; }
+  .consent { font-size: 12.5px; color: var(--ink-400); margin: 14px 0 0; line-height: 1.5; }
+  .status { margin-top: 16px; font-size: 14px; border-radius: var(--radius-sm); padding: 14px 16px; display: none; }
+  .status[data-show="true"] { display: block; }
+  .status--ok { background: var(--green-50); border: 1px solid #bfe0cb; color: #14532d; }
+  .status--warn { background: var(--cream); border: 1px solid #f3c9a0; color: #7a3e06; }
+  .status--warn h4 { color: var(--orange); }
+  .status--bad { background: #fdf0ef; border: 1px solid #f2c4c0; color: #6d2420; }
+  .status--bad h4 { color: var(--red); }
+  .status h4 { margin: 0 0 6px; font-size: 15px; color: var(--green); }
+  .status textarea { margin-top: 10px; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; min-height: 120px; }
+  .status .btn { margin-top: 10px; font-size: 13.5px; padding: 9px 14px; }
+  .fallback__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .site-footer { background: #0b1f33; color: #8fb3d4; padding-block: 30px; font-size: 13.5px; }
+  .site-footer a { color: #c7d7e6; }
+  .site-footer__row { display: flex; flex-wrap: wrap; gap: 12px 26px; justify-content: space-between; align-items: baseline; }
+  .site-footer strong { color: #fff; }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="site-header">
+  <div class="wrap site-header__row">
+    <a class="brand" href="index.es.html">
+      <span class="brand__mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><path d="M4 15h16v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="8" cy="19" r="1.4"/><circle cx="16" cy="19" r="1.4"/></svg>
+      </span>
+      <span>ClubeMkt</span>
+    </a>
+    <div class="header__links">
+      <a class="hlink hlink--extra" href="#retention">Retención</a>
+      <a class="hlink" href="index.es.html">Planes y precios</a>
+      <a class="hlink" href="stop-paying-commission.html" hreflang="en">English</a>
+      <a class="btn btn--primary" href="#signup">Calcular mis números</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== HOOK ===================== -->
+  <section class="hero">
+    <div class="wrap hero__inner">
+      <span class="eyebrow">Para cocinas que reciben pedidos de delivery por las apps</span>
+      <h1>La app encontró a ese cliente una vez. Le cobra cada vez que él vuelve.</h1>
+      <p class="lede">
+        La comisión no es un costo de captación que se paga una sola vez. Es un alquiler sobre clientes que usted ya
+        atiende, pagado el martes al mediodía y otra vez el viernes por la noche. Mover los pedidos que usted ya puede
+        alcanzar hacia su propio canal le queda ese porcentaje &mdash; y le entrega el registro de clientes que las apps nunca devuelven.
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary btn--lg" href="#calculator">Ve cuánto le ahorraría</a>
+        <a class="btn btn--ghost btn--lg" href="#retention">Muéstrame el lado de retención</a>
+      </div>
+      <ul class="reassure">
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Usted conserva sus listings en las apps</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Ningún número de esta página es la tasa de una plataforma</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Le respondemos por WhatsApp</li>
+      </ul>
+
+      <div class="quote">
+        <p><strong>El momento en que duele:</strong> un cliente que le pidió once veces este mes hace su pedido por
+        PedidosYa, Uber Eats o Rappi &mdash; y esa venta número once le cuesta el mismo porcentaje que la primera, cuando
+        es la venta que menos le debería costar.</p>
+        <cite>Esta página trata de los pedidos repetidos, no de los de descubrimiento</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DÓNDE SE VA EL DINERO ===================== -->
+  <section class="section section--alt" id="leaks">
+    <div class="wrap">
+      <span class="eyebrow">Dónde se va el margen</span>
+      <h2>Cinco cosas que un pedido por app le cuesta y un pedido propio no</h2>
+      <p class="lede">Las apps hacen algo útil: ponen su cocina frente a gente que nunca oyó hablar de ustedes. Lo que
+      sigue es lo que pasa en cada pedido después de ese primero.</p>
+
+      <div class="pains">
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h5M9.5 14.5h5"/></svg></span>
+            <h3>El porcentaje, cada una de las veces</h3>
+          </div>
+          <p>La comisión se cobra por pedido, no por cliente nuevo. El pedido número cien de su mejor cliente le cuesta
+          exactamente lo mismo que el primero.</p>
+          <p class="pain__cost">Costo: la misma tajada, recomprada una y otra vez</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M17 8h5M19.5 5.5v5"/></svg></span>
+            <h3>El cliente nunca pasa a ser suyo</h3>
+          </div>
+          <p>El número, la dirección y el historial quedan en la cuenta de la plataforma. Usted no puede escribirle a esa
+          persona sin recomprar la misma venta.</p>
+          <p class="pain__cost">Costo: ventas repetidas que hay que volver a pagar</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
+            <h3>Su propio volumen es invisible</h3>
+          </div>
+          <p>Usted ve los pedidos que llegaron por la app. No ve al cliente que entra por la puerta, ni al que llama al
+          local, ni cuál de los tres vale más.</p>
+          <p class="pain__cost">Costo: menú y presupuesto armados con parte del panorama</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span>
+            <h3>Cada cambio de regla le cae encima</h3>
+          </div>
+          <p>La comisión, el ranking, el precio del delivery y las condiciones del listing los decide otra persona y
+          cambian en el calendario de esa otra persona.</p>
+          <p class="pain__cost">Costo: su margen se mueve sin que usted decida nada</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/></svg></span>
+            <h3>La vidriera es de ellos</h3>
+          </div>
+          <p>Su menú aparece dentro de su diseño, al lado de sus competidores, a precios de ellos. El cliente es leal a la
+          app que recuerda su dirección &mdash; no a su cocina.</p>
+          <p class="pain__cost">Costo: una relación alquilada, no propia</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CALCULADORA DE AHORRO ===================== -->
+  <section class="section" id="calculator">
+    <div class="wrap">
+      <span class="eyebrow">Sus números, no los nuestros</span>
+      <h2>Qué vale migrar parte de ese volumen</h2>
+      <p class="lede">
+        No publicamos la comisión de ninguna plataforma &mdash; solo usted sabe lo que dice su propio estado de cuenta.
+        Ponga sus cifras reales en los deslizadores y toda la página recalcula, en bolivianos, con la convención
+        Bs&nbsp;11,50 que usa el resto de los precios.
+      </p>
+
+      <div class="calc">
+        <div class="calc__grid">
+          <div class="calc__in">
+            <div class="sfield">
+              <label for="apps"><span>Pedidos de delivery al mes que llegan por apps</span><output id="appsOut">400</output></label>
+              <input type="range" id="apps" min="100" max="3000" step="50" value="400">
+            </div>
+            <div class="sfield">
+              <label for="ticket"><span>Ticket promedio por pedido (Bs)</span><output id="ticketOut">Bs 60</output></label>
+              <input type="range" id="ticket" min="20" max="200" step="5" value="60">
+            </div>
+            <div class="sfield">
+              <label for="comm"><span>Comisión que paga por pedido en app</span><output id="commOut">25%</output></label>
+              <input type="range" id="comm" min="15" max="35" step="1" value="25">
+              <p class="hint">Copie este dato de su propio estado de cuenta. Es el único número que nos negamos a adivinarle.</p>
+            </div>
+            <div class="sfield">
+              <label for="shift"><span>Parte que usted mueve a su propio canal</span><output id="shiftOut">35%</output></label>
+              <input type="range" id="shift" min="10" max="80" step="5" value="35">
+              <p class="hint">Los clientes recurrentes son el primer paso realista &mdash; nadie cancela la app el primer día.</p>
+            </div>
+            <details class="adv">
+              <summary>Avanzado &mdash; costo de entregar y tipo de cambio</summary>
+              <div class="sfield">
+                <label for="ownDelivery"><span>Cuánto le cuesta entregar usted mismo un pedido (Bs)</span><output id="ownDeliveryOut">Bs 0</output></label>
+                <input type="range" id="ownDelivery" min="0" max="30" step="1" value="0">
+                <p class="hint">Pago al repartidor, gasolina, o lo que le paga a un mensajero por reparto. Déjelo en 0 solo si ya lo absorbe.</p>
+              </div>
+              <div class="sfield">
+                <label for="repeat"><span>Pedidos extra al año de clientes que ahora puede contactar</span><output id="repeatOut">2</output></label>
+                <input type="range" id="repeat" min="0" max="6" step="1" value="2">
+                <p class="hint">Alimenta solo la estimación de retención. Nada por encima de la línea &ldquo;lo que le queda&rdquo; depende de esto.</p>
+              </div>
+              <div class="sfield">
+                <label for="rate"><span>Tipo de cambio (Bs por USD)</span><output id="rateOut">11,50</output></label>
+                <input type="range" id="rate" min="7" max="14" step="0.5" value="11.5">
+              </div>
+            </details>
+            <p class="calc__fine">
+              Nada de esto se guarda ni se envía a ningún lado. Los deslizadores solo cambian lo que esta página le muestra.
+            </p>
+          </div>
+
+          <div class="calc__out">
+            <div class="verdict">
+              <p class="verdict__label">Lo que le queda, cada mes</p>
+              <p class="verdict__big" id="verdictBig">&mdash;</p>
+              <p class="verdict__sub" id="verdictSub">&mdash;</p>
+            </div>
+
+            <dl class="outgrid">
+              <div class="outcell">
+                <dt>Comisión de sus pedidos por app hoy</dt>
+                <dd><span id="cellComm">&mdash;</span><small id="cellCommSub"></small></dd>
+              </div>
+              <div class="outcell">
+                <dt>Pedidos que usted movería</dt>
+                <dd><span id="cellMoved">&mdash;</span><small id="cellMovedSub"></small></dd>
+              </div>
+              <div class="outcell outcell--wide">
+                <dt>Comisión que deja de pagar en esos pedidos</dt>
+                <dd><span id="cellKept">&mdash;</span><small id="cellKeptSub"></small></dd>
+              </div>
+              <div class="outcell outcell--wide">
+                <dt>Lo que esos pedidos cuestan en cambio</dt>
+                <dd><span id="cellCost">&mdash;</span><small id="cellCostSub"></small></dd>
+              </div>
+              <div class="outcell outcell--wide">
+                <dt>Recuperación del software</dt>
+                <dd><span id="cellPayback">&mdash;</span><small id="cellPaybackSub"></small></dd>
+              </div>
+              <div class="outcell outcell--wide">
+                <dt>Dividendo de retención, si los pedidos vuelven</dt>
+                <dd><span id="cellRetention">&mdash;</span><small id="cellRetentionSub"></small></dd>
+              </div>
+            </dl>
+
+            <p class="estflag" id="estFlag" hidden>
+              &#9888;&nbsp; Ticket, comisión y parte migrada todavía están en los valores por defecto &mdash; son mis
+              estimaciones, no sus datos. Muévalos a sus cifras reales antes de decidir algo.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tableshell">
+        <p class="tablehint">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12h8M12 8l4 4-4 4"/><circle cx="12" cy="12" r="9"/></svg>
+          Deslice la tabla hacia los lados para ver las tres columnas
+        </p>
+        <div class="tablewrap">
+          <table>
+            <caption>El mismo pedido de Bs 60, comprado de dos maneras</caption>
+            <thead>
+              <tr>
+                <th scope="col">En un pedido</th>
+                <th scope="col">Por una app</th>
+                <th scope="col">Por su propio canal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">El cliente paga</th>
+                <td>Bs 60</td>
+                <td>Bs 60 &mdash; mismo menú, mismo precio</td>
+              </tr>
+              <tr>
+                <th scope="row">Comisión que sale de su caja</th>
+                <td><span class="num is-bad">Bs 15</span> con una tasa de ejemplo del 25%</td>
+                <td><span class="num is-good">Bs 0</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Arancel que nos paga a usted</th>
+                <td>Ninguno &mdash; usted no es nuestro cliente</td>
+                <td><span class="num">Bs 1</span> en la opción por pedido del Plan&nbsp;2</td>
+              </tr>
+              <tr>
+                <th scope="row">Le queda, antes de entregar</th>
+                <td><span class="num">Bs 45</span></td>
+                <td><span class="num is-good">Bs 59</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Quién tiene el número del cliente</th>
+                <td>La plataforma</td>
+                <td>Usted, en su propia lista de clientes</td>
+              </tr>
+              <tr>
+                <th scope="row">El siguiente pedido de esa misma persona</th>
+                <td>Comisión otra vez</td>
+                <td>Bs 1 otra vez</td>
+              </tr>
+              <tr>
+                <th scope="row">Invitarlo de vuelta el mes que viene</th>
+                <td>Se paga como otra comisión, o como otro anuncio</td>
+                <td>Un mensaje a una lista que usted ya tiene</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="tablefoot">
+          Bs 15 es lo que un 25% de comisión hace sobre un ticket de Bs 60; cambie la tasa en la calculadora y esta fila
+          cambia para usted. El costo de entregar falta en esta tabla a propósito &mdash; si usted usaba los repartidores de
+          la plataforma, ese costo pasa a su lado y va en el deslizador avanzado de arriba.
+        </p>
+      </div>
+
+      <details class="sources">
+        <summary>De dónde sale cada número de esta página</summary>
+        <p>
+          Debería revisar esta aritmética antes de creer nada de lo que sigue. Estas son las fórmulas, y cuáles datos
+          son suyos y cuáles míos.
+        </p>
+        <p class="formula">
+          comisión hoy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = pedidos por app &times; ticket &times; comisión%<br>
+          pedidos movidos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = pedidos por app &times; parte migrada<br>
+          deja de pagar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = pedidos movidos &times; ticket &times; comisión%<br>
+          arancel software&nbsp;&nbsp;&nbsp; = pedidos movidos &times; Bs 1<br>
+          su costo entrega&nbsp;&nbsp; = pedidos movidos &times; Bs por pedido que usted ingresa<br>
+          lo que le queda&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = deja de pagar &minus; arancel software &minus; su costo entrega<br>
+          recuperación&nbsp;P2&nbsp;&nbsp;&nbsp; = ($1.000 &times; tasa) &divide; lo que le queda&nbsp;&nbsp;&nbsp; P1 = ($2.000 &times; tasa) &divide; lo que le queda<br>
+          estimación retención = pedidos movidos &times; pedidos extra al año &times; ticket &times; comisión%
+        </p>
+        <ul>
+          <li><b>Suyos, para corregir:</b> pedidos por app, ticket, comisión, parte migrada, su propio costo de entrega, pedidos repetidos, tipo de cambio.</li>
+          <li><b>Míos, y por defecto:</b> 400 pedidos por app, ticket de Bs 60, 25% de comisión, 35% migrado, Bs 0 de entrega propia, 2 pedidos extra al año, Bs 11,50 por USD. La convención 11,50 es la misma que el resto de los precios, para que ambos documentos coincidan.</li>
+          <li><b>Fijado por la propuesta:</b> Bs 1 por pedido, $150 al mes, $1.000 de inicial del Plan&nbsp;2, $2.000 del Plan&nbsp;1.</li>
+          <li><b>Sobre qué se cobra el Bs 1:</b> cada pedido que el sistema procesa. Esta calculadora lo cobra solo sobre los pedidos migrados &mdash; si sus pedidos de app también pasan por la captura automática, súmele Bs&nbsp;1 a cada uno de esos también. Con la opción fija de $150 / mes nada de esto se mueve, porque el volumen no cambia el arancel.</li>
+          <li><b>Deliberadamente ausente:</b> la tasa publicada, el ranking o las condiciones de cualquier plataforma nombrada. No decimos conocerlas y nada de esta página depende de ellas.</li>
+          <li><b>Cuando el resultado da negativo:</b> si entregar usted mismo un pedido cuesta más que la comisión que ahorra, la calculadora lo dice en vez de ocultarlo. Esa es una respuesta real, no un fallo.</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===================== RETENCIÓN ===================== -->
+  <section class="section section--alt" id="retention">
+    <div class="wrap">
+      <span class="eyebrow">La parte que se acumula</span>
+      <h2>El ahorro es la comisión. El activo es la lista de clientes.</h2>
+      <p class="lede">
+        Cuando un pedido pasa por su propio sistema, la relación queda registrada. Ese registro vale más cada mes, porque
+        contactar a alguien que ya comió en su cocina es la venta más barata que usted hará jamás.
+      </p>
+
+      <div class="fixes">
+        <div class="fix">
+          <div class="fix__before"><strong>La plataforma tiene el número del cliente.</strong> Usted no puede contactarlo sin pagar dos veces la misma venta.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>Cada pedido escribe un registro de cliente.</strong> Nombre, número, dirección e historial quedan en una lista que es de la cocina.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>Un pedido repetido vuelve a costar comisión.</strong> Sus mejores clientes son los más caros de atender.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>Un pedido repetido cuesta Bs 1.</strong> La venta número cien de la misma persona es la más barata que usted hace.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>Usted no ve quién dejó de pedir.</strong> Un habitual desaparece seis semanas y nada se lo advierte.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>Los clientes inactivos son visibles.</strong> Con el add-on de marketing, los que no piden hace 30 días pasan a ser una campaña en vez de un recuerdo.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>Pedirle a usted significa abrir su app.</strong> La app dueña del hábito y de la pantalla que él ve primero.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>WhatsApp sigue siendo la puerta de entrada.</strong> El cliente no instala nada nuevo; el pedido llega a su sistema en vez del cuaderno de alguien.</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M17 8h5M19.5 5.5v5"/></svg></span>
+          <h3>Un registro detrás de cada pedido</h3>
+          <p>Los clientes y su historial se capturan como parte de la entrada del pedido &mdash; no los tipea en un segundo lugar un empleado cansado.</p>
+          <span class="card__tag">Software base</span>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+          <h3>WhatsApp como canal de pedidos</h3>
+          <p>El cliente conserva el hábito que ya tiene. Lo que cambia es a dónde va el mensaje y qué pasa detrás de él.</p>
+          <span class="card__tag">Software base</span>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></span>
+          <h3>Campañas de reactivación</h3>
+          <p>Reactivar la lista que usted ya tiene: clientes inactivos, clientes de alto valor, el segmento nocturno, los habituales del almuerzo.</p>
+          <span class="card__tag card__tag--addon">Add-on de marketing</span>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
+          <h3>Ofertas que no cuestan enviar</h3>
+          <p>Un descuento para el segundo pedido del mes es un mensaje, no una comisión. Cuanto más barato es llegar, más experimentos puede permitirse.</p>
+          <span class="card__tag card__tag--addon">Add-on de marketing</span>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
+          <h3>La tasa de recompra como número</h3>
+          <p>Cuántos clientes volvieron, cada cuánto y qué piden &mdash; reportado y trabajado, no adivinado.</p>
+          <span class="card__tag card__tag--addon">Add-on de marketing</span>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <h3>Los clientes nuevos siguen llegando</h3>
+          <p>Las apps, Google y Meta siguen trayendo gente. La diferencia es que ahora aterrizan en su lista, no solo en la de una plataforma.</p>
+          <span class="card__tag card__tag--addon">Add-on de marketing</span>
+        </article>
+      </div>
+
+      <div class="caveat">
+        <h3>Qué parte es honesta sobre qué</h3>
+        <ul>
+          <li><strong>El software base</strong> captura al cliente y su historial, porque el pedido ahora pasa por su sistema en vez de una libreta.</li>
+          <li><strong>Las campañas activas</strong> &mdash; segmentos, reactivación, ofertas, reportes &mdash; son el add-on de marketing. Si compra solo el software, la lista es suya; usted mismo escribe en ella.</li>
+          <li><strong>La cifra de pedidos extra</strong> en la calculadora es una estimación de upside, no una promesa. Nadie puede garantizar que un cliente contactable pida más.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CÓMO PASA LA MIGRACIÓN ===================== -->
+  <section class="section" id="ramp">
+    <div class="wrap">
+      <span class="eyebrow">Cómo pasa en la práctica</span>
+      <h2>Una pendiente, no un interruptor</h2>
+      <p class="lede">Las cocinas que lo hacen mal pierden volumen y entran en pánico. Las que lo hacen bien nunca le piden
+      al cliente que cambie un hábito que le gusta &mdash; solo hacen que el segundo pedido sea más barato para ambos.</p>
+
+      <div class="steps">
+        <article class="step">
+          <span class="step__num" aria-hidden="true">1</span>
+          <h3>Deje todas las apps activas</h3>
+          <p>Nada sale. Su propio canal se abre, su personal se capacita en una sola sesión de trabajo, y los pedidos de
+          ambos mundos llegan al mismo sistema. La puesta en marcha suele ser dentro de una semana desde la firma.</p>
+        </article>
+        <article class="step">
+          <span class="step__num" aria-hidden="true">2</span>
+          <h3>Mueva primero los pedidos repetidos</h3>
+          <p>El cliente que ya pidió dos veces no necesita el descubrimiento de la app. Una tarjeta en la bolsa, un número
+          de WhatsApp, una buena razón para pedir directo la próxima vez.</p>
+        </article>
+        <article class="step">
+          <span class="step__num" aria-hidden="true">3</span>
+          <h3>Mídalo y entonces decida</h3>
+          <p>Usted ve qué se movió realmente, cuánto ahorró y qué le sigue trayendo la app. La mayoría de las cocinas
+          quedan en usar las apps para clientes nuevos y empujar el volumen recurrente a su propio canal.</p>
+        </article>
+      </div>
+
+      <div class="caveat">
+        <h3>Qué no se mueve, y no hay que fingir que se mueve</h3>
+        <ul>
+          <li><strong>Descubrimiento.</strong> Una plataforma que lo pone frente a desconocidos está haciendo algo que usted no puede hacer escribiendo a su propia lista. Siga pagando por eso donde funcione.</li>
+          <li><strong>Logística de entrega, si usaba sus repartidores.</strong> Ese costo cruza a su lado de la cuenta. Póngalo en el deslizador avanzado antes de discutir con nadie.</li>
+          <li><strong>Inercia del cliente.</strong> Siempre habrá gente que tocará la app que recuerda su dirección. El 35% por defecto de esta página es un techo para discutir, no una garantía.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PERFIL ===================== -->
+  <section class="section section--alt" id="qualify">
+    <div class="wrap">
+      <span class="eyebrow">¿Es usted?</span>
+      <h2>Esta página es para una cocina muy puntual</h2>
+      <div class="qualify">
+        <div class="qual qual--yes">
+          <h3>Buen encaje si</h3>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Una parte real de sus pedidos vuelve una y otra vez</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Usted paga un porcentaje sobre cada uno de esos pedidos</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Tiene repartidores propios, o cobra un costo de envío</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Usted usaría una lista de clientes, no solo la guardaría</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Está dispuesto a meter una tarjeta en cada bolsa</span></li>
+          </ul>
+        </div>
+        <div class="qual qual--no">
+          <h3>Avísenos primero si</h3>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>Casi todo su volumen son clientes nuevos que la app encontró</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>No tiene entrega propia ni forma de armar una</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>Su volumen de apps está por debajo de unos 100 pedidos al mes &mdash; la recuperación puede no dar todavía</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>Necesita varias sucursales reportando a un solo panel</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>Debe integrarse con un POS específico que ya tiene</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="center" style="text-align:center">
+        <span class="eyebrow">Preguntas razonables</span>
+        <h2>Lo que preguntan los dueños antes de creer esto</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>¿Los clientes no van a seguir pidiendo por la app?</summary>
+          <p>Para el primer pedido, casi siempre sí &mdash; para eso existe la app. Esto trata del segundo pedido en
+          adelante, donde el cliente ya conoce su comida y la app solo recuerda una dirección. Dele una razón, mantenga el
+          mismo precio y mida qué se mueve realmente en vez de asumir que nada se mueve.</p>
+        </details>
+        <details>
+          <summary>¿Esto significa cancelar PedidosYa, Uber Eats o Rappi?</summary>
+          <p>No, y una página que le dijera eso le está vendiendo algo. Conserve los listings que le traen desconocidos.
+          El argumento de esta página es solo sobre pedidos de gente que ya volvió a usted una vez.</p>
+        </details>
+        <details>
+          <summary>Ustedes no conocen mi comisión, ¿por qué debería creer los números?</summary>
+          <p>Correcto &mdash; no la conocemos, y esta página nunca afirma la tasa de ninguna plataforma. Por eso la
+          comisión es un deslizador que usted pone desde su propio estado de cuenta, y por eso toda cifra recalcula alrededor
+          de ese número. Si su tasa real es más baja, el ahorro se encoge delante de usted.</p>
+        </details>
+        <details>
+          <summary>¿Y si yo usaba los repartidores de la app?</summary>
+          <p>Entonces entregar esos pedidos le cuesta algo que antes no le costaba, y cualquier página que lo ignorara le
+          estaba mintiendo. Ponga una cifra por pedido en el deslizador avanzado &mdash; pago al repartidor, gasolina o lo que
+          le paga a un mensajero por reparto. Si el resultado da negativo, esta página lo dice claro en vez de esconderlo.</p>
+        </details>
+        <details>
+          <summary>¿Pago el arancel de Bs 1 también sobre los pedidos que quedan en la app?</summary>
+          <p>Si el pedido pasa por el sistema, cuenta &mdash; así está definida la opción por pedido. La mayoría de las
+          cocinas enruta todo por ahí, porque capturar los pedidos de app es media razón para comprar el software. Con 400
+          pedidos al mes son Bs&nbsp;400, unos $35 &mdash; contra Bs&nbsp;6.000 de comisión en el mismo volumen. Si prefiere que su
+          arancel no se mueva con el volumen, la alternativa en el Plan&nbsp;2 es el fijo de $150 / mes.</p>
+        </details>
+        <details>
+          <summary>¿Qué recibo realmente: una lista, o clientes que vuelven a pedir?</summary>
+          <p>El software le da el registro &mdash; ese es el activo. Convertirlo en pedidos es trabajo: ofertas, tiempos,
+          segmentos. Eso es el add-on de marketing, y usted mismo puede hacerlo si prefiere. Le diremos cual de las dos cosas
+          está firmando antes de que firme.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto tarda esto en notarse en mis números?</summary>
+          <p>Normalmente dentro de una semana desde la firma para estar operando, porque el trabajo es configuración, no
+          desarrollo. La migración en sí es más lenta que la instalación: semanas, no días, y se mide mes a mes en vez de esperarla.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto me cuesta esto?</summary>
+          <p>Dos formas de comprar: un pago que cubre un año completo de licencia sin arancel mensual, o un inicial más bajo
+          con un arancel fijo mensual o Bs&nbsp;1 por pedido. Con Bs&nbsp;1, un pedido de Bs 60 que paga 25% de comisión cubre su
+          propio costo de software unas quince veces.</p>
+          <p style="margin-top:10px"><a href="index.es.html">Ver los planes y precios &rarr;</a></p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CAPTURA DE LEADS ===================== -->
+  <section class="section capture" id="signup">
+    <div class="wrap capture__grid">
+      <div>
+        <span class="eyebrow" style="color:#f5a25f">Siguiente paso</span>
+        <h2>Mándenos sus números reales de apps</h2>
+        <p class="sub">Seis cosas breves, y le devolvemos cuánto vale la migración con su volumen &mdash; incluido lo que le
+        cuesta entregar esos pedidos usted mismo.</p>
+        <ul class="capture__list">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Armamos el número con su estado de cuenta, no con nuestro cálculo</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Una respuesta real de una persona, por WhatsApp</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Respuesta directa si la cuenta no le da</span></li>
+        </ul>
+        <p class="capture__alt">
+          ¿Prefiere escribirnos directamente?&nbsp; <span id="altContact">Llene el formulario de arriba y le respondemos por WhatsApp. Los enlaces de contacto directo aparecen aquí cuando los datos bajo la línea CONFIG de esta página sean reales.</span>
+        </p>
+      </div>
+
+      <div class="formcard">
+        <h3>Cuéntenos de dónde llegan sus pedidos</h3>
+        <p>Seis campos. Nada de esto lo compromete con nada.</p>
+
+        <form id="leadForm" novalidate>
+          <div class="row2">
+            <div class="field">
+              <label for="business">Nombre del negocio</label>
+              <input type="text" id="business" name="business" autocomplete="organization" required />
+              <p class="err">Ponga el nombre de la cocina.</p>
+            </div>
+            <div class="field">
+              <label for="contact">Su nombre</label>
+              <input type="text" id="contact" name="contact" autocomplete="name" required />
+              <p class="err">Ponga su nombre.</p>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="phone">Número de WhatsApp</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+591 7 000 0000" required />
+              <p class="err">Necesitamos un número para responderle.</p>
+              <p class="hint">Le escribimos aquí. No lo llamamos con ofertas.</p>
+            </div>
+            <div class="field">
+              <label for="email">Correo <span style="font-weight:400;color:var(--ink-400)">(opcional)</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" />
+              <p class="err">Esa dirección de correo parece incompleta.</p>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="volume">Pedidos por app al mes</label>
+              <select id="volume" name="volume" required>
+                <option value="">Elija uno&hellip;</option>
+                <option>Menos de 100</option>
+                <option>100 a 300</option>
+                <option>300 a 600</option>
+                <option>Más de 600</option>
+                <option>Demasiado irregular para saberlo</option>
+              </select>
+              <p class="err">Elija el número más cercano.</p>
+            </div>
+            <div class="field">
+              <label for="pain">¿Qué le cuesta más?</label>
+              <select id="pain" name="pain" required>
+                <option value="">Elija uno&hellip;</option>
+                <option>Comisión sobre pedidos repetidos</option>
+                <option>Nunca ver el número del cliente</option>
+                <option>Clientes leales a la app, no a nosotros</option>
+                <option>Costo de delivery subiendo cada mes</option>
+                <option>Sin números de lo que realmente vende</option>
+                <option>Personal retipeando pedidos a mano</option>
+                <option>Pocos clientes recurrentes</option>
+              </select>
+              <p class="err">Elija el que más le cuesta.</p>
+            </div>
+          </div>
+
+          <fieldset>
+            <legend class="legend">¿Por dónde llegan sus pedidos de delivery hoy?</legend>
+            <div class="checks">
+              <label class="check"><input type="checkbox" name="channel" value="PedidosYa" /> PedidosYa</label>
+              <label class="check"><input type="checkbox" name="channel" value="Uber Eats" /> Uber Eats</label>
+              <label class="check"><input type="checkbox" name="channel" value="Rappi" /> Rappi</label>
+              <label class="check"><input type="checkbox" name="channel" value="WhatsApp" /> WhatsApp</label>
+              <label class="check"><input type="checkbox" name="channel" value="Phone" /> Llamadas</label>
+              <label class="check"><input type="checkbox" name="channel" value="Counter" /> Globa / mostrador</label>
+              <label class="check"><input type="checkbox" name="channel" value="Instagram or Facebook" /> Instagram o Facebook</label>
+            </div>
+            <p class="hint">Marque todos los que reconozca.</p>
+          </fieldset>
+
+          <div class="field">
+            <label for="notes">¿Algo más que debamos saber? <span style="font-weight:400;color:var(--ink-400)">(opcional)</span></label>
+            <textarea id="notes" name="notes" placeholder="Por ejemplo: cerca del 60% del volumen de delivery va por las apps, tenemos dos repartidores propios, la mayoría de pedidos vuelve los viernes"></textarea>
+          </div>
+
+          <button class="btn btn--primary btn--lg btn--block" type="submit">Enviarlo &mdash; le respondemos por WhatsApp</button>
+          <p class="consent">
+            Usamos estos datos solo para responderle sobre su operación de delivery. Sin datos de tarjeta, sin obligación,
+            y no lo agregamos a ninguna lista.
+          </p>
+
+          <div class="status" id="statusBox" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer__row">
+      <div><strong>ClubeMkt</strong> &mdash; automatización de delivery para cocinas de comida rápida</div>
+      <div><a href="index.es.html">Planes y precios</a> &nbsp;&middot;&nbsp; <a href="stop-losing-orders.es.html">Pedidos que se pierden en hora punta</a> &nbsp;&middot;&nbsp; <a href="stop-paying-commission.html" hreflang="en">Read in English</a> &nbsp;&middot;&nbsp; <a href="#signup">Enviar sus datos</a></div>
+    </div>
+    <p style="margin:12px 0 0; font-size:12.5px; color:#6f93b4; max-width:78ch">
+      PedidosYa, Uber Eats y Rappi se nombran solo como los canales que usan los dueños; no están afiliados a esta página y
+      aquí no se afirma la comisión, el ranking ni las condiciones de ninguna plataforma. Los precios, los términos de
+      licencia y las obligaciones constan en la propuesta de precios y en el contrato de servicio firmado.
+    </p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* ===================== CALCULADORA DE AHORRO EN COMISIÓN =====================
+     Única fuente de los números comerciales de esta página. Los ejemplos escritos
+     del resto de la página (la tabla de Bs 60, las FAQ) usan estas mismas cifras. */
+  var PER_ORDER_BS = 1;
+  var PLAN1_USD = 2000;
+  var PLAN2_USD = 1000;
+  var DEFAULTS = { apps: 400, ticket: 60, comm: 25, shift: 35, ownDelivery: 0, repeat: 2, rate: 11.5 };
+  var IDS = ['apps', 'ticket', 'comm', 'shift', 'ownDelivery', 'repeat', 'rate'];
+
+  var nf0 = new Intl.NumberFormat('es-BO', { maximumFractionDigits: 0 });
+  var nf2 = new Intl.NumberFormat('es-BO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  function money(v) { return '$' + nf2.format(v); }
+  function money0(v) { return '$' + nf0.format(Math.round(v)); }
+  function bob(v) { return 'Bs ' + nf0.format(Math.round(v)); }
+  function text(id, s) { var el = document.getElementById(id); if (el) el.textContent = s; }
+  function val(id) {
+    var el = document.getElementById(id);
+    var v = el ? parseFloat(el.value) : NaN;
+    return isNaN(v) ? DEFAULTS[id] : v;
+  }
+  function months(v) {
+    if (!isFinite(v)) return 'nunca, con estos números';
+    if (v >= 60) return 'más de 5 años';
+    return nf2.format(v) + ' meses';
+  }
+
+  function render() {
+    var apps = val('apps'), ticket = val('ticket'), comm = val('comm') / 100;
+    var shift = val('shift') / 100, own = val('ownDelivery'), repeat = val('repeat'), rate = val('rate');
+
+    text('appsOut', nf0.format(apps));
+    text('ticketOut', bob(ticket));
+    text('commOut', nf0.format(comm * 100) + '%');
+    text('shiftOut', nf0.format(shift * 100) + '%');
+    text('ownDeliveryOut', bob(own));
+    text('repeatOut', nf0.format(repeat));
+    text('rateOut', nf2.format(rate));
+
+    var commMonthBs = apps * ticket * comm;
+    var moved = apps * shift;
+    var keptBs = moved * ticket * comm;
+    var softwareBs = moved * PER_ORDER_BS;
+    var deliveryBs = moved * own;
+    var costBs = softwareBs + deliveryBs;
+    var netBs = keptBs - costBs;
+    var retentionYearBs = moved * repeat * ticket * comm;
+
+    text('cellComm', bob(commMonthBs) + ' / mes');
+    text('cellCommSub', 'al año: ' + bob(commMonthBs * 12) + ' \u2248 ' + money0(commMonthBs * 12 / rate));
+    text('cellMoved', nf0.format(Math.round(moved)) + ' / mes');
+    text('cellMovedSub', 'de ' + nf0.format(apps) + ' pedidos por app, con su ' + nf0.format(shift * 100) + '%');
+    text('cellKept', bob(keptBs) + ' / mes');
+    text('cellKeptSub', '\u2248 ' + money0(keptBs / rate) + ' al mes, ' + bob(keptBs * 12) + ' \u2248 ' + money0(keptBs * 12 / rate) + ' al año');
+    text('cellCost', bob(costBs) + ' / mes');
+    text('cellCostSub', 'arancel de software Bs 1 = ' + bob(softwareBs) + ', su entrega propia = ' + bob(deliveryBs) +
+      (softwareBs > 0 ? ' \u2014 juntos \u2248 ' + money0(costBs / rate) : ''));
+    text('cellRetention', bob(retentionYearBs) + ' al año');
+    text('cellRetentionSub', 'comisión que se evita si esos clientes piden ' + nf0.format(repeat) +
+      ' veces más al año porque usted puede contactarlos \u2248 ' + money0(retentionYearBs / rate) +
+      '. Solo estimación \u2014 nada por encima de esta línea depende de ello.');
+
+    if (netBs > 0) {
+      text('verdictBig', bob(netBs) + ' que le quedan cada mes');
+      text('verdictSub', 'Eso es \u2248 ' + money0(netBs / rate) + ' al mes y ' + bob(netBs * 12) +
+        ' \u2248 ' + money0(netBs * 12 / rate) + ' al año, ya descontando el arancel del software y su propio costo de entrega. ' +
+        'Los ' + money0(PLAN2_USD) + ' iniciales del Plan\u00a02 se recuperan en ' + months(PLAN2_USD * rate / netBs) +
+        '; el pago único de ' + money0(PLAN1_USD) + ' del Plan\u00a01, en ' + months(PLAN1_USD * rate / netBs) + '.');
+      text('cellPayback', money0(PLAN2_USD) + ' recuperados en ' + months(PLAN2_USD * rate / netBs));
+      text('cellPaybackSub', 'El pago único de ' + money0(PLAN1_USD) + ' del Plan\u00a01 se recupera en ' +
+        months(PLAN1_USD * rate / netBs) + ' con este neto de ' + bob(netBs) + ' al mes.');
+    } else {
+      text('verdictBig', 'Nada, con estos números');
+      text('verdictSub', 'Mover ' + nf0.format(Math.round(moved)) + ' pedidos le cuesta ' + bob(costBs) +
+        ' al mes \u2014 más que los ' + bob(keptBs) + ' de comisión que dejarían de pagarse. ' +
+        'Esto suele significar que su costo de entrega por pedido es mayor que la comisión: migre menos pedidos, o ninguno todavía.');
+      text('cellPayback', 'Sin recuperación con estos números');
+      text('cellPaybackSub', 'Suba la comisión que paga, baje su costo de entrega propio, o migre una parte menor \u2014 el veredicto se mueve con usted.');
+    }
+
+    var flag = document.getElementById('estFlag');
+    if (flag) {
+      flag.hidden = !(val('ticket') === DEFAULTS.ticket && val('comm') === DEFAULTS.comm && val('shift') === DEFAULTS.shift);
+    }
+  }
+
+  IDS.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', render);
+  });
+  var verdict = document.getElementById('verdictBig');
+  if (verdict && verdict.parentElement) verdict.parentElement.setAttribute('aria-live', 'polite');
+  if (document.getElementById('apps')) render();
+})();
+
+(function () {
+  var form = document.getElementById('leadForm');
+  var box = document.getElementById('statusBox');
+
+  /* ===================== CONFIG =====================
+     This is the only place contact details live. A value still wrapped in [brackets]
+     counts as unset: the page then renders no link for it and the form falls back to
+     the copy-and-send panel, so a placeholder can never become a dead link. */
+  var CONFIG = {
+    endpoint: '/api/lead',                         // clubemkt-leads.service en el VPS, solo POST
+    email: 'hudson@clubemkt.digital',
+    whatsappCountryCode: '591',
+    whatsappNumber: '76451489',
+    source: 'página de ahorro en comisiones de apps'
+  };
+
+  function filled(v) {
+    var s = String(v === undefined || v === null ? '' : v);
+    return s.length > 0 && s.indexOf('[') === -1 && s.indexOf(']') === -1;
+  }
+  function digits(v) { return String(v || '').replace(/\D/g, ''); }
+  function waHref(prefill) {
+    var n = digits(CONFIG.whatsappCountryCode) + digits(CONFIG.whatsappNumber);
+    if (!/^[0-9]{8,15}$/.test(n)) return '';
+    return 'https://wa.me/' + n + (prefill ? '?text=' + encodeURIComponent(prefill) : '');
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function buildDirectLinks() {
+    var host = document.getElementById('altContact');
+    if (!host) return;
+    var parts = [];
+    var wa = waHref('');
+    if (wa) parts.push('<a href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a>');
+    if (filled(CONFIG.email)) parts.push('<a href="mailto:' + esc(CONFIG.email) + '">' + esc(CONFIG.email) + '</a>');
+    if (parts.length) host.innerHTML = parts.join(' &nbsp;o&nbsp; ');
+  }
+
+  function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+  /* Same rules the server would apply, run here so nobody loses a form to a round trip. */
+  var RULES = {
+    business: function (v) { return v.length >= 2 ? '' : 'Ponga el nombre de la cocina.'; },
+    contact: function (v) { return v.length >= 2 ? '' : 'Ponga su nombre.'; },
+    phone: function (v) { var d = digits(v); return (d.length >= 7 && d.length <= 15) ? '' : 'Necesitamos un número de WhatsApp de 7 a 15 dígitos.'; },
+    volume: function (v) { return v ? '' : 'Elija el número más cercano.'; },
+    pain: function (v) { return v ? '' : 'Elija el que más le cuesta.'; },
+    email: function (v) { return (v === '' || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) ? '' : 'Esa dirección de correo parece incompleta.'; }
+  };
+
+  function valid() {
+    var firstBad = null;
+    Object.keys(RULES).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var msg = RULES[id](el.value.trim());
+      var field = el.closest('.field');
+      field.setAttribute('data-invalid', String(msg !== ''));
+      if (msg) { var err = field.querySelector('.err'); if (err) err.textContent = msg; }
+      if (msg && !firstBad) firstBad = el;
+    });
+    if (firstBad) firstBad.focus();
+    return firstBad === null;
+  }
+
+  function clamp(v, max) { return String(v || '').trim().slice(0, max); }
+
+  function payload() {
+    var channels = Array.prototype.slice.call(form.querySelectorAll('input[name="channel"]:checked')).map(function (c) { return c.value; });
+    return {
+      business: clamp(val('business'), 120),
+      contact: clamp(val('contact'), 120),
+      phone: clamp(val('phone'), 24),
+      email: clamp(val('email'), 160),
+      volume: clamp(val('volume'), 40),
+      pain: clamp(val('pain'), 80),
+      channels: channels,
+      notes: clamp(val('notes'), 800),
+      lang: document.documentElement.lang || 'es',
+      source: CONFIG.source
+    };
+  }
+
+  function compose() {
+    var channels = Array.prototype.slice.call(form.querySelectorAll('input[name="channel"]:checked')).map(function (c) { var l = c.closest('label'); return l ? l.textContent.trim() : c.value; });
+    return [
+      'Negocio: ' + val('business'),
+      'Contacto: ' + val('contact'),
+      'WhatsApp: ' + val('phone'),
+      'Correo: ' + (val('email') || '(no lo indicó)'),
+      'Pedidos por app al mes: ' + val('volume'),
+      'Costo principal: ' + val('pain'),
+      'Canales de pedido hoy: ' + (channels.length ? channels.join(', ') : '(ninguno marcado)'),
+      'Notas: ' + (val('notes') || '(ninguna)')
+    ].join('\n');
+  }
+
+  function show(html, kind) {
+    box.innerHTML = html;
+    box.setAttribute('data-show', 'true');
+    box.className = 'status status--' + (kind || 'ok');
+    box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+
+  function wireCopy() {
+    var copy = document.getElementById('copyBtn');
+    if (!copy) return;
+    copy.addEventListener('click', function () {
+      var ta = box.querySelector('textarea');
+      ta.removeAttribute('readonly');
+      ta.select();
+      var done = function (ok) { copy.textContent = ok ? 'Copiado — ahora péguelo en un correo o en WhatsApp' : 'Seleccione el texto y cópielo a mano'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(ta.value).then(function () { done(true); }, function () { done(false); });
+      } else {
+        try { done(document.execCommand('copy')); } catch (err) { done(false); }
+      }
+      ta.setAttribute('readonly', 'readonly');
+    });
+  }
+
+  // The composed text exists so a lead still has a way to reach us when POST has nowhere to go.
+  function fallbackPanel(body, reason) {
+    var subject = 'Consulta nueva \u2014 ' + val('business');
+    var mailHref = filled(CONFIG.email)
+      ? 'mailto:' + CONFIG.email + '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body + '\n\n\u2014 enviado desde ' + CONFIG.source)
+      : '';
+    var whats = waHref(body);
+    show(
+      '<h4>' + esc(reason) + '</h4>' +
+      '<p style="margin:0">No se pierde nada. Copie el texto de abajo y envíenoslo &mdash; leemos todos uno por uno.</p>' +
+      '<div class="fallback__actions">' +
+        (mailHref ? '<a class="btn btn--ghost" href="' + mailHref + '">Abrir en mi app de correo</a>' : '') +
+        (whats ? '<a class="btn btn--ghost" href="' + whats + '" target="_blank" rel="noopener">Abrir en WhatsApp</a>' : '') +
+      '</div>' +
+      '<textarea readonly rows="8" onclick="this.select()">' + esc(body) + '</textarea>' +
+      '<button class="btn btn--ghost" type="button" id="copyBtn">Copie estos datos</button>'
+    );
+    wireCopy();
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!valid()) return;
+
+    var body = compose();
+    var btn = form.querySelector('button[type="submit"]');
+
+    if (!filled(CONFIG.endpoint)) {
+      fallbackPanel(body, 'Esta página todavía no está conectada a una bandeja de leads');
+      return;
+    }
+
+    if (btn) btn.disabled = true;
+    show('<h4>Enviando&hellip;</h4><p style="margin:0">Un momento.</p>', 'warn');
+
+    fetch(CONFIG.endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload())
+    }).then(function (r) {
+      return r.json().then(
+        function (d) { return { status: r.status, data: d || {} }; },
+        function () { return { status: r.status, data: {} }; }
+      );
+    }).then(function (res) {
+      if (res.status >= 200 && res.status < 300 && res.data.ok) {
+        var whats = waHref(body);
+        show(
+          '<h4>Registrado \u2014 le respondemos por WhatsApp</h4>' +
+          '<p style="margin:0">Ya tenemos sus datos y le escribimos al número que dio. Para asegurarnos de verlo hoy, mande también este texto:</p>' +
+          (whats ? '<a class="btn btn--ghost" href="' + whats + '" target="_blank" rel="noopener">Abrir en WhatsApp</a>' : '') +
+          '<textarea readonly rows="8" onclick="this.select()">' + esc(body) + '</textarea>'
+        );
+      } else if (res.status === 409) {
+        show('<h4>Ya lo recibimos</h4><p style="margin:0">Ese número de WhatsApp llegó hace unos minutos. Le respondemos &mdash; no hace falta enviarlo dos veces.</p>', 'warn');
+      } else if (res.status === 422) {
+        show('<h4>Un campo necesita revisión</h4><p style="margin:0">El servidor rechazó: ' + esc((res.data.fields || []).join(', ') || 'details') + '. Corríjalo y envíelo de nuevo.</p>', 'bad');
+      } else if (res.status === 501) {
+        fallbackPanel(body, 'El almacenamiento de leads todavía no está conectado');
+      } else {
+        fallbackPanel(body, 'Algo falló al enviar sus datos');
+      }
+    }, function () {
+      fallbackPanel(body, 'No pudimos conectar con el servidor');
+    }).then(function () {
+      if (btn) btn.disabled = false;
+    });
+  });
+
+  form.addEventListener('input', function (e) {
+    var f = e.target.closest('.field');
+    if (f && f.getAttribute('data-invalid') === 'true' && e.target.value.trim() !== '') f.setAttribute('data-invalid', 'false');
+  });
+
+  buildDirectLinks();
+})();
+</script>
+</body>
+</html>

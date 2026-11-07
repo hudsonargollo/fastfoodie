@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stop paying app commission on repeat orders — move delivery orders to your own channel</title>
+<meta name="description" content="Every repeat order that arrives through PedidosYa, Uber Eats or Rappi costs you the commission again. See what migrating that volume to your own channel saves a fast food kitchen in Bolivia, and what you get back when the customer record is yours." />
+<meta name="robots" content="index,follow" />
+<link rel="alternate" hreflang="es" href="stop-paying-commission.es.html" />
+<link rel="alternate" hreflang="en" href="stop-paying-commission.html" />
+<style>
+  /* ============================================================
+     AGGREGATOR COMMISSION + RETENTION PAGE
+     Contact + form backend are set in the CONFIG object near the bottom of this
+     file. A value left in [brackets] counts as unset, so the page renders no link
+     for it and the form shows the copy-and-send panel instead.
+     Every commercial figure lives in ONE place: PER_ORDER_BS, PLAN1_USD, PLAN2_USD
+     and the DEFAULTS object in the calculator script at the bottom of this file.
+     The written examples on the page are derived from those same numbers.
+     ============================================================ */
+  :root {
+    --navy: #12314e;
+    --navy-700: #0d2540;
+    --navy-300: #3d6a94;
+    --orange: #e8590c;
+    --orange-600: #cf4d09;
+    --red: #b3261e;
+    --red-50: #fdf3f2;
+    --red-line: #f2cfcb;
+    --green: #0b7a3b;
+    --green-50: #f1f8f3;
+    --ink: #1f2a37;
+    --ink-600: #4a5568;
+    --ink-400: #6b7280;
+    --line: #dfe3e8;
+    --line-soft: #eef1f4;
+    --surface: #ffffff;
+    --surface-alt: #f6f8fa;
+    --cream: #fff8ed;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
+    --shadow-md: 0 4px 6px -2px rgba(16,24,40,.05), 0 12px 24px -6px rgba(16,24,40,.12);
+    --shadow-lg: 0 20px 45px -12px rgba(18,49,78,.28);
+    --maxw: 1080px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px; line-height: 1.6; color: var(--ink); background: var(--surface); overflow-x: hidden;
+  }
+  svg { max-width: 100%; }
+  a { color: var(--navy); }
+  h1, h2, h3, h4 { line-height: 1.18; margin: 0 0 .5em; color: var(--navy); letter-spacing: -.02em; }
+  h1 { font-size: clamp(30px, 5.4vw, 52px); font-weight: 800; }
+  h2 { font-size: clamp(24px, 3.4vw, 36px); font-weight: 800; }
+  h3 { font-size: 18px; font-weight: 700; }
+  p { margin: 0 0 1em; }
+  .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); min-width: 0; }
+  .wrap > * { min-width: 0; }
+  /* grid/flex items default to min-width:auto, which lets long words and
+     <select> option text push a track wider than the viewport */
+  .hero__inner > *, .capture__grid > *, .row2 > *, .fix > *, .fixes > *,
+  .pains > *, .steps > *, .qualify > *, .qual > *, .faq > *, .grid > *,
+  .calc__grid > *, .outgrid > *, .outcell > *, .capture__list li { min-width: 0; }
+  input, select, textarea { max-width: 100%; }
+  select { min-width: 0; }
+  .checks { min-width: 0; }
+  .section { padding-block: clamp(46px, 7vw, 84px); }
+  .section--alt { background: var(--surface-alt); border-block: 1px solid var(--line); }
+  .eyebrow { display: block; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+  .lede { font-size: clamp(16px, 1.7vw, 19px); color: var(--ink-600); max-width: 60ch; }
+  :focus-visible { outline: 3px solid rgba(232,89,12,.45); outline-offset: 2px; border-radius: 4px; }
+  .skip { position: absolute; left: -9999px; top: 0; background: var(--navy); color: #fff; padding: 12px 18px; z-index: 100; border-radius: 0 0 8px 0; }
+  .skip:focus { left: 0; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: inherit;
+    font-size: 15px; font-weight: 650; text-decoration: none; cursor: pointer; padding: 14px 24px;
+    border-radius: var(--radius-sm); border: 1px solid transparent; white-space: nowrap;
+    transition: background-color .15s ease, border-color .15s ease, transform .05s ease;
+  }
+  .btn--primary { background: var(--orange); color: #fff; }
+  .btn--primary:hover { background: var(--orange-600); }
+  .btn--ghost { background: transparent; color: var(--navy); border-color: var(--line); }
+  .btn--ghost:hover { border-color: var(--navy-300); background: var(--surface-alt); }
+  .btn--lg { font-size: 16.5px; padding: 16px 28px; }
+  /* a full-width button must be allowed to wrap: nowrap makes it overflow its own box
+     on a 320px viewport */
+  .btn--block { width: 100%; white-space: normal; }
+  .btn:active { transform: translateY(1px); }
+
+  /* ---------- minimal header: cold traffic should not wander ---------- */
+  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.94); backdrop-filter: saturate(180%) blur(10px); border-bottom: 1px solid var(--line); }
+  .site-header__row { display: flex; align-items: center; gap: 14px; min-height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 750; color: var(--navy); text-decoration: none; font-size: 15.5px; }
+  .brand__mark { width: 30px; height: 30px; border-radius: 8px; flex: none; background: linear-gradient(140deg, var(--navy), var(--navy-300)); display: grid; place-items: center; color: #fff; }
+  .header__links { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+  .header__links a.hlink { font-size: 14px; font-weight: 550; color: var(--ink-600); text-decoration: none; padding: 8px 10px; border-radius: 6px; }
+  .header__links a.hlink:hover { color: var(--navy); background: var(--surface-alt); }
+  @media (max-width: 700px) { .header__links .hlink--extra { display: none; } }
+  @media (max-width: 560px) { .header__links .hlink { display: none; } }
+  @media (max-width: 400px) {
+    .site-header__row { gap: 8px; }
+    .brand > span:last-child { display: none; }
+    .header__links .btn { padding: 11px 14px; font-size: 14px; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero { background: linear-gradient(178deg, #fff 0%, var(--surface-alt) 100%); padding-block: clamp(44px, 6vw, 76px) clamp(38px, 5vw, 64px); }
+  .hero h1 { max-width: 820px; }
+  .hero p.lede { margin-top: 18px; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; align-items: center; }
+  /* the Spanish labels here are longer than the English ones; nowrap pushes a 320px viewport */
+  .hero__cta .btn { white-space: normal; }
+  .reassure { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 22px 0 0; padding: 0; list-style: none; font-size: 13.5px; color: var(--ink-600); }
+  .reassure li { display: flex; align-items: center; gap: 7px; }
+  .reassure svg { color: var(--green); flex: none; }
+
+  .quote {
+    margin: 30px 0 0; padding: 20px 22px; background: #fff; border: 1px solid var(--red-line);
+    border-left: 4px solid var(--red); border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    max-width: 760px;
+  }
+  .quote p { margin: 0; font-size: 16.5px; color: var(--ink); font-style: italic; line-height: 1.5; }
+  .quote cite { display: block; margin-top: 8px; font-size: 12.5px; font-style: normal; color: var(--ink-400); letter-spacing: .04em; text-transform: uppercase; }
+
+  /* ---------- money-leak grid ---------- */
+  .pains { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 34px; }
+  .pain {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow-sm);
+    border-top: 3px solid var(--red-line);
+  }
+  .pain__head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 8px; }
+  .pain__icon { width: 32px; height: 32px; flex: none; border-radius: 8px; display: grid; place-items: center; background: var(--red-50); color: var(--red); }
+  .pain h3 { font-size: 16px; margin: 0; }
+  .pain p { margin: 0; font-size: 14.5px; color: var(--ink-600); line-height: 1.55; }
+  .pain__cost { margin-top: 12px; padding-top: 11px; border-top: 1px dashed var(--line); font-size: 13px; color: var(--red); font-weight: 600; }
+
+  /* ---------- before -> after rows ---------- */
+  .fixes { margin-top: 34px; display: grid; gap: 12px; }
+  .fix {
+    display: grid; grid-template-columns: 1fr 44px 1fr; gap: 0; align-items: stretch;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+  }
+  .fix__before, .fix__after { padding: 18px 20px; font-size: 14.5px; line-height: 1.5; }
+  .fix__before { background: var(--red-50); color: #6d2420; }
+  .fix__before strong { color: var(--red); }
+  .fix__after { background: var(--green-50); color: #14532d; }
+  .fix__after strong { color: var(--green); }
+  .fix__arrow { display: grid; place-items: center; background: #fff; color: var(--navy-300); border-inline: 1px solid var(--line); }
+  @media (max-width: 700px) {
+    .fix { grid-template-columns: 1fr; }
+    .fix__arrow { border-inline: 0; border-block: 1px solid var(--line); padding: 6px 0; }
+    /* rotate the icon only — rotating the cell turns a full-width row into a
+       350px-tall strip that paints over the before/after text */
+    .fix__arrow svg { transform: rotate(90deg); }
+  }
+
+  /* ---------- capability cards ---------- */
+  .grid { display: grid; gap: clamp(16px, 2vw, 22px); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 34px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 2.4vw, 26px); box-shadow: var(--shadow-sm); }
+  .card__icon { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--cream); color: var(--orange); margin-bottom: 14px; }
+  .card h3 { font-size: 16.5px; margin-bottom: 6px; }
+  .card p { margin: 0; font-size: 14.5px; color: var(--ink-600); line-height: 1.55; }
+  .card__tag { display: inline-block; margin-top: 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-400); background: var(--surface-alt); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+  .card__tag--addon { color: var(--orange-600); background: var(--cream); border-color: #f3c9a0; }
+
+  /* ---------- 3 steps ---------- */
+  .steps { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 34px; }
+  .step { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm); }
+  .step__num { width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+  .step p { margin: 0; font-size: 14.5px; color: var(--ink-600); }
+
+  /* ---------- honest caveat box ---------- */
+  .caveat { margin-top: 26px; background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--navy-300); border-radius: var(--radius); padding: clamp(18px, 2.4vw, 24px); }
+  .caveat h3 { font-size: 16px; margin-bottom: 10px; }
+  .caveat ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+  .caveat li { font-size: 14.5px; color: var(--ink-600); line-height: 1.55; }
+  .caveat li strong { color: var(--navy); }
+
+  /* ---------- qualifier ---------- */
+  .qualify { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 34px; }
+  .qual { border-radius: var(--radius); padding: 22px; border: 1px solid var(--line); background: #fff; }
+  .qual--yes { border-color: #bfe0cb; background: var(--green-50); }
+  .qual--no { border-color: var(--line); }
+  .qual h3 { font-size: 15px; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 14px; }
+  .qual--yes h3 { color: var(--green); }
+  .qual--no h3 { color: var(--ink-400); }
+  .qual ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .qual li { display: flex; gap: 10px; font-size: 14.5px; line-height: 1.5; }
+  .qual li svg { flex: none; margin-top: 3px; }
+  .qual--yes li svg { color: var(--green); }
+  .qual--no li svg { color: var(--ink-400); }
+
+  /* ---------- tables ---------- */
+  .tablehint { display: none; align-items: center; gap: 7px; margin: 26px 0 8px; font-size: 12.5px; font-weight: 600; color: var(--ink-400); }
+  @media (max-width: 767px) { .tablehint { display: flex; } }
+  .tableshell { position: relative; margin-top: 32px; }
+  @media (max-width: 767px) { .tableshell { margin-top: 0; } }
+  .tableshell::after {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 34px; pointer-events: none;
+    background: linear-gradient(90deg, rgba(255,255,255,0), #fff 78%); border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  @media (min-width: 768px) { .tableshell::after { display: none; } }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14.5px; }
+  caption { text-align: left; padding: 16px 18px 0; color: var(--ink-400); font-size: 13px; }
+  th, td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  thead th { background: var(--navy); color: #fff; font-size: 13px; font-weight: 650; letter-spacing: .02em; }
+  tbody th { font-weight: 600; color: var(--ink-600); background: var(--surface-alt); width: 34%; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  .num { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--navy); }
+  .is-bad { color: var(--red) !important; }
+  .is-good { color: var(--green) !important; }
+  .tablefoot { margin-top: 12px; font-size: 12.5px; color: var(--ink-400); line-height: 1.5; max-width: 78ch; }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 780px; margin: 30px auto 0; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { list-style: none; cursor: pointer; padding: 17px 40px 17px 0; position: relative; font-size: 16px; font-weight: 650; color: var(--navy); }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 22px; color: var(--orange); }
+  .faq details[open] summary::after { content: "\2212"; }
+  .faq p { margin: 0 0 17px; font-size: 15px; color: var(--ink-600); max-width: 66ch; }
+
+  /* ---------- calculator ---------- */
+  .calc { margin-top: 34px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-md); }
+  .calc__grid {
+    display: grid; grid-template-columns: minmax(260px, .95fr) minmax(300px, 1.05fr);
+    gap: clamp(18px, 2.6vw, 32px); padding: clamp(20px, 2.8vw, 30px); min-width: 0;
+  }
+  .calc__in { display: grid; gap: 18px; align-content: start; min-width: 0; }
+  .sfield > label {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    font-size: 13.5px; font-weight: 600; color: var(--ink-600); margin-bottom: 6px;
+  }
+  .sfield output { font-size: 15.5px; font-weight: 800; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .sfield input[type="range"] { width: 100%; margin: 0; accent-color: var(--orange); cursor: ew-resize; height: 26px; }
+  .adv { font-size: 13.5px; }
+  .adv summary { color: var(--ink-400); cursor: pointer; font-weight: 600; }
+  .adv[open] { display: grid; gap: 16px; padding-top: 12px; }
+  .calc__out { display: grid; gap: 16px; align-content: start; min-width: 0; }
+  .verdict { border-left: 4px solid var(--orange); padding-left: 16px; min-width: 0; }
+  .verdict__label { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-400); }
+  .verdict__big { margin: 4px 0 0; font-size: clamp(21px, 2.6vw, 28px); font-weight: 800; color: var(--navy); line-height: 1.15; letter-spacing: -.02em; }
+  .verdict__sub { margin: 7px 0 0; font-size: 14.5px; color: var(--ink-600); }
+  .outgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; min-width: 0; }
+  .outcell { background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 11px 13px; min-width: 0; }
+  .outcell--wide { grid-column: 1 / -1; }
+  .outcell dt { font-size: 12px; color: var(--ink-400); margin: 0; line-height: 1.35; }
+  .outcell dd { margin: 4px 0 0; font-size: 16px; font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .outcell dd small { display: block; font-size: 12.5px; font-weight: 600; color: var(--ink-400); margin-top: 2px; }
+  .estflag { background: var(--cream); border: 1px solid #f3c9a0; border-radius: var(--radius-sm); padding: 10px 13px; font-size: 13px; color: #7a3e06; line-height: 1.45; }
+  .calc__fine { margin: 0; font-size: 12.5px; color: var(--ink-400); line-height: 1.5; }
+  @media (max-width: 860px) {
+    .calc__grid { grid-template-columns: 1fr; }
+    .outgrid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- methodology ---------- */
+  .sources { margin-top: 26px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(16px, 2vw, 22px); }
+  .sources summary { font-size: 15px; font-weight: 700; color: var(--navy); cursor: pointer; }
+  .sources p { font-size: 14.5px; color: var(--ink-600); margin: 14px 0 0; max-width: 74ch; }
+  .sources ul { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .sources li { font-size: 14px; color: var(--ink-600); border-left: 3px solid var(--line); padding: 2px 0 2px 13px; line-height: 1.5; }
+  .sources li b { color: var(--navy); }
+  .formula {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.7;
+    background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 13px 15px; overflow-x: auto; color: var(--ink);
+  }
+
+  /* ---------- lead form ---------- */
+  .capture { background: linear-gradient(160deg, var(--navy) 0%, var(--navy-700) 100%); color: #fff; }
+  .capture__grid { display: grid; gap: clamp(26px, 4vw, 52px); grid-template-columns: .85fr 1.15fr; align-items: start; }
+  @media (max-width: 880px) { .capture__grid { grid-template-columns: 1fr; } }
+  .capture h2 { color: #fff; }
+  .capture p.sub { color: #c7d7e6; font-size: 16.5px; max-width: 44ch; }
+  .capture__list { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
+  .capture__list li { display: flex; gap: 11px; font-size: 14.5px; color: #d6e5f2; line-height: 1.45; }
+  .capture__list svg { flex: none; margin-top: 2px; color: #7fd6a0; }
+  .capture__alt { margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.18); font-size: 14px; color: #b9d2e6; }
+  .capture__alt a { color: #fff; }
+
+  .formcard { background: #fff; border-radius: var(--radius); padding: clamp(22px, 3vw, 30px); box-shadow: var(--shadow-lg); color: var(--ink); }
+  .formcard h3 { margin-top: 0; font-size: 19px; }
+  .formcard > p { font-size: 14px; color: var(--ink-600); margin-bottom: 20px; }
+  .field { margin-bottom: 16px; }
+  .field > label { display: block; font-size: 13.5px; font-weight: 650; color: var(--navy); margin-bottom: 6px; }
+  .row2 { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+  .legend { display: block; font-size: 13.5px; font-weight: 650; color: var(--navy); margin-bottom: 6px; }
+  .hint { font-size: 12.5px; color: var(--ink-400); margin: 5px 0 0; }
+  input[type="text"], input[type="tel"], input[type="email"], select, textarea {
+    width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: #fff;
+    border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 11px 13px;
+  }
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 36px; }
+  textarea { min-height: 78px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { border-color: var(--navy-300); }
+  fieldset { border: 0; margin: 0 0 16px; padding: 0; }
+  .checks { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 4px; }
+  .check { display: flex; align-items: center; gap: 9px; font-size: 14.5px; font-weight: 400; color: var(--ink); background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 9px 12px; cursor: pointer; }
+  .check:hover { border-color: var(--navy-300); }
+  .check input { width: 17px; height: 17px; accent-color: var(--orange); flex: none; margin: 0; }
+  .err { display: none; font-size: 12.5px; font-weight: 600; color: var(--red); margin-top: 5px; }
+  .field[data-invalid="true"] input, .field[data-invalid="true"] select { border-color: var(--red); }
+  .field[data-invalid="true"] .err { display: block; }
+  .consent { font-size: 12.5px; color: var(--ink-400); margin: 14px 0 0; line-height: 1.5; }
+  .status { margin-top: 16px; font-size: 14px; border-radius: var(--radius-sm); padding: 14px 16px; display: none; }
+  .status[data-show="true"] { display: block; }
+  .status--ok { background: var(--green-50); border: 1px solid #bfe0cb; color: #14532d; }
+  .status--warn { background: var(--cream); border: 1px solid #f3c9a0; color: #7a3e06; }
+  .status--warn h4 { color: var(--orange); }
+  .status--bad { background: #fdf0ef; border: 1px solid #f2c4c0; color: #6d2420; }
+  .status--bad h4 { color: var(--red); }
+  .status h4 { margin: 0 0 6px; font-size: 15px; color: var(--green); }
+  .status textarea { margin-top: 10px; font-size: 12.5px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; min-height: 120px; }
+  .status .btn { margin-top: 10px; font-size: 13.5px; padding: 9px 14px; }
+  .fallback__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .site-footer { background: #0b1f33; color: #8fb3d4; padding-block: 30px; font-size: 13.5px; }
+  .site-footer a { color: #c7d7e6; }
+  .site-footer__row { display: flex; flex-wrap: wrap; gap: 12px 26px; justify-content: space-between; align-items: baseline; }
+  .site-footer strong { color: #fff; }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__row">
+    <a class="brand" href="index.html">
+      <span class="brand__mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><path d="M4 15h16v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><circle cx="8" cy="19" r="1.4"/><circle cx="16" cy="19" r="1.4"/></svg>
+      </span>
+      <span>ClubeMkt</span>
+    </a>
+    <div class="header__links">
+      <a class="hlink hlink--extra" href="#retention">Retention</a>
+      <a class="hlink" href="index.html">Plans &amp; pricing</a>
+      <a class="hlink" href="stop-paying-commission.es.html" hreflang="es">Español</a>
+      <a class="btn btn--primary" href="#signup">Run my numbers</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== HOOK ===================== -->
+  <section class="hero">
+    <div class="wrap hero__inner">
+      <span class="eyebrow">For kitchens that take delivery orders on the apps</span>
+      <h1>The app found that customer once. It charges you every time they come back.</h1>
+      <p class="lede">
+        Commission is not a one-off acquisition cost. It is rent on customers you already serve, paid again on Tuesday
+        lunch and again on Friday night. Moving the orders you can already reach onto your own channel keeps that
+        percentage &mdash; and hands you the customer record the apps never give back.
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary btn--lg" href="#calculator">See what it would save me</a>
+        <a class="btn btn--ghost btn--lg" href="#retention">Show me the retention side</a>
+      </div>
+      <ul class="reassure">
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>You keep your app listings</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>No figure on this page is a platform&rsquo;s rate</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>We reply on WhatsApp</li>
+      </ul>
+
+      <div class="quote">
+        <p><strong>The moment it stings:</strong> a customer who has ordered from you eleven times this month places an
+        order through PedidosYa, Uber Eats or Rappi &mdash; and that eleventh sale costs you the same percentage as the
+        first one, when it is the sale you should be paying least for.</p>
+        <cite>This page is about the repeat orders, not the discovery ones</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WHERE THE MONEY GOES ===================== -->
+  <section class="section section--alt" id="leaks">
+    <div class="wrap">
+      <span class="eyebrow">Where the margin goes</span>
+      <h2>Five things an app order costs you that your own order does not</h2>
+      <p class="lede">The apps do something useful: they put your kitchen in front of people who had never heard of you.
+      What follows is what happens on every order after that one.</p>
+
+      <div class="pains">
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h5M9.5 14.5h5"/></svg></span>
+            <h3>The percentage, every single time</h3>
+          </div>
+          <p>The commission is charged per order, not per new customer. The hundredth order from your best customer
+          costs you exactly what the first one did.</p>
+          <p class="pain__cost">Cost: the same slice, sold to you again and again</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M17 8h5M19.5 5.5v5"/></svg></span>
+            <h3>The customer never becomes yours</h3>
+          </div>
+          <p>The phone number, the address and the history sit in the platform&rsquo;s account. You cannot message that
+          person without buying the same sale again.</p>
+          <p class="pain__cost">Cost: repeat sales you have to re-purchase</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
+            <h3>Your own volume is invisible</h3>
+          </div>
+          <p>You can see the orders that came through the app. You cannot see the customer who walks in, or the one who
+          rings the shop, or which of the three is worth the most.</p>
+          <p class="pain__cost">Cost: a menu and a budget built on part of the picture</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span>
+            <h3>Every rule change lands on you</h3>
+          </div>
+          <p>Commission, ranking, delivery pricing and the terms of the listing are decided by someone else and change
+            on someone else&rsquo;s schedule.</p>
+          <p class="pain__cost">Cost: your margin moves without you deciding anything</p>
+        </article>
+
+        <article class="pain">
+          <div class="pain__head">
+            <span class="pain__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/></svg></span>
+            <h3>Theirs is the shop window</h3>
+          </div>
+          <p>Your menu appears inside their layout, next to your competitors, at their prices. The customer is loyal to
+          the app that remembers their address &mdash; not to your kitchen.</p>
+          <p class="pain__cost">Cost: a relationship that is rented, not owned</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SAVINGS CALCULATOR ===================== -->
+  <section class="section" id="calculator">
+    <div class="wrap">
+      <span class="eyebrow">Your numbers, not ours</span>
+      <h2>What migrating part of that volume is worth</h2>
+      <p class="lede">
+        We publish no platform&rsquo;s commission rate &mdash; only you know what your own statement says. Put your real
+        figures in the sliders and the whole page recalculates, in Bolivianos, on the Bs&nbsp;11.50 convention the rest of
+        the pricing uses.
+      </p>
+
+      <div class="calc">
+        <div class="calc__grid">
+          <div class="calc__in">
+            <div class="sfield">
+              <label for="apps"><span>Delivery orders per month that come through apps</span><output id="appsOut">400</output></label>
+              <input type="range" id="apps" min="100" max="3000" step="50" value="400">
+            </div>
+            <div class="sfield">
+              <label for="ticket"><span>Average order ticket (Bs)</span><output id="ticketOut">Bs 60</output></label>
+              <input type="range" id="ticket" min="20" max="200" step="5" value="60">
+            </div>
+            <div class="sfield">
+              <label for="comm"><span>Commission you pay per app order</span><output id="commOut">25%</output></label>
+              <input type="range" id="comm" min="15" max="35" step="1" value="25">
+              <p class="hint">Copy this from your own statement. It is the one number we refuse to guess for you.</p>
+            </div>
+            <div class="sfield">
+              <label for="shift"><span>Share you move to your own channel</span><output id="shiftOut">35%</output></label>
+              <input type="range" id="shift" min="10" max="80" step="5" value="35">
+              <p class="hint">Repeat customers are the realistic first move &mdash; nobody cancels the app on day one.</p>
+            </div>
+            <details class="adv">
+              <summary>Advanced &mdash; delivery cost and exchange rate</summary>
+              <div class="sfield">
+                <label for="ownDelivery"><span>What delivering one order yourself costs you (Bs)</span><output id="ownDeliveryOut">Bs 0</output></label>
+                <input type="range" id="ownDelivery" min="0" max="30" step="1" value="0">
+                <p class="hint">Rider pay, fuel, or what you pay a courier per drop. Leave at 0 only if you already absorb it.</p>
+              </div>
+              <div class="sfield">
+                <label for="repeat"><span>Extra orders a year from customers you can now reach</span><output id="repeatOut">2</output></label>
+                <input type="range" id="repeat" min="0" max="6" step="1" value="2">
+                <p class="hint">Feeds the retention estimate only. Nothing below the &ldquo;net you keep&rdquo; line depends on it.</p>
+              </div>
+              <div class="sfield">
+                <label for="rate"><span>Exchange rate (Bs per USD)</span><output id="rateOut">11.50</output></label>
+                <input type="range" id="rate" min="7" max="14" step="0.5" value="11.5">
+              </div>
+            </details>
+            <p class="calc__fine">
+              Nothing here is stored or sent anywhere. The sliders only change what this page shows you.
+            </p>
+          </div>
+
+          <div class="calc__out">
+            <div class="verdict">
+              <p class="verdict__label">Net you keep, every month</p>
+              <p class="verdict__big" id="verdictBig">&mdash;</p>
+              <p class="verdict__sub" id="verdictSub">&mdash;</p>
+            </div>
+
+            <dl class="outgrid">
+              <div class="outcell">
+                <dt>Commission on your app orders today</dt>
+                <dd><span id="cellComm">&mdash;</span><small id="cellCommSub"></small></dd>
+              </div>
+              <div class="outcell">
+                <dt>Orders you would move</dt>
+                <dd><span id="cellMoved">&mdash;</span><small id="cellMovedSub"></small></dd>
+              </div>
+              <div class="outcell outcell--wide">
+                <dt>Commission you stop paying on those orders</dt>
+                <dd><span id="cellKept">&mdash;</span><small id="cellKeptSub"></small></dd>
+              </div>
+              <div class="outcell outcell--wide">
+                <dt>What they cost instead</dt>
+                <dd><span id="cellCost">&mdash;</span><small id="cellCostSub"></small></dd>
+              </div>
+              <div class="outcell outcell--wide">
+                <dt>Payback on the software</dt>
+                <dd><span id="cellPayback">&mdash;</span><small id="cellPaybackSub"></small></dd>
+              </div>
+              <div class="outcell outcell--wide">
+                <dt>Retention dividend, if the repeat orders come</dt>
+                <dd><span id="cellRetention">&mdash;</span><small id="cellRetentionSub"></small></dd>
+              </div>
+            </dl>
+
+            <p class="estflag" id="estFlag" hidden>
+              &#9888;&nbsp; Ticket, commission and share migrated are still on the defaults shown here &mdash; they are my
+              estimates, not your data. Move them to your real numbers before you decide anything.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tableshell">
+        <p class="tablehint">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12h8M12 8l4 4-4 4"/><circle cx="12" cy="12" r="9"/></svg>
+          Swipe the table sideways to see all three columns
+        </p>
+        <div class="tablewrap">
+          <table>
+            <caption>The same Bs 60 order, bought two ways</caption>
+            <thead>
+              <tr>
+                <th scope="col">On one order</th>
+                <th scope="col">Through an app</th>
+                <th scope="col">Through your own channel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">The customer pays</th>
+                <td>Bs 60</td>
+                <td>Bs 60 &mdash; same menu, same price</td>
+              </tr>
+              <tr>
+                <th scope="row">Commission leaving your till</th>
+                <td><span class="num is-bad">Bs 15</span> at a 25% example rate</td>
+                <td><span class="num is-good">Bs 0</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Fee you pay us</th>
+                <td>None &mdash; you are not our customer</td>
+                <td><span class="num">Bs 1</span> on the Plan&nbsp;2 per-order option</td>
+              </tr>
+              <tr>
+                <th scope="row">Left before delivery</th>
+                <td><span class="num">Bs 45</span></td>
+                <td><span class="num is-good">Bs 59</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Who holds the phone number</th>
+                <td>The platform</td>
+                <td>You, in your own customer list</td>
+              </tr>
+              <tr>
+                <th scope="row">The next order from the same person</th>
+                <td>Commission again</td>
+                <td>Bs 1 again</td>
+              </tr>
+              <tr>
+                <th scope="row">Inviting them back next month</th>
+                <td>Paid as another commission, or as another ad</td>
+                <td>A message to a list you already have</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="tablefoot">
+          Bs 15 is what a 25% commission does to a Bs 60 ticket; change the rate in the calculator and this row changes
+          for you. Delivery is deliberately missing from this table &mdash; if you used the platform&rsquo;s riders, that
+          cost moves to your side and belongs in the advanced slider above.
+        </p>
+      </div>
+
+      <details class="sources">
+        <summary>Where every number on this page comes from</summary>
+        <p>
+          You should check this arithmetic before you believe any of it. These are the formulas, and which inputs are
+          yours rather than mine.
+        </p>
+        <p class="formula">
+          commission today&nbsp;&nbsp;&nbsp; = app orders &times; ticket &times; commission%<br>
+          orders moved&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = app orders &times; share migrated<br>
+          you stop paying&nbsp;&nbsp; = orders moved &times; ticket &times; commission%<br>
+          software fee&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = orders moved &times; Bs 1<br>
+          your delivery cost = orders moved &times; Bs per order you enter<br>
+          net you keep&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = you stop paying &minus; software fee &minus; your delivery cost<br>
+          Plan 2 payback&nbsp;&nbsp;&nbsp;&nbsp; = ($1,000 &times; rate) &divide; net&nbsp;&nbsp;&nbsp; Plan 1 payback = ($2,000 &times; rate) &divide; net<br>
+          retention estimate = orders moved &times; extra orders a year &times; ticket &times; commission%
+        </p>
+        <ul>
+          <li><b>Yours to correct:</b> app orders, ticket, commission, share migrated, your own delivery cost, repeat orders, exchange rate.</li>
+          <li><b>Mine, and defaults:</b> 400 app orders, Bs 60 ticket, 25% commission, 35% migrated, Bs 0 own delivery, 2 extra orders a year, Bs 11.50 per USD. The 11.50 convention is shared with the rest of the pricing so both documents agree.</li>
+          <li><b>Fixed by the proposal:</b> Bs 1 per order, $150 per month, $1,000 Plan&nbsp;2 upfront, $2,000 Plan&nbsp;1.</li>
+          <li><b>What the Bs 1 is charged on:</b> every order the system processes. This calculator charges it on the migrated
+            orders only &mdash; if your app orders also run through the intake automation, as most clients&rsquo; do, add Bs&nbsp;1
+            for each of those too. On the fixed $150 / month option none of this moves, because volume changes nothing.</li>
+          <li><b>Deliberately not here:</b> any named platform&rsquo;s published rate, ranking rules or terms. We do not claim to know them, and nothing on this page depends on them.</li>
+          <li><b>Where the net goes negative:</b> if delivering an order yourself costs more than the commission you save, the calculator says so instead of hiding it. That is a real answer, not a failure.</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===================== RETENTION ===================== -->
+  <section class="section section--alt" id="retention">
+    <div class="wrap">
+      <span class="eyebrow">The part that compounds</span>
+      <h2>The saving is the commission. The asset is the customer list.</h2>
+      <p class="lede">
+        Once an order passes through your own system, the relationship has a record behind it. That record is worth more
+        each month, because reaching someone who has already eaten at your kitchen is the cheapest sale you will ever make.
+      </p>
+
+      <div class="fixes">
+        <div class="fix">
+          <div class="fix__before"><strong>The platform holds the phone number.</strong> You cannot reach that customer without paying for the same sale twice.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>Every order writes a customer record.</strong> Name, number, address and history land in a list that belongs to the kitchen.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>A repeat order costs commission again.</strong> Your best customers are the most expensive ones to serve.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>A repeat order costs Bs 1.</strong> The hundredth sale from the same person is the cheapest one you make.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>You cannot see who stopped ordering.</strong> A regular disappears over six weeks and nothing ever tells you.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>Lapsed customers are visible.</strong> With the marketing add-on, the ones who have not ordered in 30 days become a campaign instead of a memory.</div>
+        </div>
+
+        <div class="fix">
+          <div class="fix__before"><strong>Ordering from you means opening their app.</strong> The app owns the habit and the screen they see first.</div>
+          <div class="fix__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="fix__after"><strong>WhatsApp stays the front door.</strong> The customer does not install anything new; the order lands in your system instead of someone&rsquo;s notebook.</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M17 8h5M19.5 5.5v5"/></svg></span>
+          <h3>A record behind every order</h3>
+          <p>Customers and their order history are captured as part of intake &mdash; not typed into a second place by a tired staff member.</p>
+          <span class="card__tag">Core software</span>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+          <h3>WhatsApp as the order channel</h3>
+          <p>The customer keeps the habit they already have. What changes is where the message goes and what happens behind it.</p>
+          <span class="card__tag">Core software</span>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></span>
+          <h3>Re-engagement campaigns</h3>
+          <p>Reactivating the list you already have: lapsed customers, high-value customers, the late-night segment, the weekday lunch regulars.</p>
+          <span class="card__tag card__tag--addon">Marketing add-on</span>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
+          <h3>Offers that cost you nothing to send</h3>
+          <p>A discount for the second order this month is a message, not a commission. The cheaper the reach, the more experiments you can afford.</p>
+          <span class="card__tag card__tag--addon">Marketing add-on</span>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></span>
+          <h3>Repeat rate as a number</h3>
+          <p>How many customers came back, how often, and what they order &mdash; reported and acted on rather than guessed at.</p>
+          <span class="card__tag card__tag--addon">Marketing add-on</span>
+        </article>
+
+        <article class="card">
+          <span class="card__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <h3>New customers still arrive</h3>
+          <p>The apps, Google and Meta campaigns keep bringing people in. The difference is that they land in your list, not only in a platform&rsquo;s.</p>
+          <span class="card__tag card__tag--addon">Marketing add-on</span>
+        </article>
+      </div>
+
+      <div class="caveat">
+        <h3>Which part is honest about what</h3>
+        <ul>
+          <li><strong>The core software</strong> captures the customer and the order history, because the order now passes through your system instead of a notebook.</li>
+          <li><strong>The active campaigns</strong> &mdash; segments, reactivation, offers, reporting &mdash; are the marketing add-on. If you buy the software alone, you own the list; you send to it yourself.</li>
+          <li><strong>The extra-orders figure</strong> in the calculator is an estimate of upside, not a promise. Nobody can guarantee that a reachable customer orders more.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW MIGRATION ACTUALLY GOES ===================== -->
+  <section class="section" id="ramp">
+    <div class="wrap">
+      <span class="eyebrow">How it actually happens</span>
+      <h2>A ramp, not a switch</h2>
+      <p class="lede">Kitchens that do this badly lose volume and panic. Kitchens that do it well never ask a customer to
+      change habits they like &mdash; they just make the second order cheaper for both sides.</p>
+
+      <div class="steps">
+        <article class="step">
+          <span class="step__num" aria-hidden="true">1</span>
+          <h3>Keep every app listing live</h3>
+          <p>Nothing leaves. Your own channel is opened, your staff are trained on one working session, and orders from
+          both worlds arrive in the same system. Go-live is usually within a week of signing.</p>
+        </article>
+        <article class="step">
+          <span class="step__num" aria-hidden="true">2</span>
+          <h3>Move the repeat orders first</h3>
+          <p>The customer who has ordered twice already does not need the app&rsquo;s discovery. A card in the bag, a
+          WhatsApp number, one good reason to order direct next time.</p>
+        </article>
+        <article class="step">
+          <span class="step__num" aria-hidden="true">3</span>
+          <h3>Measure it, then decide</h3>
+          <p>You see what actually moved, what it saved, and what the app still brings you. Most kitchens land on keeping
+          the apps for new customers and pushing repeat volume to their own channel.</p>
+        </article>
+      </div>
+
+      <div class="caveat">
+        <h3>What does not move, and should not be pretended</h3>
+        <ul>
+          <li><strong>Discovery.</strong> A platform that puts you in front of strangers is doing something you cannot do by messaging your own list. Keep paying for that where it works.</li>
+          <li><strong>Delivery logistics, if you used their riders.</strong> That cost crosses to your side of the ledger. Put it in the advanced slider before you argue with anyone.</li>
+          <li><strong>Customer inertia.</strong> Some people will always tap the app that remembers their address. The 35% default on this page is a ceiling to argue with, not a guarantee.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUALIFIER ===================== -->
+  <section class="section section--alt" id="qualify">
+    <div class="wrap">
+      <span class="eyebrow">Is this you?</span>
+      <h2>This page is for a specific kitchen</h2>
+      <div class="qualify">
+        <div class="qual qual--yes">
+          <h3>Strong fit if</h3>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>A real share of your orders comes back again and again</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>You pay a percentage on each of those orders</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>You have your own riders, or charge a delivery fee</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>You would use a customer list instead of just holding one</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>You are willing to put a card in every bag</span></li>
+          </ul>
+        </div>
+        <div class="qual qual--no">
+          <h3>Tell us first if</h3>
+          <ul>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>Almost all your volume is brand-new customers the app found</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You have no delivery of your own and no way to add one</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>Your app volume is under about 100 orders a month &mdash; the payback math may not work yet</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You need several branches reporting into one dashboard</span></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You must integrate with a specific existing POS</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="center" style="text-align:center">
+        <span class="eyebrow">Fair questions</span>
+        <h2>What owners ask before they believe this</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Won&rsquo;t customers just keep ordering through the app?</summary>
+          <p>For the first order, usually yes &mdash; that is what the app is for. This is about the second order and
+          onwards, where the customer already knows your food and the app is only remembering an address. Give them one
+          reason, keep the price the same, and measure what actually moves instead of assuming it will not.</p>
+        </details>
+        <details>
+          <summary>Does this mean cancelling PedidosYa, Uber Eats or Rappi?</summary>
+          <p>No, and a page that told you to would be selling you something. Keep the listings that bring strangers in.
+          The argument on this page is only about orders from people who already came back to you once.</p>
+        </details>
+        <details>
+          <summary>You do not know my commission rate, so why should I trust the numbers?</summary>
+          <p>Correct &mdash; we do not, and this page never claims a platform&rsquo;s rate. That is why commission is a
+          slider you set from your own statement, and why every figure recalculates around it. If your real rate is lower,
+          the saving shrinks in front of you.</p>
+        </details>
+        <details>
+          <summary>What if I used the app&rsquo;s riders?</summary>
+          <p>Then delivering those orders costs you something it did not cost before, and any page that ignored that was
+          lying to you. Put a per-order figure in the advanced slider &mdash; rider pay, fuel, or what you pay a courier per
+          drop. If the net goes negative, this page says so plainly rather than hiding it.</p>
+        </details>
+        <details>
+          <summary>Do I pay the Bs 1 fee on orders that stay on the app?</summary>
+          <p>If the order passes through the system, it counts &mdash; that is how the per-order option is defined. Most
+          kitchens route everything through it, because capturing the app orders is half the reason for buying it. At 400
+          orders a month that is Bs&nbsp;400, roughly $35 &mdash; against Bs&nbsp;6,000 of commission on the same volume. If
+          you would rather your fee not move with your volume at all, the alternative on Plan&nbsp;2 is the fixed
+          $150 / month.</p>
+        </details>
+        <details>
+          <summary>What do I actually get: a list, or customers who order again?</summary>
+          <p>The software gives you the record &mdash; that is the asset. Turning it into orders is work: offers, timing,
+          segments. That is the marketing add-on, and you can do it yourself if you would rather. We will tell you which of
+          the two you are signing up for before you sign.</p>
+        </details>
+        <details>
+          <summary>How long before any of this shows in my numbers?</summary>
+          <p>Usually within a week of signing to go live, because the work is configuration, not development. The migration
+          itself is slower than the setup: weeks, not days, and it is measured monthly rather than hoped for.</p>
+        </details>
+        <details>
+          <summary>What does this cost me?</summary>
+          <p>Two ways to buy: one payment covering a full year of licence with no monthly fee, or a lower upfront amount
+          with either a fixed monthly fee or Bs&nbsp;1 per order. At Bs&nbsp;1, a Bs 60 order paying 25% commission covers its own
+          software fee about fifteen times over.</p>
+          <p style="margin-top:10px"><a href="index.html">See the plans and pricing &rarr;</a></p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LEAD CAPTURE ===================== -->
+  <section class="section capture" id="signup">
+    <div class="wrap capture__grid">
+      <div>
+        <span class="eyebrow" style="color:#f5a25f">Next step</span>
+        <h2>Send us your real app numbers</h2>
+        <p class="sub">Six short things, and we come back with what the migration is worth on your volume &mdash; including
+        what it costs you to deliver those orders yourself.</p>
+        <ul class="capture__list">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>We build the number from your statement, not our guess</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>A real reply from a person, on WhatsApp</span></li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg><span>Straight answer if the math does not work for you</span></li>
+        </ul>
+        <p class="capture__alt">
+          Rather just message us?&nbsp; <span id="altContact">Fill the form above and we reply on WhatsApp. Direct contact links appear here once the details below the CONFIG line in this page are real.</span>
+        </p>
+      </div>
+
+      <div class="formcard">
+        <h3>Tell us where your orders come from</h3>
+        <p>Six fields. Nothing here commits you to anything.</p>
+
+        <form id="leadForm" novalidate>
+          <div class="row2">
+            <div class="field">
+              <label for="business">Business name</label>
+              <input type="text" id="business" name="business" autocomplete="organization" required />
+              <p class="err">Please add the name of the kitchen.</p>
+            </div>
+            <div class="field">
+              <label for="contact">Your name</label>
+              <input type="text" id="contact" name="contact" autocomplete="name" required />
+              <p class="err">Please add your name.</p>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="phone">WhatsApp number</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+591 7 000 0000" required />
+              <p class="err">We need a number to reply on.</p>
+              <p class="hint">We message you here. We do not call you with offers.</p>
+            </div>
+            <div class="field">
+              <label for="email">Email <span style="font-weight:400;color:var(--ink-400)">(optional)</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" />
+              <p class="err">That email address looks incomplete.</p>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label for="volume">App orders per month</label>
+              <select id="volume" name="volume" required>
+                <option value="">Choose one&hellip;</option>
+                <option>Fewer than 100</option>
+                <option>100 to 300</option>
+                <option>300 to 600</option>
+                <option>More than 600</option>
+                <option>Too irregular to know</option>
+              </select>
+              <p class="err">Pick the closest number.</p>
+            </div>
+            <div class="field">
+              <label for="pain">What costs you most?</label>
+              <select id="pain" name="pain" required>
+                <option value="">Choose one&hellip;</option>
+                <option>Commission on repeat orders</option>
+                <option>Never seeing the customer&rsquo;s number</option>
+                <option>Customers loyal to the app, not us</option>
+                <option>Delivery costs rising every month</option>
+                <option>No numbers on what actually sells</option>
+                <option>Staff retyping orders by hand</option>
+                <option>Not enough repeat customers</option>
+              </select>
+              <p class="err">Pick the one that costs you most.</p>
+            </div>
+          </div>
+
+          <fieldset>
+            <legend class="legend">Where do delivery orders arrive now?</legend>
+            <div class="checks">
+              <label class="check"><input type="checkbox" name="channel" value="PedidosYa" /> PedidosYa</label>
+              <label class="check"><input type="checkbox" name="channel" value="Uber Eats" /> Uber Eats</label>
+              <label class="check"><input type="checkbox" name="channel" value="Rappi" /> Rappi</label>
+              <label class="check"><input type="checkbox" name="channel" value="WhatsApp" /> WhatsApp</label>
+              <label class="check"><input type="checkbox" name="channel" value="Phone" /> Phone calls</label>
+              <label class="check"><input type="checkbox" name="channel" value="Counter" /> Counter / walk-in</label>
+              <label class="check"><input type="checkbox" name="channel" value="Instagram or Facebook" /> Instagram or Facebook</label>
+            </div>
+            <p class="hint">Tick every one you recognise.</p>
+          </fieldset>
+
+          <div class="field">
+            <label for="notes">Anything else we should know? <span style="font-weight:400;color:var(--ink-400)">(optional)</span></label>
+            <textarea id="notes" name="notes" placeholder="For example: about 60% of delivery volume goes through the apps, we have two riders of our own, most orders come back on Fridays"></textarea>
+          </div>
+
+          <button class="btn btn--primary btn--lg btn--block" type="submit">Send it &mdash; we reply on WhatsApp</button>
+          <p class="consent">
+            We use these details only to reply about your delivery operation. No card details, no obligation, and we
+            do not add you to a list.
+          </p>
+
+          <div class="status" id="statusBox" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer__row">
+      <div><strong>ClubeMkt</strong> &mdash; delivery automation for fast food kitchens</div>
+      <div><a href="index.html">Plans &amp; pricing</a> &nbsp;&middot;&nbsp; <a href="stop-losing-orders.html">Losing orders at rush hour</a> &nbsp;&middot;&nbsp; <a href="stop-paying-commission.es.html" hreflang="es">Leer en espa&ntilde;ol</a> &nbsp;&middot;&nbsp; <a href="#signup">Send your details</a></div>
+    </div>
+    <p style="margin:12px 0 0; font-size:12.5px; color:#6f93b4; max-width:78ch">
+      PedidosYa, Uber Eats and Rappi are named only as the channels owners use; they are not affiliated with this page and
+      no platform&rsquo;s commission rate, ranking or terms are claimed here. Prices, licence terms and obligations are set
+      out in the pricing proposal and the signed service contract.
+    </p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* ===================== COMMISSION SAVINGS CALCULATOR =====================
+     One source of truth for the commercial figures on this page. The written
+     examples elsewhere on the page (the Bs 60 table, the FAQ) use these numbers. */
+  var PER_ORDER_BS = 1;
+  var PLAN1_USD = 2000;
+  var PLAN2_USD = 1000;
+  var DEFAULTS = { apps: 400, ticket: 60, comm: 25, shift: 35, ownDelivery: 0, repeat: 2, rate: 11.5 };
+  var IDS = ['apps', 'ticket', 'comm', 'shift', 'ownDelivery', 'repeat', 'rate'];
+
+  var nf0 = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+  var nf2 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  function money(v) { return '$' + nf2.format(v); }
+  function money0(v) { return '$' + nf0.format(Math.round(v)); }
+  function bob(v) { return 'Bs ' + nf0.format(Math.round(v)); }
+  function text(id, s) { var el = document.getElementById(id); if (el) el.textContent = s; }
+  function val(id) {
+    var el = document.getElementById(id);
+    var v = el ? parseFloat(el.value) : NaN;
+    return isNaN(v) ? DEFAULTS[id] : v;
+  }
+  function months(v) {
+    if (!isFinite(v)) return 'never, at these numbers';
+    if (v >= 60) return 'more than 5 years';
+    return nf2.format(v) + ' months';
+  }
+
+  function render() {
+    var apps = val('apps'), ticket = val('ticket'), comm = val('comm') / 100;
+    var shift = val('shift') / 100, own = val('ownDelivery'), repeat = val('repeat'), rate = val('rate');
+
+    text('appsOut', nf0.format(apps));
+    text('ticketOut', bob(ticket));
+    text('commOut', nf0.format(comm * 100) + '%');
+    text('shiftOut', nf0.format(shift * 100) + '%');
+    text('ownDeliveryOut', bob(own));
+    text('repeatOut', nf0.format(repeat));
+    text('rateOut', nf2.format(rate));
+
+    var commMonthBs = apps * ticket * comm;
+    var moved = apps * shift;
+    var keptBs = moved * ticket * comm;
+    var softwareBs = moved * PER_ORDER_BS;
+    var deliveryBs = moved * own;
+    var costBs = softwareBs + deliveryBs;
+    var netBs = keptBs - costBs;
+    var retentionYearBs = moved * repeat * ticket * comm;
+
+    text('cellComm', bob(commMonthBs) + ' / month');
+    text('cellCommSub', 'a year: ' + bob(commMonthBs * 12) + ' \u2248 ' + money0(commMonthBs * 12 / rate));
+    text('cellMoved', nf0.format(Math.round(moved)) + ' / month');
+    text('cellMovedSub', 'of ' + nf0.format(apps) + ' app orders, at your ' + nf0.format(shift * 100) + '%');
+    text('cellKept', bob(keptBs) + ' / month');
+    text('cellKeptSub', '\u2248 ' + money0(keptBs / rate) + ' a month, ' + bob(keptBs * 12) + ' \u2248 ' + money0(keptBs * 12 / rate) + ' a year');
+    text('cellCost', bob(costBs) + ' / month');
+    text('cellCostSub', 'Bs 1 software fee = ' + bob(softwareBs) + ', your own delivery = ' + bob(deliveryBs) +
+      (softwareBs > 0 ? ' \u2014 together \u2248 ' + money0(costBs / rate) : ''));
+    text('cellRetention', bob(retentionYearBs) + ' a year');
+    text('cellRetentionSub', 'commission avoided if those customers order ' + nf0.format(repeat) +
+      ' more times a year because you can reach them \u2248 ' + money0(retentionYearBs / rate) +
+      '. Estimate only \u2014 nothing above this line depends on it.');
+
+    if (netBs > 0) {
+      text('verdictBig', bob(netBs) + ' kept each month');
+      text('verdictSub', 'That is \u2248 ' + money0(netBs / rate) + ' a month and ' + bob(netBs * 12) +
+        ' \u2248 ' + money0(netBs * 12 / rate) + ' a year, after the software fee and your own delivery cost. ' +
+        'The ' + money0(PLAN2_USD) + ' Plan\u00a02 upfront is covered in ' + months(PLAN2_USD * rate / netBs) +
+        '; the ' + money0(PLAN1_USD) + ' Plan\u00a01 payment in ' + months(PLAN1_USD * rate / netBs) + '.');
+      text('cellPayback', money0(PLAN2_USD) + ' covered in ' + months(PLAN2_USD * rate / netBs));
+      text('cellPaybackSub', 'Plan\u00a01\u2019s ' + money0(PLAN1_USD) + ' single payment is covered in ' +
+        months(PLAN1_USD * rate / netBs) + ' at this net of ' + bob(netBs) + ' a month.');
+    } else {
+      text('verdictBig', 'Nothing, at these numbers');
+      text('verdictSub', 'Moving ' + nf0.format(Math.round(moved)) + ' orders costs ' + bob(costBs) +
+        ' a month \u2014 more than the ' + bob(keptBs) + ' of commission they would stop paying. ' +
+        'This usually means your own delivery cost per order is above the commission, so migrate fewer of them or none yet.');
+      text('cellPayback', 'No payback at these numbers');
+      text('cellPaybackSub', 'Raise the commission you pay, lower your own delivery cost, or migrate a smaller share \u2014 the verdict moves with you.');
+    }
+
+    var flag = document.getElementById('estFlag');
+    if (flag) {
+      flag.hidden = !(val('ticket') === DEFAULTS.ticket && val('comm') === DEFAULTS.comm && val('shift') === DEFAULTS.shift);
+    }
+  }
+
+  IDS.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', render);
+  });
+  var verdict = document.getElementById('verdictBig');
+  if (verdict && verdict.parentElement) verdict.parentElement.setAttribute('aria-live', 'polite');
+  if (document.getElementById('apps')) render();
+})();
+
+(function () {
+  var form = document.getElementById('leadForm');
+  var box = document.getElementById('statusBox');
+
+  /* ===================== CONFIG =====================
+     This is the only place contact details live. A value still wrapped in [brackets]
+     counts as unset: the page then renders no link for it and the form falls back to
+     the copy-and-send panel, so a placeholder can never become a dead link. */
+  var CONFIG = {
+    endpoint: '/api/lead',                         // clubemkt-leads.service on the VPS, POST only
+    email: 'hudson@clubemkt.digital',
+    whatsappCountryCode: '591',
+    whatsappNumber: '76451489',
+    source: 'app commission savings landing page'
+  };
+
+  function filled(v) {
+    var s = String(v === undefined || v === null ? '' : v);
+    return s.length > 0 && s.indexOf('[') === -1 && s.indexOf(']') === -1;
+  }
+  function digits(v) { return String(v || '').replace(/\D/g, ''); }
+  function waHref(prefill) {
+    var n = digits(CONFIG.whatsappCountryCode) + digits(CONFIG.whatsappNumber);
+    if (!/^[0-9]{8,15}$/.test(n)) return '';
+    return 'https://wa.me/' + n + (prefill ? '?text=' + encodeURIComponent(prefill) : '');
+  }
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function buildDirectLinks() {
+    var host = document.getElementById('altContact');
+    if (!host) return;
+    var parts = [];
+    var wa = waHref('');
+    if (wa) parts.push('<a href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a>');
+    if (filled(CONFIG.email)) parts.push('<a href="mailto:' + esc(CONFIG.email) + '">' + esc(CONFIG.email) + '</a>');
+    if (parts.length) host.innerHTML = parts.join(' &nbsp;or&nbsp; ');
+  }
+
+  function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+  /* Same rules the server would apply, run here so nobody loses a form to a round trip. */
+  var RULES = {
+    business: function (v) { return v.length >= 2 ? '' : 'Please add the name of the kitchen.'; },
+    contact: function (v) { return v.length >= 2 ? '' : 'Please add your name.'; },
+    phone: function (v) { var d = digits(v); return (d.length >= 7 && d.length <= 15) ? '' : 'We need a WhatsApp number with 7 to 15 digits.'; },
+    volume: function (v) { return v ? '' : 'Pick the closest number.'; },
+    pain: function (v) { return v ? '' : 'Pick the one that costs you most.'; },
+    email: function (v) { return (v === '' || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) ? '' : 'That email address looks incomplete.'; }
+  };
+
+  function valid() {
+    var firstBad = null;
+    Object.keys(RULES).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var msg = RULES[id](el.value.trim());
+      var field = el.closest('.field');
+      field.setAttribute('data-invalid', String(msg !== ''));
+      if (msg) { var err = field.querySelector('.err'); if (err) err.textContent = msg; }
+      if (msg && !firstBad) firstBad = el;
+    });
+    if (firstBad) firstBad.focus();
+    return firstBad === null;
+  }
+
+  function clamp(v, max) { return String(v || '').trim().slice(0, max); }
+
+  function payload() {
+    var channels = Array.prototype.slice.call(form.querySelectorAll('input[name="channel"]:checked')).map(function (c) { return c.value; });
+    return {
+      business: clamp(val('business'), 120),
+      contact: clamp(val('contact'), 120),
+      phone: clamp(val('phone'), 24),
+      email: clamp(val('email'), 160),
+      volume: clamp(val('volume'), 40),
+      pain: clamp(val('pain'), 80),
+      channels: channels,
+      notes: clamp(val('notes'), 800),
+      lang: document.documentElement.lang || 'en',
+      source: CONFIG.source
+    };
+  }
+
+  function compose() {
+    var channels = Array.prototype.slice.call(form.querySelectorAll('input[name="channel"]:checked')).map(function (c) { var l = c.closest('label'); return l ? l.textContent.trim() : c.value; });
+    return [
+      'Business: ' + val('business'),
+      'Contact: ' + val('contact'),
+      'WhatsApp: ' + val('phone'),
+      'Email: ' + (val('email') || '(not given)'),
+      'App orders per month: ' + val('volume'),
+      'Biggest cost: ' + val('pain'),
+      'Order channels today: ' + (channels.length ? channels.join(', ') : '(none ticked)'),
+      'Notes: ' + (val('notes') || '(none)')
+    ].join('\n');
+  }
+
+  function show(html, kind) {
+    box.innerHTML = html;
+    box.setAttribute('data-show', 'true');
+    box.className = 'status status--' + (kind || 'ok');
+    box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+
+  function wireCopy() {
+    var copy = document.getElementById('copyBtn');
+    if (!copy) return;
+    copy.addEventListener('click', function () {
+      var ta = box.querySelector('textarea');
+      ta.removeAttribute('readonly');
+      ta.select();
+      var done = function (ok) { copy.textContent = ok ? 'Copied — now paste it in an email or WhatsApp' : 'Select the text and copy it manually'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(ta.value).then(function () { done(true); }, function () { done(false); });
+      } else {
+        try { done(document.execCommand('copy')); } catch (err) { done(false); }
+      }
+      ta.setAttribute('readonly', 'readonly');
+    });
+  }
+
+  // The composed text exists so a lead still has a way to reach us when POST has nowhere to go.
+  function fallbackPanel(body, reason) {
+    var subject = 'New enquiry \u2014 ' + val('business');
+    var mailHref = filled(CONFIG.email)
+      ? 'mailto:' + CONFIG.email + '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body + '\n\n\u2014 sent from the ' + CONFIG.source)
+      : '';
+    var whats = waHref(body);
+    show(
+      '<h4>' + esc(reason) + '</h4>' +
+      '<p style="margin:0">Nothing is lost. Copy the text below and send it to us &mdash; we read every one of these by hand.</p>' +
+      '<div class="fallback__actions">' +
+        (mailHref ? '<a class="btn btn--ghost" href="' + mailHref + '">Open in my mail app</a>' : '') +
+        (whats ? '<a class="btn btn--ghost" href="' + whats + '" target="_blank" rel="noopener">Open in WhatsApp</a>' : '') +
+      '</div>' +
+      '<textarea readonly rows="8" onclick="this.select()">' + esc(body) + '</textarea>' +
+      '<button class="btn btn--ghost" type="button" id="copyBtn">Copy these details</button>'
+    );
+    wireCopy();
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!valid()) return;
+
+    var body = compose();
+    var btn = form.querySelector('button[type="submit"]');
+
+    if (!filled(CONFIG.endpoint)) {
+      fallbackPanel(body, 'This page is not wired to a lead inbox yet');
+      return;
+    }
+
+    if (btn) btn.disabled = true;
+    show('<h4>Sending&hellip;</h4><p style="margin:0">One moment.</p>', 'warn');
+
+    fetch(CONFIG.endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload())
+    }).then(function (r) {
+      return r.json().then(
+        function (d) { return { status: r.status, data: d || {} }; },
+        function () { return { status: r.status, data: {} }; }
+      );
+    }).then(function (res) {
+      if (res.status >= 200 && res.status < 300 && res.data.ok) {
+        var whats = waHref(body);
+        show(
+          '<h4>Logged \u2014 we reply on WhatsApp</h4>' +
+          '<p style="margin:0">We have your details and will message the number you gave. To make sure we see it today, send this text as well:</p>' +
+          (whats ? '<a class="btn btn--ghost" href="' + whats + '" target="_blank" rel="noopener">Open in WhatsApp</a>' : '') +
+          '<textarea readonly rows="8" onclick="this.select()">' + esc(body) + '</textarea>'
+        );
+      } else if (res.status === 409) {
+        show('<h4>Already received</h4><p style="margin:0">That WhatsApp number came in a few minutes ago. We will reply to it &mdash; there is no need to send twice.</p>', 'warn');
+      } else if (res.status === 422) {
+        show('<h4>One field needs a look</h4><p style="margin:0">The server rejected: ' + esc((res.data.fields || []).join(', ') || 'details') + '. Correct it and send again.</p>', 'bad');
+      } else if (res.status === 501) {
+        fallbackPanel(body, 'Lead storage is not connected yet');
+      } else {
+        fallbackPanel(body, 'Something went wrong sending that');
+      }
+    }, function () {
+      fallbackPanel(body, 'We could not reach the server');
+    }).then(function () {
+      if (btn) btn.disabled = false;
+    });
+  });
+
+  form.addEventListener('input', function (e) {
+    var f = e.target.closest('.field');
+    if (f && f.getAttribute('data-invalid') === 'true' && e.target.value.trim() !== '') f.setAttribute('data-invalid', 'false');
+  });
+
+  buildDirectLinks();
+})();
+</script>
+</body>
+</html>
