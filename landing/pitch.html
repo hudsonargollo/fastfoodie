@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The delivery margin problem — clubemkt pitch</title>
+<meta name="description" content="A concise eight-slide pitch: how marketplace apps take the margin and the customer from fast-food delivery kitchens — and how a channel you own keeps both." />
+<link rel="alternate" hreflang="es" href="pitch.es.html" />
+<link rel="alternate" hreflang="en" href="pitch.html" />
+<link rel="icon" type="image/png" href="brand/clubemkt-mark-gold.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="clubemkt.css?v=4" />
+<style>
+  :root { --ember: #d06a45; --ember-bright: #e79a72; --ember-line: rgba(208, 106, 69, .5); --ember-dim: rgba(208, 106, 69, .12); }
+  html, body { height: 100%; }
+  body.deck { overflow: hidden; }
+
+  .gold { color: var(--gold-bright); }
+  .ember { color: var(--ember-bright); }
+
+  /* ---- deck chrome ---- */
+  .deck__progress {
+    position: fixed; top: 0; left: 0; height: 2px; width: 0; z-index: 60;
+    background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+    box-shadow: 0 0 12px rgba(212, 175, 55, .6); transition: width .45s ease;
+  }
+  .deck__top {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: clamp(14px, 2.4vw, 22px) clamp(16px, 4vw, 34px); pointer-events: none;
+  }
+  .deck__top > * { pointer-events: auto; }
+  .deck__brand img { display: block; height: 30px; width: auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,.55)) drop-shadow(0 0 12px rgba(212,175,55,.16)); }
+  .deck__lang {
+    font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 8px 13px; background: rgba(10, 10, 12, .55); backdrop-filter: blur(6px);
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .deck__lang:hover { color: var(--gold); border-color: var(--gold-line); }
+
+  /* ---- stage & slides ---- */
+  .deck__stage { position: fixed; inset: 0; }
+  .slide {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    padding: clamp(74px, 10vh, 118px) clamp(20px, 6vw, 80px) clamp(96px, 14vh, 128px);
+    opacity: 0; visibility: hidden; transform: translateY(26px);
+    transition: opacity .5s ease, transform .5s ease, visibility 0s linear .5s;
+    will-change: opacity, transform;
+  }
+  .slide.is-active {
+    opacity: 1; visibility: visible; transform: none;
+    transition: opacity .5s ease, transform .5s ease, visibility 0s;
+  }
+  .slide__inner { width: 100%; max-width: 960px; }
+  .slide--center { text-align: center; }
+
+  .k {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .24em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px;
+  }
+  .k::before { content: ""; width: 26px; height: 1px; background: currentColor; opacity: .8; }
+  .k--ember { color: var(--ember-bright); }
+
+  .slide__title {
+    font-family: var(--font-mono); font-weight: 700;
+    font-size: clamp(30px, 6.4vw, 68px); line-height: 1.04; letter-spacing: -.035em;
+    margin: 0; color: var(--white); text-wrap: balance;
+  }
+  .slide--center .slide__title { max-width: 20ch; margin-inline: auto; }
+
+  .slide__sub {
+    margin: clamp(16px, 2.4vw, 24px) 0 0;
+    font-size: clamp(15px, 1.9vw, 20px); line-height: 1.55; color: var(--muted); max-width: 46ch;
+  }
+  .slide--center .slide__sub { margin-inline: auto; }
+
+  .slide__chips { display: flex; flex-wrap: wrap; gap: 10px; margin: clamp(22px, 3vw, 32px) 0 0; padding: 0; list-style: none; }
+  .slide--center .slide__chips { justify-content: center; }
+  .slide__chips li {
+    font-family: var(--font-mono); font-size: clamp(11px, 1.4vw, 13px); letter-spacing: .06em; text-transform: uppercase;
+    color: var(--silver); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 15px;
+  }
+  .slide__chips--ember li { border-color: var(--ember-line); color: var(--ember-bright); background: var(--ember-dim); }
+  .slide__chips--gold li { border-color: var(--gold-line); color: var(--gold-bright); background: var(--gold-dim); }
+
+  .loop { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; margin-top: clamp(22px, 3vw, 32px); font-family: var(--font-mono); }
+  .loop span {
+    font-size: clamp(11px, 1.4vw, 13px); letter-spacing: .06em; text-transform: uppercase;
+    color: var(--ember-bright); background: var(--ember-dim); border: 1px solid var(--ember-line);
+    border-radius: var(--radius); padding: 10px 15px;
+  }
+  .loop .ar { font-style: normal; color: var(--ember-bright); font-size: clamp(15px, 1.8vw, 19px); line-height: 1; }
+
+  .ocards { display: grid; gap: clamp(12px, 1.8vw, 18px); grid-template-columns: repeat(3, 1fr); margin-top: clamp(26px, 3.4vw, 40px); text-align: left; }
+  .ocard { background: var(--surface); border: 1px solid var(--line); border-top: 2px solid var(--gold); border-radius: var(--radius); padding: clamp(18px, 2.2vw, 24px); }
+  .ocard b { display: block; font-family: var(--font-mono); font-size: clamp(15px, 1.8vw, 19px); letter-spacing: -.01em; color: var(--gold-bright); margin-bottom: 8px; }
+  .ocard span { font-size: clamp(13px, 1.4vw, 14.5px); color: var(--muted); line-height: 1.5; }
+
+  .plans { display: grid; gap: clamp(12px, 1.8vw, 18px); grid-template-columns: 1fr 1fr; margin-top: clamp(26px, 3.4vw, 38px); text-align: left; }
+  .plan { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 2.4vw, 28px); }
+  .plan--featured { border-color: var(--gold-line); background: linear-gradient(180deg, var(--gold-dim), var(--surface) 62%); }
+  .plan .tag { font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+  .plan .price { font-family: var(--font-mono); font-size: clamp(26px, 3.2vw, 36px); font-weight: 700; letter-spacing: -.02em; color: var(--white); margin: 8px 0 6px; }
+  .plan .price small { font-size: .46em; font-weight: 500; letter-spacing: 0; color: var(--muted); }
+  .plan .desc { margin: 0; font-size: clamp(13px, 1.4vw, 14.5px); color: var(--muted); line-height: 1.5; }
+
+  .slide__cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: clamp(24px, 3vw, 34px); }
+  .slide__cta .btn { white-space: normal; }
+  .slide__foot { margin-top: 18px; font-size: 12px; color: var(--muted-2); line-height: 1.55; }
+  .slide--center .slide__foot { max-width: 64ch; margin-inline: auto; }
+  .slide__foot a { color: var(--gold); text-decoration: none; }
+  .slide__foot a:hover { text-decoration: underline; }
+
+  .slide__hint { margin-top: clamp(26px, 3.4vw, 40px); font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted-2); }
+  .slide__hint kbd { font-family: var(--font-mono); border: 1px solid var(--line); border-radius: 3px; padding: 1px 7px; color: var(--silver); background: var(--surface); }
+
+  /* ---- HUD ---- */
+  .deck__hud {
+    position: fixed; left: 50%; bottom: clamp(14px, 3vh, 28px); transform: translateX(-50%); z-index: 55;
+    display: flex; align-items: center; gap: clamp(8px, 1.4vw, 14px);
+    padding: 8px 12px; background: rgba(10, 10, 12, .62); border: 1px solid var(--line);
+    border-radius: 999px; backdrop-filter: blur(10px); box-shadow: var(--shadow-md);
+  }
+  .deck__btn {
+    width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--surface); color: var(--silver); cursor: pointer;
+    transition: color .18s ease, border-color .18s ease, background .18s ease, opacity .18s ease;
+  }
+  .deck__btn:hover:not(:disabled) { color: var(--gold); border-color: var(--gold-line); background: var(--surface-2); }
+  .deck__btn:disabled { opacity: .35; cursor: default; }
+  .deck__btn svg { width: 18px; height: 18px; }
+  .deck__dots { display: flex; align-items: center; gap: 6px; }
+  .deck__dot {
+    width: 9px; height: 9px; padding: 0; border-radius: 50%; border: 1px solid var(--line);
+    background: transparent; cursor: pointer; transition: background .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  .deck__dot:hover { border-color: var(--gold-line); }
+  .deck__dot[aria-current="true"] { background: var(--gold); border-color: var(--gold); transform: scale(1.25); box-shadow: 0 0 8px rgba(212, 175, 55, .6); }
+  .deck__count { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .1em; color: var(--muted); min-width: 58px; text-align: center; }
+
+  /* ---- compact screens ---- */
+  @media (max-height: 760px) {
+    .slide { padding-top: 72px; padding-bottom: 92px; }
+    .slide__title { font-size: clamp(26px, 5vw, 52px); }
+    .slide__sub { font-size: clamp(14px, 1.6vw, 17px); margin-top: 14px; }
+    .ocards, .plans { margin-top: 20px; }
+  }
+  @media (max-width: 720px) {
+    .ocards { grid-template-columns: 1fr; }
+    .plans { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .slide { padding-top: 62px; padding-bottom: 86px; }
+    .slide__title { font-size: clamp(27px, 8vw, 38px); }
+    .slide__sub { font-size: 14.5px; margin-top: 12px; }
+    .ocards, .plans { margin-top: 16px; }
+    .plan { padding: 16px 18px; }
+    .plan .price { font-size: 26px; margin: 6px 0 4px; }
+    .slide__cta { margin-top: 16px; gap: 8px; }
+    .btn--lg { padding: 14px 20px; font-size: 12.5px; }
+    .slide__foot { margin-top: 12px; font-size: 11px; }
+    .deck__brand img { height: 26px; }
+  }
+  @media (max-width: 420px) { .deck__dots { display: none; } }
+
+  /* short phones: compact so the offer slide never clips */
+  @media (max-height: 800px) and (max-width: 720px) {
+    .slide { padding-top: 54px; padding-bottom: 74px; }
+    .k { margin-bottom: 10px; }
+    .slide__title { font-size: clamp(23px, 6vw, 46px); }
+    .slide__sub { margin-top: 10px; font-size: 14px; }
+    .slide__chips, .loop { margin-top: 14px; }
+    .ocards, .plans { margin-top: 14px; gap: 10px; }
+    .ocard, .plan { padding: 14px 16px; }
+    .plan .tag { font-size: 10px; }
+    .plan .price { font-size: 24px; margin: 5px 0 3px; }
+    .plan .desc, .ocard span { font-size: 12.5px; line-height: 1.4; }
+    .slide__cta { margin-top: 14px; }
+    .btn--lg { padding: 12px 18px; font-size: 12px; }
+    .slide__foot { margin-top: 10px; font-size: 10.5px; line-height: 1.45; }
+  }
+  @media (max-height: 700px) and (max-width: 480px) {
+    .slide { padding-top: 48px; padding-bottom: 66px; }
+    .k { margin-bottom: 8px; font-size: 10px; }
+    .slide__title { font-size: clamp(23px, 6.6vw, 40px); }
+    .slide__sub { margin-top: 8px; font-size: 13px; }
+    .slide__chips, .loop { margin-top: 10px; }
+    .slide__chips li, .loop span { padding: 7px 11px; font-size: 10.5px; }
+    .ocards, .plans { margin-top: 10px; gap: 8px; }
+    .ocard, .plan { padding: 11px 14px; }
+    .ocard b { font-size: 14px; margin-bottom: 3px; }
+    .plan .tag { font-size: 9.5px; }
+    .plan .price { font-size: 22px; margin: 3px 0 2px; }
+    .plan .desc, .ocard span { font-size: 11.5px; line-height: 1.35; }
+    .slide__cta { margin-top: 10px; gap: 8px; }
+    .btn--lg { padding: 10px 15px; font-size: 11.5px; }
+    .slide__foot { margin-top: 8px; font-size: 10px; line-height: 1.4; }
+    .deck__hud { bottom: 8px; padding: 6px 10px; }
+    .deck__btn { width: 34px; height: 34px; }
+  }
+</style>
+</head>
+
+<body class="deck">
+<a class="skip" href="#deckNav">Skip to slide navigation</a>
+<div class="deck__progress" id="deckBar"></div>
+
+<div class="deck__top">
+  <a class="deck__brand" href="index.html" aria-label="clubemkt digital — home">
+    <img src="brand/clubemkt-logo-header.png" alt="clubemkt digital" width="106" height="30" />
+  </a>
+  <a class="deck__lang" href="pitch.es.html" hreflang="es" lang="es">Espa&ntilde;ol</a>
+</div>
+
+<main class="deck__stage" aria-label="Pitch deck">
+  <section class="slide is-active" id="s1" data-slide aria-roledescription="slide" aria-label="1 of 8" aria-hidden="false">
+    <div class="slide__inner slide--center">
+      <span class="k">clubemkt digital &middot; delivery growth</span>
+      <h1 class="slide__title">The delivery <span class="gold">margin</span> problem.</h1>
+      <p class="slide__sub">Eight slides. One fix. Twenty minutes.</p>
+      <p class="slide__hint">Press <kbd>&rarr;</kbd> or tap Next</p>
+    </div>
+  </section>
+
+  <section class="slide" id="s2" data-slide aria-roledescription="slide" aria-label="2 of 8" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k k--ember">The problem</span>
+      <h2 class="slide__title">The app found your customer. Then it <span class="ember">kept</span> them.</h2>
+      <p class="slide__sub">Every repeat order sends a slice back to the platform &mdash; and leaves you without the customer.</p>
+    </div>
+  </section>
+
+  <section class="slide" id="s3" data-slide aria-roledescription="slide" aria-label="3 of 8" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k k--ember">The real loss</span>
+      <h2 class="slide__title">You <span class="ember">rent</span> your customers.</h2>
+      <p class="slide__sub">Every dinner starts from zero.</p>
+      <ul class="slide__chips slide__chips--ember">
+        <li>No name</li>
+        <li>No number</li>
+        <li>No list</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide" id="s4" data-slide aria-roledescription="slide" aria-label="4 of 8" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k k--ember">What it costs</span>
+      <h2 class="slide__title">The cut doesn&rsquo;t happen once. It happens <span class="ember">every month</span>.</h2>
+      <p class="slide__sub">On orders you already earned. On customers you already won.</p>
+      <div class="loop">
+        <span>Order</span><i class="ar" aria-hidden="true">&rarr;</i>
+        <span>Cut</span><i class="ar" aria-hidden="true">&rarr;</i>
+        <span>Repeat</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="s5" data-slide aria-roledescription="slide" aria-label="5 of 8" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k">The fix</span>
+      <h2 class="slide__title">A channel you <span class="gold">own</span>.</h2>
+      <p class="slide__sub">Direct ordering, a list that stays yours, and Bs 1 per order instead of a percentage of the ticket.</p>
+      <ul class="slide__chips slide__chips--gold">
+        <li>Your menu</li>
+        <li>Your customers</li>
+        <li>Your numbers</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide" id="s6" data-slide aria-roledescription="slide" aria-label="6 of 8" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k">What actually changes</span>
+      <h2 class="slide__title">Three things <span class="gold">flip</span>.</h2>
+      <div class="ocards">
+        <div class="ocard"><b>Keep the margin</b><span>Bs 1 per order, not a percentage.</span></div>
+        <div class="ocard"><b>Own the customer</b><span>A list you can call back.</span></div>
+        <div class="ocard"><b>See the numbers</b><span>Channel-level reporting.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="s7" data-slide aria-roledescription="slide" aria-label="7 of 8" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k">How fast</span>
+      <h2 class="slide__title">Live in <span class="gold">a week</span>.</h2>
+      <p class="slide__sub">One training session. No hardware to buy. A go-live date agreed before you sign.</p>
+    </div>
+  </section>
+
+  <section class="slide" id="s8" data-slide aria-roledescription="slide" aria-label="8 of 8" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k">The offer</span>
+      <h2 class="slide__title">Two ways to <span class="gold">start</span>.</h2>
+      <div class="plans">
+        <div class="plan plan--featured">
+          <span class="tag">Plan 1 &middot; Full Package</span>
+          <div class="price">$2,000 <small>one payment</small></div>
+          <p class="desc">A full year of licence. No monthly fee.</p>
+        </div>
+        <div class="plan">
+          <span class="tag">Plan 2 &middot; Software + Monthly</span>
+          <div class="price">$1,000 <small>upfront</small></div>
+          <p class="desc">Then $150/month &mdash; or Bs 1 per order. Your choice.</p>
+        </div>
+      </div>
+      <div class="slide__cta">
+        <a class="btn btn--primary btn--lg" href="index.html#capture">Book a 20-min review</a>
+        <a class="btn btn--ghost btn--lg" href="index.html#calculator">Run your numbers</a>
+      </div>
+      <p class="slide__foot">Reference rate 1 USD = Bs 11,50 (06 Nov 2026). Amounts exclude taxes. Optional marketing add-on available. <a href="index.html#pricing">See all plans &rarr;</a></p>
+    </div>
+  </section>
+</main>
+
+<div class="deck__hud" id="deckNav" aria-label="Slide navigation">
+  <button class="deck__btn" id="deckPrev" type="button" aria-label="Previous slide" disabled>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <div class="deck__dots" role="group" aria-label="Go to slide">
+    <button class="deck__dot" type="button" aria-label="Go to slide 1" aria-current="true"></button>
+    <button class="deck__dot" type="button" aria-label="Go to slide 2" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Go to slide 3" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Go to slide 4" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Go to slide 5" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Go to slide 6" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Go to slide 7" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Go to slide 8" aria-current="false"></button>
+  </div>
+  <span class="deck__count" id="deckCount">01 / 08</span>
+  <button class="deck__btn" id="deckNext" type="button" aria-label="Next slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+</div>
+
+<div class="sr-only" aria-live="polite" id="deckLive"></div>
+
+<script>
+  (function () {
+    var slides = Array.prototype.slice.call(document.querySelectorAll('[data-slide]'));
+    var dots = Array.prototype.slice.call(document.querySelectorAll('.deck__dot'));
+    var prev = document.getElementById('deckPrev');
+    var next = document.getElementById('deckNext');
+    var count = document.getElementById('deckCount');
+    var bar = document.getElementById('deckBar');
+    var live = document.getElementById('deckLive');
+    var stage = document.querySelector('.deck__stage');
+    var total = slides.length;
+    var i = 0;
+
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+    function go(n) {
+      n = Math.max(0, Math.min(total - 1, n));
+      i = n;
+      slides.forEach(function (s, k) {
+        var on = k === i;
+        s.classList.toggle('is-active', on);
+        s.setAttribute('aria-hidden', String(!on));
+        if ('inert' in s) s.inert = !on;
+      });
+      dots.forEach(function (d, k) { d.setAttribute('aria-current', String(k === i)); });
+      count.textContent = pad(i + 1) + ' / ' + pad(total);
+      if (bar) bar.style.width = ((i + 1) / total * 100) + '%';
+      prev.disabled = i === 0;
+      next.disabled = i === total - 1;
+      if (live) live.textContent = 'Slide ' + (i + 1) + ' of ' + total;
+      if (history.replaceState) history.replaceState(null, '', '#' + slides[i].id);
+    }
+
+    function fromHash() {
+      var k = slides.map(function (s) { return s.id; }).indexOf((location.hash || '').replace('#', ''));
+      return k;
+    }
+
+    prev.addEventListener('click', function () { go(i - 1); });
+    next.addEventListener('click', function () { go(i + 1); });
+    dots.forEach(function (d, k) { d.addEventListener('click', function () { go(k); }); });
+
+    document.addEventListener('keydown', function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest('input, textarea, select')) return;
+      if ((e.key === ' ' || e.key === 'Enter') && t && t.closest && t.closest('a, button')) return;
+      switch (e.key) {
+        case 'ArrowRight': case 'ArrowDown': case 'PageDown': case ' ': case 'Enter':
+          e.preventDefault(); go(i + 1); break;
+        case 'ArrowLeft': case 'ArrowUp': case 'PageUp':
+          e.preventDefault(); go(i - 1); break;
+        case 'Home': e.preventDefault(); go(0); break;
+        case 'End': e.preventDefault(); go(total - 1); break;
+      }
+    });
+
+    stage.addEventListener('click', function (e) {
+      if (e.target.closest('a, button')) return;
+      go(e.clientX / window.innerWidth < 0.25 ? i - 1 : i + 1);
+    });
+
+    var lock = false;
+    window.addEventListener('wheel', function (e) {
+      if (lock || Math.abs(e.deltaY) < 24) return;
+      lock = true;
+      go(i + (e.deltaY > 0 ? 1 : -1));
+      setTimeout(function () { lock = false; }, 700);
+    }, { passive: true });
+
+    var tx = 0, ty = 0;
+    window.addEventListener('touchstart', function (e) {
+      tx = e.changedTouches[0].clientX; ty = e.changedTouches[0].clientY;
+    }, { passive: true });
+    window.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - tx;
+      var dy = e.changedTouches[0].clientY - ty;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) go(i + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+
+    window.addEventListener('hashchange', function () {
+      var k = fromHash();
+      if (k >= 0 && k !== i) go(k);
+    });
+
+    var start = fromHash();
+    go(start >= 0 ? start : 0);
+  })();
+</script>
+</body>
+</html>
