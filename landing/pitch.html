@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The delivery margin problem — clubemkt pitch</title>
-<meta name="description" content="A concise eight-slide pitch: how marketplace apps take the margin and the customer from fast-food delivery kitchens — and how a channel you own keeps both." />
+<meta name="description" content="An eleven-slide pitch: marketplace apps bring visibility but also hand over your competitors, the fees leave no room for deals, and a channel you own keeps the margin — with a live calculator for moving 9 of 10 orders off the app." />
 <link rel="alternate" hreflang="es" href="pitch.es.html" />
 <link rel="alternate" hreflang="en" href="pitch.html" />
 <link rel="icon" type="image/png" href="brand/clubemkt-mark-gold.png" />
@@ -20,7 +20,6 @@
   .gold { color: var(--gold-bright); }
   .ember { color: var(--ember-bright); }
 
-  /* ---- deck chrome ---- */
   .deck__progress {
     position: fixed; top: 0; left: 0; height: 2px; width: 0; z-index: 60;
     background: linear-gradient(90deg, var(--gold), var(--gold-bright));
@@ -41,7 +40,6 @@
   }
   .deck__lang:hover { color: var(--gold); border-color: var(--gold-line); }
 
-  /* ---- stage & slides ---- */
   .deck__stage { position: fixed; inset: 0; }
   .slide {
     position: absolute; inset: 0; display: grid; place-items: center;
@@ -100,6 +98,34 @@
   .ocard b { display: block; font-family: var(--font-mono); font-size: clamp(15px, 1.8vw, 19px); letter-spacing: -.01em; color: var(--gold-bright); margin-bottom: 8px; }
   .ocard span { font-size: clamp(13px, 1.4vw, 14.5px); color: var(--muted); line-height: 1.5; }
 
+  /* ---- calculator ---- */
+  .calc { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(14px, 2vw, 24px); margin-top: clamp(20px, 2.6vw, 30px); text-align: left; background: none; border: 0; border-radius: 0; box-shadow: none; }
+  .calc__fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 12px; align-content: start; }
+  .calc__field { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); min-width: 0; }
+  .calc__field > span { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
+  .calc__field input[type="number"] {
+    width: 100%; font-family: var(--font-mono); font-size: 16px; color: var(--white);
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px;
+    -moz-appearance: textfield;
+  }
+  .calc__field input[type="number"]:focus { outline: none; border-color: var(--gold-line); box-shadow: 0 0 0 3px rgba(212, 175, 55, .12); }
+  .calc__field input[type="number"]::-webkit-outer-spin-button,
+  .calc__field input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .calc__range { grid-column: 1 / -1; }
+  .calc__range b { color: var(--gold-bright); font-weight: 700; }
+  .calc__range input[type="range"] { width: 100%; height: 22px; accent-color: var(--gold); cursor: pointer; }
+  .calc__out {
+    display: flex; flex-direction: column; justify-content: center; gap: 4px;
+    background: linear-gradient(160deg, var(--gold-dim), var(--surface)); border: 1px solid var(--gold-line);
+    border-radius: var(--radius); padding: clamp(16px, 2vw, 24px);
+  }
+  .calc__eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+  .calc__big { font-family: var(--font-mono); font-size: clamp(28px, 4.6vw, 48px); line-height: 1; letter-spacing: -.03em; color: var(--gold-bright); }
+  .calc__unit { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .calc__year { margin-top: 8px; font-size: 13px; color: var(--silver); }
+  .calc__year b { color: var(--white); }
+  .calc__delta { margin-top: 6px; font-size: 11.5px; line-height: 1.4; color: var(--muted-2); }
+
   .plans { display: grid; gap: clamp(12px, 1.8vw, 18px); grid-template-columns: 1fr 1fr; margin-top: clamp(26px, 3.4vw, 38px); text-align: left; }
   .plan { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 2.4vw, 28px); }
   .plan--featured { border-color: var(--gold-line); background: linear-gradient(180deg, var(--gold-dim), var(--surface) 62%); }
@@ -118,7 +144,6 @@
   .slide__hint { margin-top: clamp(26px, 3.4vw, 40px); font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted-2); }
   .slide__hint kbd { font-family: var(--font-mono); border: 1px solid var(--line); border-radius: 3px; padding: 1px 7px; color: var(--silver); background: var(--surface); }
 
-  /* ---- HUD ---- */
   .deck__hud {
     position: fixed; left: 50%; bottom: clamp(14px, 3vh, 28px); transform: translateX(-50%); z-index: 55;
     display: flex; align-items: center; gap: clamp(8px, 1.4vw, 14px);
@@ -133,48 +158,51 @@
   .deck__btn:hover:not(:disabled) { color: var(--gold); border-color: var(--gold-line); background: var(--surface-2); }
   .deck__btn:disabled { opacity: .35; cursor: default; }
   .deck__btn svg { width: 18px; height: 18px; }
-  .deck__dots { display: flex; align-items: center; gap: 6px; }
+  .deck__dots { display: flex; align-items: center; gap: 5px; }
   .deck__dot {
-    width: 9px; height: 9px; padding: 0; border-radius: 50%; border: 1px solid var(--line);
+    width: 8px; height: 8px; padding: 0; border-radius: 50%; border: 1px solid var(--line);
     background: transparent; cursor: pointer; transition: background .2s ease, border-color .2s ease, transform .2s ease;
   }
   .deck__dot:hover { border-color: var(--gold-line); }
   .deck__dot[aria-current="true"] { background: var(--gold); border-color: var(--gold); transform: scale(1.25); box-shadow: 0 0 8px rgba(212, 175, 55, .6); }
-  .deck__count { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .1em; color: var(--muted); min-width: 58px; text-align: center; }
+  .deck__count { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .1em; color: var(--muted); min-width: 60px; text-align: center; }
 
-  /* ---- compact screens ---- */
   @media (max-height: 760px) {
     .slide { padding-top: 72px; padding-bottom: 92px; }
     .slide__title { font-size: clamp(26px, 5vw, 52px); }
     .slide__sub { font-size: clamp(14px, 1.6vw, 17px); margin-top: 14px; }
-    .ocards, .plans { margin-top: 20px; }
+    .ocards, .plans, .calc { margin-top: 20px; }
   }
   @media (max-width: 720px) {
     .ocards { grid-template-columns: 1fr; }
     .plans { grid-template-columns: 1fr; }
+    .calc { grid-template-columns: 1fr; }
+    .calc__fields { grid-template-columns: 1fr 1fr; }
+    .calc__field:nth-child(3) { grid-column: 1 / -1; }
   }
   @media (max-width: 560px) {
     .slide { padding-top: 62px; padding-bottom: 86px; }
     .slide__title { font-size: clamp(27px, 8vw, 38px); }
     .slide__sub { font-size: 14.5px; margin-top: 12px; }
-    .ocards, .plans { margin-top: 16px; }
+    .ocards, .plans, .calc { margin-top: 16px; }
     .plan { padding: 16px 18px; }
     .plan .price { font-size: 26px; margin: 6px 0 4px; }
     .slide__cta { margin-top: 16px; gap: 8px; }
     .btn--lg { padding: 14px 20px; font-size: 12.5px; }
     .slide__foot { margin-top: 12px; font-size: 11px; }
+    .calc__big { font-size: clamp(26px, 8vw, 34px); }
     .deck__brand img { height: 26px; }
   }
   @media (max-width: 420px) { .deck__dots { display: none; } }
 
-  /* short phones: compact so the offer slide never clips */
+  /* short phones: compact so the calculator and offer slides never clip */
   @media (max-height: 800px) and (max-width: 720px) {
     .slide { padding-top: 54px; padding-bottom: 74px; }
     .k { margin-bottom: 10px; }
     .slide__title { font-size: clamp(23px, 6vw, 46px); }
     .slide__sub { margin-top: 10px; font-size: 14px; }
     .slide__chips, .loop { margin-top: 14px; }
-    .ocards, .plans { margin-top: 14px; gap: 10px; }
+    .ocards, .plans, .calc { margin-top: 14px; gap: 10px; }
     .ocard, .plan { padding: 14px 16px; }
     .plan .tag { font-size: 10px; }
     .plan .price { font-size: 24px; margin: 5px 0 3px; }
@@ -182,6 +210,9 @@
     .slide__cta { margin-top: 14px; }
     .btn--lg { padding: 12px 18px; font-size: 12px; }
     .slide__foot { margin-top: 10px; font-size: 10.5px; line-height: 1.45; }
+    .calc__field input[type="number"] { padding: 8px 10px; font-size: 15px; }
+    .calc__range input[type="range"] { height: 18px; }
+    .calc__out { padding: 12px 14px; }
   }
   @media (max-height: 700px) and (max-width: 480px) {
     .slide { padding-top: 48px; padding-bottom: 66px; }
@@ -190,7 +221,7 @@
     .slide__sub { margin-top: 8px; font-size: 13px; }
     .slide__chips, .loop { margin-top: 10px; }
     .slide__chips li, .loop span { padding: 7px 11px; font-size: 10.5px; }
-    .ocards, .plans { margin-top: 10px; gap: 8px; }
+    .ocards, .plans, .calc { margin-top: 10px; gap: 8px; }
     .ocard, .plan { padding: 11px 14px; }
     .ocard b { font-size: 14px; margin-bottom: 3px; }
     .plan .tag { font-size: 9.5px; }
@@ -199,6 +230,13 @@
     .slide__cta { margin-top: 10px; gap: 8px; }
     .btn--lg { padding: 10px 15px; font-size: 11.5px; }
     .slide__foot { margin-top: 8px; font-size: 10px; line-height: 1.4; }
+    .calc__fields { gap: 8px; }
+    .calc__field { font-size: 9px; gap: 4px; }
+    .calc__field input[type="number"] { padding: 7px 9px; font-size: 14px; }
+    .calc__out { padding: 11px 13px; }
+    .calc__big { font-size: 27px; }
+    .calc__year { margin-top: 4px; font-size: 11.5px; }
+    .calc__delta { margin-top: 4px; font-size: 10.5px; }
     .deck__hud { bottom: 8px; padding: 6px 10px; }
     .deck__btn { width: 34px; height: 34px; }
   }
@@ -217,24 +255,32 @@
 </div>
 
 <main class="deck__stage" aria-label="Pitch deck">
-  <section class="slide is-active" id="s1" data-slide aria-roledescription="slide" aria-label="1 of 8" aria-hidden="false">
+  <section class="slide is-active" id="s1" data-slide aria-roledescription="slide" aria-label="1 of 11" aria-hidden="false">
     <div class="slide__inner slide--center">
       <span class="k">clubemkt digital &middot; delivery growth</span>
       <h1 class="slide__title">The delivery <span class="gold">margin</span> problem.</h1>
-      <p class="slide__sub">Eight slides. One fix. Twenty minutes.</p>
+      <p class="slide__sub">A short pitch. One fix. Your numbers.</p>
       <p class="slide__hint">Press <kbd>&rarr;</kbd> or tap Next</p>
     </div>
   </section>
 
-  <section class="slide" id="s2" data-slide aria-roledescription="slide" aria-label="2 of 8" aria-hidden="true">
+  <section class="slide" id="s2" data-slide aria-roledescription="slide" aria-label="2 of 11" aria-hidden="true">
     <div class="slide__inner slide--center">
-      <span class="k k--ember">The problem</span>
-      <h2 class="slide__title">The app found your customer. Then it <span class="ember">kept</span> them.</h2>
-      <p class="slide__sub">Every repeat order sends a slice back to the platform &mdash; and leaves you without the customer.</p>
+      <span class="k k--ember">The marketplace trade</span>
+      <h2 class="slide__title">It brings visibility. It also hands over your <span class="ember">competitors</span>.</h2>
+      <p class="slide__sub">Apps like PedidosYa found the customer &mdash; then put every nearby kitchen on the same screen, with the same reach.</p>
     </div>
   </section>
 
-  <section class="slide" id="s3" data-slide aria-roledescription="slide" aria-label="3 of 8" aria-hidden="true">
+  <section class="slide" id="s3" data-slide aria-roledescription="slide" aria-label="3 of 11" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k k--ember">No room to compete</span>
+      <h2 class="slide__title">High fees and taxes leave <span class="ember">nothing</span> for deals.</h2>
+      <p class="slide__sub">No discounts. No rewards. No budget to win a regular back &mdash; the margin is already gone.</p>
+    </div>
+  </section>
+
+  <section class="slide" id="s4" data-slide aria-roledescription="slide" aria-label="4 of 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k k--ember">The real loss</span>
       <h2 class="slide__title">You <span class="ember">rent</span> your customers.</h2>
@@ -247,7 +293,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s4" data-slide aria-roledescription="slide" aria-label="4 of 8" aria-hidden="true">
+  <section class="slide" id="s5" data-slide aria-roledescription="slide" aria-label="5 of 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k k--ember">What it costs</span>
       <h2 class="slide__title">The cut doesn&rsquo;t happen once. It happens <span class="ember">every month</span>.</h2>
@@ -260,11 +306,11 @@
     </div>
   </section>
 
-  <section class="slide" id="s5" data-slide aria-roledescription="slide" aria-label="5 of 8" aria-hidden="true">
+  <section class="slide" id="s6" data-slide aria-roledescription="slide" aria-label="6 of 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">The fix</span>
-      <h2 class="slide__title">A channel you <span class="gold">own</span>.</h2>
-      <p class="slide__sub">Direct ordering, a list that stays yours, and Bs 1 per order instead of a percentage of the ticket.</p>
+      <h2 class="slide__title">A channel you <span class="gold">own</span> &mdash; at Bs 1 per order.</h2>
+      <p class="slide__sub">Direct ordering, your own customer list, a fixed per-order cost instead of a percentage.</p>
       <ul class="slide__chips slide__chips--gold">
         <li>Your menu</li>
         <li>Your customers</li>
@@ -273,19 +319,56 @@
     </div>
   </section>
 
-  <section class="slide" id="s6" data-slide aria-roledescription="slide" aria-label="6 of 8" aria-hidden="true">
+  <section class="slide" id="s7" data-slide aria-roledescription="slide" aria-label="7 of 11" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k">The math</span>
+      <h2 class="slide__title">Move 9 of 10 orders <span class="gold">off</span> the app.</h2>
+      <p class="slide__sub">Keep the marketplace for discovery. Run the rest direct &mdash; same orders, a fraction of the fee.</p>
+      <div class="calc" role="group" aria-label="Marketplace savings calculator">
+        <div class="calc__fields">
+          <label class="calc__field"><span>Orders / month</span><input type="number" id="calcOrders" inputmode="numeric" min="1" step="10" value="1200"></label>
+          <label class="calc__field"><span>Avg ticket (Bs)</span><input type="number" id="calcTicket" inputmode="decimal" min="1" step="1" value="45"></label>
+          <label class="calc__field"><span>Take rate (%)</span><input type="number" id="calcTake" inputmode="decimal" min="0" max="90" step="1" value="25"></label>
+          <label class="calc__field calc__range"><span>App orders today <b id="calcShareVal">100%</b></span><input type="range" id="calcShare" min="0" max="100" step="5" value="100"></label>
+        </div>
+        <div class="calc__out">
+          <span class="calc__eyebrow">Margin recovered at 10% on the app</span>
+          <strong class="calc__big" id="calcMonth">Bs 11,070</strong>
+          <span class="calc__unit">per month</span>
+          <span class="calc__year"><b id="calcYear">Bs 132,840</b> per year</span>
+          <span class="calc__delta" id="calcDelta">Today Bs 13,500 &rarr; after Bs 2,430 in fees</span>
+        </div>
+      </div>
+      <p class="slide__foot">Illustrative defaults &mdash; edit with your numbers. Direct orders at Bs 1 each (Plan 2). Before taxes and plan fee.</p>
+    </div>
+  </section>
+
+  <section class="slide" id="s8" data-slide aria-roledescription="slide" aria-label="8 of 11" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k">Now that it&rsquo;s yours</span>
+      <h2 class="slide__title">Bring them back. <span class="gold">Reward</span> them.</h2>
+      <p class="slide__sub">The list you own powers reactivation and loyalty &mdash; repeat orders without paying for reach again.</p>
+      <div class="ocards">
+        <div class="ocard"><b>Re-activate past buyers</b><span>Win back the customers the app forgot.</span></div>
+        <div class="ocard"><b>Reward repeat orders</b><span>A loyalty program that keeps them coming.</span></div>
+        <div class="ocard"><b>Own the relationship</b><span>Their name, their history, your margin.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="s9" data-slide aria-roledescription="slide" aria-label="9 of 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">What actually changes</span>
       <h2 class="slide__title">Three things <span class="gold">flip</span>.</h2>
       <div class="ocards">
         <div class="ocard"><b>Keep the margin</b><span>Bs 1 per order, not a percentage.</span></div>
-        <div class="ocard"><b>Own the customer</b><span>A list you can call back.</span></div>
+        <div class="ocard"><b>Bring customers back</b><span>Reactivate, reward, repeat.</span></div>
         <div class="ocard"><b>See the numbers</b><span>Channel-level reporting.</span></div>
       </div>
     </div>
   </section>
 
-  <section class="slide" id="s7" data-slide aria-roledescription="slide" aria-label="7 of 8" aria-hidden="true">
+  <section class="slide" id="s10" data-slide aria-roledescription="slide" aria-label="10 of 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">How fast</span>
       <h2 class="slide__title">Live in <span class="gold">a week</span>.</h2>
@@ -293,7 +376,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s8" data-slide aria-roledescription="slide" aria-label="8 of 8" aria-hidden="true">
+  <section class="slide" id="s11" data-slide aria-roledescription="slide" aria-label="11 of 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">The offer</span>
       <h2 class="slide__title">Two ways to <span class="gold">start</span>.</h2>
@@ -331,8 +414,11 @@
     <button class="deck__dot" type="button" aria-label="Go to slide 6" aria-current="false"></button>
     <button class="deck__dot" type="button" aria-label="Go to slide 7" aria-current="false"></button>
     <button class="deck__dot" type="button" aria-label="Go to slide 8" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Go to slide 9" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Go to slide 10" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Go to slide 11" aria-current="false"></button>
   </div>
-  <span class="deck__count" id="deckCount">01 / 08</span>
+  <span class="deck__count" id="deckCount">01 / 11</span>
   <button class="deck__btn" id="deckNext" type="button" aria-label="Next slide">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
   </button>
@@ -374,8 +460,7 @@
     }
 
     function fromHash() {
-      var k = slides.map(function (s) { return s.id; }).indexOf((location.hash || '').replace('#', ''));
-      return k;
+      return slides.map(function (s) { return s.id; }).indexOf((location.hash || '').replace('#', ''));
     }
 
     prev.addEventListener('click', function () { go(i - 1); });
@@ -397,12 +482,13 @@
     });
 
     stage.addEventListener('click', function (e) {
-      if (e.target.closest('a, button')) return;
+      if (e.target.closest('.calc, a, button, input, label, select, textarea')) return;
       go(e.clientX / window.innerWidth < 0.25 ? i - 1 : i + 1);
     });
 
     var lock = false;
     window.addEventListener('wheel', function (e) {
+      if (e.target.closest && e.target.closest('.calc')) return;
       if (lock || Math.abs(e.deltaY) < 24) return;
       lock = true;
       go(i + (e.deltaY > 0 ? 1 : -1));
@@ -426,6 +512,38 @@
 
     var start = fromHash();
     go(start >= 0 ? start : 0);
+
+    /* ---- calculator: margin recovered when app orders drop to 10% ---- */
+    var LOC = document.documentElement.lang === 'es' ? 'es-BO' : 'en-US';
+    function fmtBs(n) { return 'Bs ' + new Intl.NumberFormat(LOC, { maximumFractionDigits: 0 }).format(Math.round(n)); }
+    function num(v) { var n = parseFloat(v); return isFinite(n) ? n : 0; }
+    function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
+    var elOrders = document.getElementById('calcOrders');
+    var elTicket = document.getElementById('calcTicket');
+    var elTake = document.getElementById('calcTake');
+    var elShare = document.getElementById('calcShare');
+    var elShareVal = document.getElementById('calcShareVal');
+    var elMonth = document.getElementById('calcMonth');
+    var elYear = document.getElementById('calcYear');
+    var elDelta = document.getElementById('calcDelta');
+    function calc() {
+      var orders = clamp(num(elOrders.value), 0, 1e7);
+      var ticket = clamp(num(elTicket.value), 0, 1e7);
+      var take = clamp(num(elTake.value), 0, 90) / 100;
+      var share = clamp(num(elShare.value), 0, 100) / 100;
+      var todayMarket = orders * share;
+      var todayCost = todayMarket * ticket * take + orders * (1 - share) * 1;
+      var afterCost = orders * 0.10 * ticket * take + orders * 0.90 * 1;
+      var saved = Math.max(0, todayCost - afterCost);
+      elShareVal.textContent = Math.round(share * 100) + '%';
+      elMonth.textContent = fmtBs(saved);
+      elYear.textContent = fmtBs(saved * 12);
+      elDelta.textContent = (LOC === 'es-BO' ? 'Hoy ' : 'Today ') + fmtBs(todayCost) +
+        ' \u2192 ' + (LOC === 'es-BO' ? 'después ' : 'after ') + fmtBs(afterCost) +
+        (LOC === 'es-BO' ? ' en comisiones' : ' in fees');
+    }
+    [elOrders, elTicket, elTake, elShare].forEach(function (el) { el.addEventListener('input', calc); });
+    calc();
   })();
 </script>
 </body>

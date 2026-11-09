@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>El problema del margen en delivery — pitch clubemkt</title>
-<meta name="description" content="Un pitch conciso de ocho diapositivas: cómo las apps de marketplace se llevan el margen y el cliente de las cocinas de delivery de comida rápida — y cómo un canal propio conserva ambos." />
+<meta name="description" content="Un pitch de once diapositivas: las apps de marketplace dan visibilidad pero tambi&eacute;n le entregan a tus competidores, las comisiones no dejan espacio para ofertas, y un canal propio conserva el margen — con una calculadora en vivo para mover 9 de 10 pedidos fuera de la app." />
 <link rel="alternate" hreflang="en" href="pitch.html" />
 <link rel="alternate" hreflang="es" href="pitch.es.html" />
 <link rel="icon" type="image/png" href="brand/clubemkt-mark-gold.png" />
@@ -98,6 +98,34 @@
   .ocard b { display: block; font-family: var(--font-mono); font-size: clamp(15px, 1.8vw, 19px); letter-spacing: -.01em; color: var(--gold-bright); margin-bottom: 8px; }
   .ocard span { font-size: clamp(13px, 1.4vw, 14.5px); color: var(--muted); line-height: 1.5; }
 
+  /* ---- calculadora ---- */
+  .calc { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(14px, 2vw, 24px); margin-top: clamp(20px, 2.6vw, 30px); text-align: left; background: none; border: 0; border-radius: 0; box-shadow: none; }
+  .calc__fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 12px; align-content: start; }
+  .calc__field { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); min-width: 0; }
+  .calc__field > span { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
+  .calc__field input[type="number"] {
+    width: 100%; font-family: var(--font-mono); font-size: 16px; color: var(--white);
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px;
+    -moz-appearance: textfield;
+  }
+  .calc__field input[type="number"]:focus { outline: none; border-color: var(--gold-line); box-shadow: 0 0 0 3px rgba(212, 175, 55, .12); }
+  .calc__field input[type="number"]::-webkit-outer-spin-button,
+  .calc__field input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .calc__range { grid-column: 1 / -1; }
+  .calc__range b { color: var(--gold-bright); font-weight: 700; }
+  .calc__range input[type="range"] { width: 100%; height: 22px; accent-color: var(--gold); cursor: pointer; }
+  .calc__out {
+    display: flex; flex-direction: column; justify-content: center; gap: 4px;
+    background: linear-gradient(160deg, var(--gold-dim), var(--surface)); border: 1px solid var(--gold-line);
+    border-radius: var(--radius); padding: clamp(16px, 2vw, 24px);
+  }
+  .calc__eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+  .calc__big { font-family: var(--font-mono); font-size: clamp(28px, 4.6vw, 48px); line-height: 1; letter-spacing: -.03em; color: var(--gold-bright); }
+  .calc__unit { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .calc__year { margin-top: 8px; font-size: 13px; color: var(--silver); }
+  .calc__year b { color: var(--white); }
+  .calc__delta { margin-top: 6px; font-size: 11.5px; line-height: 1.4; color: var(--muted-2); }
+
   .plans { display: grid; gap: clamp(12px, 1.8vw, 18px); grid-template-columns: 1fr 1fr; margin-top: clamp(26px, 3.4vw, 38px); text-align: left; }
   .plan { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 2.4vw, 28px); }
   .plan--featured { border-color: var(--gold-line); background: linear-gradient(180deg, var(--gold-dim), var(--surface) 62%); }
@@ -130,47 +158,51 @@
   .deck__btn:hover:not(:disabled) { color: var(--gold); border-color: var(--gold-line); background: var(--surface-2); }
   .deck__btn:disabled { opacity: .35; cursor: default; }
   .deck__btn svg { width: 18px; height: 18px; }
-  .deck__dots { display: flex; align-items: center; gap: 6px; }
+  .deck__dots { display: flex; align-items: center; gap: 5px; }
   .deck__dot {
-    width: 9px; height: 9px; padding: 0; border-radius: 50%; border: 1px solid var(--line);
+    width: 8px; height: 8px; padding: 0; border-radius: 50%; border: 1px solid var(--line);
     background: transparent; cursor: pointer; transition: background .2s ease, border-color .2s ease, transform .2s ease;
   }
   .deck__dot:hover { border-color: var(--gold-line); }
   .deck__dot[aria-current="true"] { background: var(--gold); border-color: var(--gold); transform: scale(1.25); box-shadow: 0 0 8px rgba(212, 175, 55, .6); }
-  .deck__count { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .1em; color: var(--muted); min-width: 58px; text-align: center; }
+  .deck__count { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .1em; color: var(--muted); min-width: 60px; text-align: center; }
 
   @media (max-height: 760px) {
     .slide { padding-top: 72px; padding-bottom: 92px; }
     .slide__title { font-size: clamp(26px, 5vw, 52px); }
     .slide__sub { font-size: clamp(14px, 1.6vw, 17px); margin-top: 14px; }
-    .ocards, .plans { margin-top: 20px; }
+    .ocards, .plans, .calc { margin-top: 20px; }
   }
   @media (max-width: 720px) {
     .ocards { grid-template-columns: 1fr; }
     .plans { grid-template-columns: 1fr; }
+    .calc { grid-template-columns: 1fr; }
+    .calc__fields { grid-template-columns: 1fr 1fr; }
+    .calc__field:nth-child(3) { grid-column: 1 / -1; }
   }
   @media (max-width: 560px) {
     .slide { padding-top: 62px; padding-bottom: 86px; }
     .slide__title { font-size: clamp(27px, 8vw, 38px); }
     .slide__sub { font-size: 14.5px; margin-top: 12px; }
-    .ocards, .plans { margin-top: 16px; }
+    .ocards, .plans, .calc { margin-top: 16px; }
     .plan { padding: 16px 18px; }
     .plan .price { font-size: 26px; margin: 6px 0 4px; }
     .slide__cta { margin-top: 16px; gap: 8px; }
     .btn--lg { padding: 14px 20px; font-size: 12.5px; }
     .slide__foot { margin-top: 12px; font-size: 11px; }
+    .calc__big { font-size: clamp(26px, 8vw, 34px); }
     .deck__brand img { height: 26px; }
   }
   @media (max-width: 420px) { .deck__dots { display: none; } }
 
-  /* short phones: compact so the offer slide never clips */
+  /* teléfonos cortos: compactar para que la calculadora y la oferta nunca se corten */
   @media (max-height: 800px) and (max-width: 720px) {
     .slide { padding-top: 54px; padding-bottom: 74px; }
     .k { margin-bottom: 10px; }
     .slide__title { font-size: clamp(23px, 6vw, 46px); }
     .slide__sub { margin-top: 10px; font-size: 14px; }
     .slide__chips, .loop { margin-top: 14px; }
-    .ocards, .plans { margin-top: 14px; gap: 10px; }
+    .ocards, .plans, .calc { margin-top: 14px; gap: 10px; }
     .ocard, .plan { padding: 14px 16px; }
     .plan .tag { font-size: 10px; }
     .plan .price { font-size: 24px; margin: 5px 0 3px; }
@@ -178,6 +210,9 @@
     .slide__cta { margin-top: 14px; }
     .btn--lg { padding: 12px 18px; font-size: 12px; }
     .slide__foot { margin-top: 10px; font-size: 10.5px; line-height: 1.45; }
+    .calc__field input[type="number"] { padding: 8px 10px; font-size: 15px; }
+    .calc__range input[type="range"] { height: 18px; }
+    .calc__out { padding: 12px 14px; }
   }
   @media (max-height: 700px) and (max-width: 480px) {
     .slide { padding-top: 48px; padding-bottom: 66px; }
@@ -186,7 +221,7 @@
     .slide__sub { margin-top: 8px; font-size: 13px; }
     .slide__chips, .loop { margin-top: 10px; }
     .slide__chips li, .loop span { padding: 7px 11px; font-size: 10.5px; }
-    .ocards, .plans { margin-top: 10px; gap: 8px; }
+    .ocards, .plans, .calc { margin-top: 10px; gap: 8px; }
     .ocard, .plan { padding: 11px 14px; }
     .ocard b { font-size: 14px; margin-bottom: 3px; }
     .plan .tag { font-size: 9.5px; }
@@ -195,6 +230,14 @@
     .slide__cta { margin-top: 10px; gap: 8px; }
     .btn--lg { padding: 10px 15px; font-size: 11.5px; }
     .slide__foot { margin-top: 8px; font-size: 10px; line-height: 1.4; }
+    .calc__fields { gap: 8px; }
+    .calc__field { font-size: 9px; gap: 4px; }
+    .calc__field input[type="number"] { padding: 7px 9px; font-size: 14px; }
+    .calc__range input[type="range"] { height: 18px; }
+    .calc__out { padding: 10px 12px; gap: 2px; }
+    .calc__big { font-size: 26px; }
+    .calc__year { margin-top: 4px; font-size: 11.5px; }
+    .calc__delta { margin-top: 4px; font-size: 10.5px; }
     .deck__hud { bottom: 8px; padding: 6px 10px; }
     .deck__btn { width: 34px; height: 34px; }
   }
@@ -202,7 +245,7 @@
 </head>
 
 <body class="deck">
-<a class="skip" href="#deckNav">Saltar a la navegación de diapositivas</a>
+<a class="skip" href="#deckNav">Saltar a la navegaci&oacute;n de diapositivas</a>
 <div class="deck__progress" id="deckBar"></div>
 
 <div class="deck__top">
@@ -212,25 +255,33 @@
   <a class="deck__lang" href="pitch.html" hreflang="en" lang="en">English</a>
 </div>
 
-<main class="deck__stage" aria-label="Presentación">
-  <section class="slide is-active" id="s1" data-slide aria-roledescription="diapositiva" aria-label="1 de 8" aria-hidden="false">
+<main class="deck__stage" aria-label="Presentaci&oacute;n">
+  <section class="slide is-active" id="s1" data-slide aria-roledescription="diapositiva" aria-label="1 de 11" aria-hidden="false">
     <div class="slide__inner slide--center">
       <span class="k">clubemkt digital &middot; crecimiento en delivery</span>
       <h1 class="slide__title">El problema del <span class="gold">margen</span> en delivery.</h1>
-      <p class="slide__sub">Ocho diapositivas. Una solución. Veinte minutos.</p>
+      <p class="slide__sub">Un pitch corto. Una soluci&oacute;n. Tus n&uacute;meros.</p>
       <p class="slide__hint">Presiona <kbd>&rarr;</kbd> o toca Siguiente</p>
     </div>
   </section>
 
-  <section class="slide" id="s2" data-slide aria-roledescription="diapositiva" aria-label="2 de 8" aria-hidden="true">
+  <section class="slide" id="s2" data-slide aria-roledescription="diapositiva" aria-label="2 de 11" aria-hidden="true">
     <div class="slide__inner slide--center">
-      <span class="k k--ember">El problema</span>
-      <h2 class="slide__title">La app encontr&oacute; a tu cliente. Y se lo <span class="ember">qued&oacute;</span>.</h2>
-      <p class="slide__sub">Cada pedido repetido le devuelve una parte a la plataforma &mdash; y te deja sin el cliente.</p>
+      <span class="k k--ember">El trato del marketplace</span>
+      <h2 class="slide__title">Trae visibilidad. Tambi&eacute;n entrega a tus <span class="ember">competidores</span>.</h2>
+      <p class="slide__sub">Apps como PedidosYa encontraron al cliente &mdash; y luego pusieron cada cocina cercana en la misma pantalla, con el mismo alcance.</p>
     </div>
   </section>
 
-  <section class="slide" id="s3" data-slide aria-roledescription="diapositiva" aria-label="3 de 8" aria-hidden="true">
+  <section class="slide" id="s3" data-slide aria-roledescription="diapositiva" aria-label="3 de 11" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k k--ember">Sin espacio para competir</span>
+      <h2 class="slide__title">Comisiones e impuestos altos no dejan <span class="ember">nada</span> para ofertas.</h2>
+      <p class="slide__sub">Sin descuentos. Sin recompensas. Sin presupuesto para recuperar a un cliente frecuente &mdash; el margen ya se fue.</p>
+    </div>
+  </section>
+
+  <section class="slide" id="s4" data-slide aria-roledescription="diapositiva" aria-label="4 de 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k k--ember">La p&eacute;rdida real</span>
       <h2 class="slide__title">Alquilas a tus <span class="ember">clientes</span>.</h2>
@@ -243,7 +294,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s4" data-slide aria-roledescription="diapositiva" aria-label="4 de 8" aria-hidden="true">
+  <section class="slide" id="s5" data-slide aria-roledescription="diapositiva" aria-label="5 de 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k k--ember">Lo que cuesta</span>
       <h2 class="slide__title">El corte no pasa una vez. Pasa <span class="ember">cada mes</span>.</h2>
@@ -256,11 +307,11 @@
     </div>
   </section>
 
-  <section class="slide" id="s5" data-slide aria-roledescription="diapositiva" aria-label="5 de 8" aria-hidden="true">
+  <section class="slide" id="s6" data-slide aria-roledescription="diapositiva" aria-label="6 de 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">La soluci&oacute;n</span>
-      <h2 class="slide__title">Un canal que es <span class="gold">tuyo</span>.</h2>
-      <p class="slide__sub">Pedido directo, una lista que se queda contigo y Bs 1 por pedido en vez de un porcentaje del ticket.</p>
+      <h2 class="slide__title">Un canal que es <span class="gold">tuyo</span> &mdash; a Bs 1 por pedido.</h2>
+      <p class="slide__sub">Pedido directo, tu propia lista de clientes, un costo fijo por pedido en vez de un porcentaje.</p>
       <ul class="slide__chips slide__chips--gold">
         <li>Tu men&uacute;</li>
         <li>Tus clientes</li>
@@ -269,27 +320,64 @@
     </div>
   </section>
 
-  <section class="slide" id="s6" data-slide aria-roledescription="diapositiva" aria-label="6 de 8" aria-hidden="true">
+  <section class="slide" id="s7" data-slide aria-roledescription="diapositiva" aria-label="7 de 11" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k">Las cuentas</span>
+      <h2 class="slide__title">9 de 10 pedidos, <span class="gold">fuera</span> de la app.</h2>
+      <p class="slide__sub">Deja la app para que te descubran; el resto va directo, a una fracci&oacute;n de la comisi&oacute;n.</p>
+      <div class="calc" role="group" aria-label="Calculadora de ahorro en marketplace">
+        <div class="calc__fields">
+          <label class="calc__field"><span>Pedidos / mes</span><input type="number" id="calcOrders" inputmode="numeric" min="1" step="10" value="1200"></label>
+          <label class="calc__field"><span>Ticket prom. (Bs)</span><input type="number" id="calcTicket" inputmode="decimal" min="1" step="1" value="45"></label>
+          <label class="calc__field"><span>Comisi&oacute;n (%)</span><input type="number" id="calcTake" inputmode="decimal" min="0" max="90" step="1" value="25"></label>
+          <label class="calc__field calc__range"><span>Pedidos en app hoy <b id="calcShareVal">100%</b></span><input type="range" id="calcShare" min="0" max="100" step="5" value="100"></label>
+        </div>
+        <div class="calc__out">
+          <span class="calc__eyebrow">Margen recuperado al 10% en la app</span>
+          <strong class="calc__big" id="calcMonth">Bs 11.070</strong>
+          <span class="calc__unit">por mes</span>
+          <span class="calc__year"><b id="calcYear">Bs 132.840</b> por a&ntilde;o</span>
+          <span class="calc__delta" id="calcDelta">Hoy Bs 13.500 &rarr; despu&eacute;s Bs 2.430 en comisiones</span>
+        </div>
+      </div>
+      <p class="slide__foot">Valores ilustrativos &mdash; ed&iacute;talos con tus n&uacute;meros. Pedido directo a Bs 1 cada uno (Plan 2). Antes de impuestos y cuota del plan.</p>
+    </div>
+  </section>
+
+  <section class="slide" id="s8" data-slide aria-roledescription="diapositiva" aria-label="8 de 11" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k">Ahora que es tuyo</span>
+      <h2 class="slide__title">Tr&aacute;elos de vuelta. <span class="gold">Premia</span> su lealtad.</h2>
+      <p class="slide__sub">La lista que es tuya activa la reactivaci&oacute;n y la lealtad &mdash; pedidos repetidos sin volver a pagar por alcance.</p>
+      <div class="ocards">
+        <div class="ocard"><b>Reactiva a quienes ya compraron</b><span>Recupera a los clientes que la app olvid&oacute;.</span></div>
+        <div class="ocard"><b>Premia los pedidos repetidos</b><span>Un programa de lealtad que los hace volver.</span></div>
+        <div class="ocard"><b>La relaci&oacute;n es tuya</b><span>Su nombre, su historial, tu margen.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="s9" data-slide aria-roledescription="diapositiva" aria-label="9 de 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">Qu&eacute; cambia de verdad</span>
       <h2 class="slide__title">Tres cosas <span class="gold">cambian</span>.</h2>
       <div class="ocards">
         <div class="ocard"><b>Conservas el margen</b><span>Bs 1 por pedido, no un porcentaje.</span></div>
-        <div class="ocard"><b>Te quedas con el cliente</b><span>Una lista a la que puedes volver a llamar.</span></div>
+        <div class="ocard"><b>Traes de vuelta al cliente</b><span>Reactiva, premia, repite.</span></div>
         <div class="ocard"><b>Ves tus n&uacute;meros</b><span>Reportes por canal.</span></div>
       </div>
     </div>
   </section>
 
-  <section class="slide" id="s7" data-slide aria-roledescription="diapositiva" aria-label="7 de 8" aria-hidden="true">
+  <section class="slide" id="s10" data-slide aria-roledescription="diapositiva" aria-label="10 de 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">Qu&eacute; tan r&aacute;pido</span>
       <h2 class="slide__title">En vivo en <span class="gold">una semana</span>.</h2>
-      <p class="slide__sub">Una sesi&oacute;n de capacitaci&oacute;n. Sin hardware que comprar. Una fecha de inicio acordada antes de firmar.</p>
+      <p class="slide__sub">Una sola sesi&oacute;n de capacitaci&oacute;n. Sin hardware que comprar. Fecha de inicio acordada antes de firmar.</p>
     </div>
   </section>
 
-  <section class="slide" id="s8" data-slide aria-roledescription="diapositiva" aria-label="8 de 8" aria-hidden="true">
+  <section class="slide" id="s11" data-slide aria-roledescription="diapositiva" aria-label="11 de 11" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">La oferta</span>
       <h2 class="slide__title">Dos formas de <span class="gold">empezar</span>.</h2>
@@ -327,8 +415,11 @@
     <button class="deck__dot" type="button" aria-label="Ir a la diapositiva 6" aria-current="false"></button>
     <button class="deck__dot" type="button" aria-label="Ir a la diapositiva 7" aria-current="false"></button>
     <button class="deck__dot" type="button" aria-label="Ir a la diapositiva 8" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Ir a la diapositiva 9" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Ir a la diapositiva 10" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Ir a la diapositiva 11" aria-current="false"></button>
   </div>
-  <span class="deck__count" id="deckCount">01 / 08</span>
+  <span class="deck__count" id="deckCount">01 / 11</span>
   <button class="deck__btn" id="deckNext" type="button" aria-label="Siguiente diapositiva">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
   </button>
@@ -370,8 +461,7 @@
     }
 
     function fromHash() {
-      var k = slides.map(function (s) { return s.id; }).indexOf((location.hash || '').replace('#', ''));
-      return k;
+      return slides.map(function (s) { return s.id; }).indexOf((location.hash || '').replace('#', ''));
     }
 
     prev.addEventListener('click', function () { go(i - 1); });
@@ -393,12 +483,13 @@
     });
 
     stage.addEventListener('click', function (e) {
-      if (e.target.closest('a, button')) return;
+      if (e.target.closest('.calc, a, button, input, label, select, textarea')) return;
       go(e.clientX / window.innerWidth < 0.25 ? i - 1 : i + 1);
     });
 
     var lock = false;
     window.addEventListener('wheel', function (e) {
+      if (e.target.closest && e.target.closest('.calc')) return;
       if (lock || Math.abs(e.deltaY) < 24) return;
       lock = true;
       go(i + (e.deltaY > 0 ? 1 : -1));
@@ -422,6 +513,38 @@
 
     var start = fromHash();
     go(start >= 0 ? start : 0);
+
+    /* ---- calculadora: margen recuperado cuando los pedidos en app bajan al 10% ---- */
+    var LOC = document.documentElement.lang === 'es' ? 'es-BO' : 'en-US';
+    function fmtBs(n) { return 'Bs ' + new Intl.NumberFormat(LOC, { maximumFractionDigits: 0 }).format(Math.round(n)); }
+    function num(v) { var n = parseFloat(v); return isFinite(n) ? n : 0; }
+    function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
+    var elOrders = document.getElementById('calcOrders');
+    var elTicket = document.getElementById('calcTicket');
+    var elTake = document.getElementById('calcTake');
+    var elShare = document.getElementById('calcShare');
+    var elShareVal = document.getElementById('calcShareVal');
+    var elMonth = document.getElementById('calcMonth');
+    var elYear = document.getElementById('calcYear');
+    var elDelta = document.getElementById('calcDelta');
+    function calc() {
+      var orders = clamp(num(elOrders.value), 0, 1e7);
+      var ticket = clamp(num(elTicket.value), 0, 1e7);
+      var take = clamp(num(elTake.value), 0, 90) / 100;
+      var share = clamp(num(elShare.value), 0, 100) / 100;
+      var todayMarket = orders * share;
+      var todayCost = todayMarket * ticket * take + orders * (1 - share) * 1;
+      var afterCost = orders * 0.10 * ticket * take + orders * 0.90 * 1;
+      var saved = Math.max(0, todayCost - afterCost);
+      elShareVal.textContent = Math.round(share * 100) + '%';
+      elMonth.textContent = fmtBs(saved);
+      elYear.textContent = fmtBs(saved * 12);
+      elDelta.textContent = (LOC === 'es-BO' ? 'Hoy ' : 'Today ') + fmtBs(todayCost) +
+        ' \u2192 ' + (LOC === 'es-BO' ? 'despu\u00e9s ' : 'after ') + fmtBs(afterCost) +
+        (LOC === 'es-BO' ? ' en comisiones' : ' in fees');
+    }
+    [elOrders, elTicket, elTake, elShare].forEach(function (el) { el.addEventListener('input', calc); });
+    calc();
   })();
 </script>
 </body>
