@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The delivery margin problem — clubemkt pitch</title>
-<meta name="description" content="An eleven-slide pitch: marketplace apps bring visibility but also hand over your competitors, the fees leave no room for deals, and a channel you own keeps the margin — with a live calculator for moving 9 of 10 orders off the app." />
+<meta name="description" content="A twelve-slide pitch: marketplace apps bring visibility but also hand over your competitors, the fees leave no room for deals, and a channel you own has no cut fees — with a live calculator for moving 9 of 10 orders off the app, plus the CRM and loyalty program that keep customers coming back." />
 <link rel="alternate" hreflang="es" href="pitch.es.html" />
 <link rel="alternate" hreflang="en" href="pitch.html" />
 <link rel="icon" type="image/png" href="brand/clubemkt-mark-gold.png" />
@@ -255,7 +255,7 @@
 </div>
 
 <main class="deck__stage" aria-label="Pitch deck">
-  <section class="slide is-active" id="s1" data-slide aria-roledescription="slide" aria-label="1 of 11" aria-hidden="false">
+  <section class="slide is-active" id="s1" data-slide aria-roledescription="slide" aria-label="1 of 12" aria-hidden="false">
     <div class="slide__inner slide--center">
       <span class="k">clubemkt digital &middot; delivery growth</span>
       <h1 class="slide__title">The delivery <span class="gold">margin</span> problem.</h1>
@@ -264,7 +264,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s2" data-slide aria-roledescription="slide" aria-label="2 of 11" aria-hidden="true">
+  <section class="slide" id="s2" data-slide aria-roledescription="slide" aria-label="2 of 12" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k k--ember">The marketplace trade</span>
       <h2 class="slide__title">It brings visibility. It also hands over your <span class="ember">competitors</span>.</h2>
@@ -272,7 +272,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s3" data-slide aria-roledescription="slide" aria-label="3 of 11" aria-hidden="true">
+  <section class="slide" id="s3" data-slide aria-roledescription="slide" aria-label="3 of 12" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k k--ember">No room to compete</span>
       <h2 class="slide__title">High fees and taxes leave <span class="ember">nothing</span> for deals.</h2>
@@ -280,7 +280,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s4" data-slide aria-roledescription="slide" aria-label="4 of 11" aria-hidden="true">
+  <section class="slide" id="s4" data-slide aria-roledescription="slide" aria-label="4 of 12" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k k--ember">The real loss</span>
       <h2 class="slide__title">You <span class="ember">rent</span> your customers.</h2>
@@ -293,10 +293,10 @@
     </div>
   </section>
 
-  <section class="slide" id="s5" data-slide aria-roledescription="slide" aria-label="5 of 11" aria-hidden="true">
+  <section class="slide" id="s5" data-slide aria-roledescription="slide" aria-label="5 of 12" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k k--ember">What it costs</span>
-      <h2 class="slide__title">The cut doesn&rsquo;t happen once. It happens <span class="ember">every month</span>.</h2>
+      <h2 class="slide__title">The cut doesn&rsquo;t happen once. It happens on <span class="ember">every order</span>.</h2>
       <p class="slide__sub">On orders you already earned. On customers you already won.</p>
       <div class="loop">
         <span>Order</span><i class="ar" aria-hidden="true">&rarr;</i>
@@ -306,11 +306,11 @@
     </div>
   </section>
 
-  <section class="slide" id="s6" data-slide aria-roledescription="slide" aria-label="6 of 11" aria-hidden="true">
+  <section class="slide" id="s6" data-slide aria-roledescription="slide" aria-label="6 of 12" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">The fix</span>
-      <h2 class="slide__title">A channel you <span class="gold">own</span> &mdash; at Bs 1 per order.</h2>
-      <p class="slide__sub">Direct ordering, your own customer list, a fixed per-order cost instead of a percentage.</p>
+      <h2 class="slide__title">A channel you <span class="gold">own</span> &mdash; with no cut fees.</h2>
+      <p class="slide__sub">Direct ordering, your own customer list, and no commission taken from the ticket.</p>
       <ul class="slide__chips slide__chips--gold">
         <li>Your menu</li>
         <li>Your customers</li>
@@ -319,56 +319,69 @@
     </div>
   </section>
 
-  <section class="slide" id="s7" data-slide aria-roledescription="slide" aria-label="7 of 11" aria-hidden="true">
+  <section class="slide" id="s7" data-slide aria-roledescription="slide" aria-label="7 of 12" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">The math</span>
       <h2 class="slide__title">Move 9 of 10 orders <span class="gold">off</span> the app.</h2>
       <p class="slide__sub">Keep the marketplace for discovery. Run the rest direct &mdash; same orders, a fraction of the fee.</p>
       <div class="calc" role="group" aria-label="Marketplace savings calculator">
         <div class="calc__fields">
-          <label class="calc__field"><span>Orders / month</span><input type="number" id="calcOrders" inputmode="numeric" min="1" step="10" value="1200"></label>
+          <label class="calc__field"><span>Orders / month</span><input type="number" id="calcOrders" inputmode="numeric" min="1" step="100" value="30000"></label>
           <label class="calc__field"><span>Avg ticket (Bs)</span><input type="number" id="calcTicket" inputmode="decimal" min="1" step="1" value="45"></label>
           <label class="calc__field"><span>Take rate (%)</span><input type="number" id="calcTake" inputmode="decimal" min="0" max="90" step="1" value="25"></label>
           <label class="calc__field calc__range"><span>App orders today <b id="calcShareVal">100%</b></span><input type="range" id="calcShare" min="0" max="100" step="5" value="100"></label>
         </div>
         <div class="calc__out">
           <span class="calc__eyebrow">Margin recovered at 10% on the app</span>
-          <strong class="calc__big" id="calcMonth">Bs 11,070</strong>
+          <strong class="calc__big" id="calcMonth">Bs 276,750</strong>
           <span class="calc__unit">per month</span>
-          <span class="calc__year"><b id="calcYear">Bs 132,840</b> per year</span>
-          <span class="calc__delta" id="calcDelta">Today Bs 13,500 &rarr; after Bs 2,430 in fees</span>
+          <span class="calc__year"><b id="calcYear">Bs 3,321,000</b> per year</span>
+          <span class="calc__delta" id="calcDelta">Today Bs 337,500 &rarr; after Bs 60,750 in fees</span>
         </div>
       </div>
       <p class="slide__foot">Illustrative defaults &mdash; edit with your numbers. Direct orders at Bs 1 each (Plan 2). Before taxes and plan fee.</p>
     </div>
   </section>
 
-  <section class="slide" id="s8" data-slide aria-roledescription="slide" aria-label="8 of 11" aria-hidden="true">
+  <section class="slide" id="s8" data-slide aria-roledescription="slide" aria-label="8 of 12" aria-hidden="true">
     <div class="slide__inner slide--center">
-      <span class="k">Now that it&rsquo;s yours</span>
-      <h2 class="slide__title">Bring them back. <span class="gold">Reward</span> them.</h2>
-      <p class="slide__sub">The list you own powers reactivation and loyalty &mdash; repeat orders without paying for reach again.</p>
+      <span class="k">Your CRM, one click away</span>
+      <h2 class="slide__title">Your customer list is a <span class="gold">button</span>.</h2>
+      <p class="slide__sub">Send a message or a promotion from the CRM and the lapsed orders come back the same day &mdash; without paying for reach again.</p>
       <div class="ocards">
-        <div class="ocard"><b>Re-activate past buyers</b><span>Win back the customers the app forgot.</span></div>
-        <div class="ocard"><b>Reward repeat orders</b><span>A loyalty program that keeps them coming.</span></div>
-        <div class="ocard"><b>Own the relationship</b><span>Their name, their history, your margin.</span></div>
+        <div class="ocard"><b>Message the list</b><span>One send reaches every past customer.</span></div>
+        <div class="ocard"><b>Launch a promotion</b><span>A targeted offer, not a billboard.</span></div>
+        <div class="ocard"><b>See who returns</b><span>Every send is measured per customer.</span></div>
       </div>
     </div>
   </section>
 
-  <section class="slide" id="s9" data-slide aria-roledescription="slide" aria-label="9 of 11" aria-hidden="true">
+  <section class="slide" id="s9" data-slide aria-roledescription="slide" aria-label="9 of 12" aria-hidden="true">
+    <div class="slide__inner slide--center">
+      <span class="k">The loyalty program</span>
+      <h2 class="slide__title">Recurring customers, <span class="gold">built in</span>.</h2>
+      <p class="slide__sub">The loyalty program rewards every direct order &mdash; points, rewards, and a reason to come back instead of opening the app.</p>
+      <div class="ocards">
+        <div class="ocard"><b>Points on every order</b><span>Earned on direct orders, kept in the system.</span></div>
+        <div class="ocard"><b>Rewards that bring them back</b><span>A free item or a discount after N orders.</span></div>
+        <div class="ocard"><b>Runs by itself</b><span>No punch cards, no manual work.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="s10" data-slide aria-roledescription="slide" aria-label="10 of 12" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">What actually changes</span>
       <h2 class="slide__title">Three things <span class="gold">flip</span>.</h2>
       <div class="ocards">
-        <div class="ocard"><b>Keep the margin</b><span>Bs 1 per order, not a percentage.</span></div>
-        <div class="ocard"><b>Bring customers back</b><span>Reactivate, reward, repeat.</span></div>
+        <div class="ocard"><b>Keep the margin</b><span>No commission on the ticket.</span></div>
+        <div class="ocard"><b>Bring customers back</b><span>CRM sends and loyalty rewards.</span></div>
         <div class="ocard"><b>See the numbers</b><span>Channel-level reporting.</span></div>
       </div>
     </div>
   </section>
 
-  <section class="slide" id="s10" data-slide aria-roledescription="slide" aria-label="10 of 11" aria-hidden="true">
+  <section class="slide" id="s11" data-slide aria-roledescription="slide" aria-label="11 of 12" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">How fast</span>
       <h2 class="slide__title">Live in <span class="gold">a week</span>.</h2>
@@ -376,7 +389,7 @@
     </div>
   </section>
 
-  <section class="slide" id="s11" data-slide aria-roledescription="slide" aria-label="11 of 11" aria-hidden="true">
+  <section class="slide" id="s12" data-slide aria-roledescription="slide" aria-label="12 of 12" aria-hidden="true">
     <div class="slide__inner slide--center">
       <span class="k">The offer</span>
       <h2 class="slide__title">Two ways to <span class="gold">start</span>.</h2>
@@ -396,7 +409,7 @@
         <a class="btn btn--primary btn--lg" href="index.html#capture">Book a 20-min review</a>
         <a class="btn btn--ghost btn--lg" href="index.html#calculator">Run your numbers</a>
       </div>
-      <p class="slide__foot">Reference rate 1 USD = Bs 11,50 (06 Nov 2026). Amounts exclude taxes. Optional marketing add-on available. <a href="index.html#pricing">See all plans &rarr;</a></p>
+      <p class="slide__foot">Includes CRM and the loyalty program. Reference rate 1 USD = Bs 11,50 (06 Nov 2026). Amounts exclude taxes. Optional marketing add-on available. <a href="index.html#pricing">See all plans &rarr;</a></p>
     </div>
   </section>
 </main>
@@ -417,8 +430,9 @@
     <button class="deck__dot" type="button" aria-label="Go to slide 9" aria-current="false"></button>
     <button class="deck__dot" type="button" aria-label="Go to slide 10" aria-current="false"></button>
     <button class="deck__dot" type="button" aria-label="Go to slide 11" aria-current="false"></button>
+    <button class="deck__dot" type="button" aria-label="Go to slide 12" aria-current="false"></button>
   </div>
-  <span class="deck__count" id="deckCount">01 / 11</span>
+  <span class="deck__count" id="deckCount">01 / 12</span>
   <button class="deck__btn" id="deckNext" type="button" aria-label="Next slide">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
   </button>
