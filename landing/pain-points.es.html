@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Puntos de dolor y soluciones — consultoría de delivery clubemkt digital</title>
+<meta name="description" content="Un mapa objetivo de las seis cosas que rompen el delivery de comida rápida — comisiones sobre los habituales, pedidos perdidos, sin base de clientes, sin visibilidad, tecnología lenta, marketing sin plan — y exactamente cómo la consultoría clubemkt arregla cada una." />
+<link rel="alternate" hreflang="en" href="pain-points.html" />
+<link rel="alternate" hreflang="es" href="pain-points.es.html" />
+<link rel="icon" type="image/png" href="brand/clubemkt-mark-gold.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="clubemkt.css?v=4" />
+<style>
+  :root { --ember: #d06a45; --ember-bright: #e79a72; --ember-line: rgba(208, 106, 69, .5); --ember-dim: rgba(208, 106, 69, .12); }
+
+  .pf-hero { padding-block: clamp(48px, 7vw, 84px) clamp(36px, 5vw, 60px); }
+  .pf-hero h1 { font-size: clamp(28px, 4.6vw, 46px); font-weight: 700; letter-spacing: -.03em; max-width: 24ch; }
+  .pf-hero h1 em { font-style: normal; color: var(--gold); }
+  .pf-hero .lede { margin-top: 18px; max-width: 60ch; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 24px; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+  .legend .lp i { background: var(--ember); box-shadow: 0 0 10px rgba(208,106,69,.5); }
+  .legend .lf i { background: var(--gold); box-shadow: 0 0 10px rgba(212,175,55,.5); }
+
+  .pf-head { display: grid; grid-template-columns: 1fr 72px 1fr; align-items: center; margin-bottom: 14px; }
+  .pf-head span { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+  .pf-head .h-pain { color: var(--ember-bright); }
+  .pf-head .h-fix { color: var(--gold); text-align: right; }
+  .pf-head .h-mid { height: 1px; background: linear-gradient(90deg, var(--ember-line), var(--gold-line)); }
+
+  .pf-list { display: grid; gap: 16px; }
+  .pf { display: grid; grid-template-columns: 1fr 72px 1fr; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: border-color .2s ease, transform .2s ease; }
+  .pf:hover { border-color: var(--gold-line); transform: translateY(-2px); }
+  .pf__pain, .pf__fix { padding: clamp(20px, 2.6vw, 28px); min-width: 0; }
+  .pf__pain { background: linear-gradient(180deg, var(--ember-dim), transparent 70%); border-right: 1px solid var(--line-soft); }
+  .pf__fix { background: linear-gradient(180deg, rgba(212,175,55,.07), transparent 70%); }
+  .pf__k { display: flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 12px; }
+  .pf__pain .pf__k { color: var(--ember-bright); }
+  .pf__fix .pf__k { color: var(--gold); }
+  .pf__k b { font-size: 11px; opacity: .85; }
+  .pf__k i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+  .pf__pain .pf__k i { background: var(--ember); }
+  .pf__fix .pf__k i { background: var(--gold); }
+  .pf h3 { font-size: clamp(16px, 1.8vw, 19px); letter-spacing: -.01em; margin-bottom: 9px; color: var(--white); }
+  .pf__fix h3 { color: var(--gold-bright); }
+  .pf p { margin: 0; font-size: 14.5px; line-height: 1.65; color: var(--muted); }
+  .pf__arrow { display: grid; place-items: center; color: var(--gold); border-inline: 1px solid var(--line-soft); background: var(--surface-2); }
+  .pf__arrow svg { width: 26px; height: 26px; filter: drop-shadow(0 0 8px rgba(212,175,55,.4)); }
+
+  .facts { display: grid; gap: clamp(14px, 2vw, 20px); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 32px; }
+  .fact { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: var(--radius); padding: 20px 22px; }
+  .fact b { display: block; font-family: var(--font-mono); font-size: 14px; letter-spacing: .04em; color: var(--white); margin-bottom: 6px; }
+  .fact span { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+  .eng { display: grid; gap: clamp(14px, 2vw, 20px); grid-template-columns: 1.2fr .8fr; margin-top: 32px; align-items: stretch; }
+  .eng__lead { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(22px, 2.6vw, 30px); }
+  .eng__lead h3 { font-size: 18px; color: var(--white); margin-bottom: 10px; }
+  .eng__lead p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.7; }
+  .eng__lead p + p { margin-top: 10px; }
+  .eng__lead b { color: var(--silver); }
+  .eng__plans { display: grid; gap: 12px; }
+  .eng__plan { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+  .eng__plan .n { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+  .eng__plan .p { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--white); margin: 4px 0; }
+  .eng__plan .d { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  .next { text-align: center; }
+  .next h2 { font-size: clamp(24px, 3.4vw, 34px); max-width: 26ch; margin-inline: auto; }
+  .next .lede { margin: 14px auto 0; }
+  .next__actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 28px; }
+  .next__actions .btn { white-space: normal; }
+
+  @media (max-width: 760px) {
+    .pf-head { display: none; }
+    .pf { grid-template-columns: 1fr; }
+    .pf__pain { border-right: 0; border-bottom: 1px solid var(--line-soft); }
+    .pf__arrow { border-inline: 0; border-block: 1px solid var(--line-soft); padding: 8px; }
+    .pf__arrow svg { transform: rotate(90deg); width: 22px; height: 22px; }
+    .eng { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="site-header">
+  <div class="wrap site-header__row">
+    <a class="brand" href="index.es.html">
+      <img class="brand__logo" src="brand/clubemkt-logo-header.png" alt="clubemkt digital" width="138" height="40" />
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">Men&uacute;</button>
+    <nav class="nav" id="primaryNav" aria-label="Principal">
+      <a href="#ledger">Dolor &rarr; soluci&oacute;n</a>
+      <a href="#facts">C&oacute;mo opera</a>
+      <a href="#engagement">El compromiso</a>
+      <a href="#next">Siguiente paso</a>
+      <a href="pain-points.html" hreflang="en">English</a>
+    </nav>
+    <a class="btn btn--primary header-cta" href="#next">Agendar revisi&oacute;n</a>
+  </div>
+</header>
+
+<main id="main">
+  <span id="top"></span>
+
+  <!-- HERO -->
+  <section class="hero pf-hero">
+    <div class="wrap">
+      <span class="eyebrow">Diagn&oacute;stico &middot; soluci&oacute;n</span>
+      <h1>Seis cosas que rompen tu delivery. <em>Seis soluciones.</em></h1>
+      <p class="lede">Un mapa objetivo de d&oacute;nde el delivery de comida r&aacute;pida pierde dinero y pedidos &mdash; y qu&eacute; hace la consultor&iacute;a clubemkt con cada uno. Sin exageraci&oacute;n: el problema a la izquierda, la soluci&oacute;n a la derecha.</p>
+      <div class="legend">
+        <span class="lp"><i></i>El dolor</span>
+        <span class="lf"><i></i>La soluci&oacute;n</span>
+      </div>
+      <ul class="chips">
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>En vivo en una semana</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Capacitado en una sesi&oacute;n</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Sin hardware que comprar</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- LEDGER -->
+  <section class="section section--alt" id="ledger">
+    <div class="wrap">
+      <span class="eyebrow">El registro</span>
+      <h2>El problema a la izquierda. La soluci&oacute;n a la derecha.</h2>
+      <div class="pf-head" aria-hidden="true">
+        <span class="h-pain">El dolor</span>
+        <span class="h-mid"></span>
+        <span class="h-fix">La soluci&oacute;n</span>
+      </div>
+
+      <div class="pf-list">
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Dolor <b>01</b></span>
+            <h3>Un impuesto a tus habituales</h3>
+            <p>La app encontr&oacute; al cliente una vez, luego se lleva una parte de cada pedido recurrente. Tus compradores m&aacute;s leales se vuelven los m&aacute;s caros.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Soluci&oacute;n <b>01</b></span>
+            <h3>Tu propio canal de pedidos recurrentes</h3>
+            <p>Movemos a los clientes recurrentes a un canal tuyo, con precio de Bs 1 por pedido en vez de un porcentaje del ticket.</p>
+          </div>
+        </article>
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Dolor <b>02</b></span>
+            <h3>No eres due&ntilde;o del cliente</h3>
+            <p>Los pedidos por la app dejan el nombre y el n&uacute;mero en la plataforma. No puedes volver a llamar a un habitual ni construir una base.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Soluci&oacute;n <b>02</b></span>
+            <h3>Una base de clientes que sigue siendo tuya</h3>
+            <p>Cada pedido construye tu propia lista, lista para retenci&oacute;n y reactivaci&oacute;n &mdash; el activo que la app se guarda.</p>
+          </div>
+        </article>
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Dolor <b>03</b></span>
+            <h3>El ingreso manual pierde pedidos</h3>
+            <p>El personal vuelve a teclear pedidos de WhatsApp, tel&eacute;fono y apps en plena hora pico. Errores, demoras y tickets perdidos cuestan ingresos reales.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Soluci&oacute;n <b>03</b></span>
+            <h3>Pedidos capturados autom&aacute;ticamente</h3>
+            <p>La captura fluye directo a la cocina sin volver a teclear, para que la hora pico deje de perder pedidos.</p>
+          </div>
+        </article>
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Dolor <b>04</b></span>
+            <h3>Sin vista de qu&eacute; funciona</h3>
+            <p>Sin n&uacute;meros por canal no ves qu&eacute; se vende, qu&eacute; m&aacute;rgenes sobreviven ni d&oacute;nde invertir despu&eacute;s.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Soluci&oacute;n <b>04</b></span>
+            <h3>Inteligencia de negocio liderada por consultor&iacute;a</h3>
+            <p>Auditamos c&oacute;mo vendes en l&iacute;nea, dise&ntilde;amos el plan estrat&eacute;gico y lo reportamos &mdash; decisiones con n&uacute;meros, no con suposiciones.</p>
+          </div>
+        </article>
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Dolor <b>05</b></span>
+            <h3>Tecnolog&iacute;a que tarda meses en llegar</h3>
+            <p>Implementaciones largas, hardware nuevo y una curva de aprendizaje frenan la cocina en medio del servicio.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Soluci&oacute;n <b>05</b></span>
+            <h3>En vivo en una semana, capacitado en una sesi&oacute;n</h3>
+            <p>Configuraci&oacute;n, no desarrollo: tu men&uacute;, canales y accesos. El personal toma pedidos el mismo d&iacute;a; sin hardware que comprar.</p>
+          </div>
+        </article>
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Dolor <b>06</b></span>
+            <h3>Marketing sin un plan</h3>
+            <p>Publicaciones dispersas y anuncios pagados gastan presupuesto sin un embudo ni un retorno medible.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Soluci&oacute;n <b>06</b></span>
+            <h3>Un plan de crecimiento dise&ntilde;ado y ejecutado</h3>
+            <p>La consultor&iacute;a construye el embudo; el add-on opcional opera b&uacute;squeda y redes sobre &eacute;l, con reportes.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FACTS -->
+  <section class="section" id="facts">
+    <div class="wrap">
+      <span class="eyebrow">C&oacute;mo opera</span>
+      <h2>Los datos operativos</h2>
+      <div class="facts">
+        <div class="fact"><b>En una semana</b><span>De la firma a la puesta en marcha. La fecha se acuerda antes de firmar, no despu&eacute;s.</span></div>
+        <div class="fact"><b>Una sesi&oacute;n</b><span>La capacitaci&oacute;n es una sola sesi&oacute;n de trabajo; toman pedidos el mismo d&iacute;a.</span></div>
+        <div class="fact"><b>Sin hardware</b><span>Nada que comprar ni instalar. Corre en los equipos que ya tienes.</span></div>
+        <div class="fact"><b>Tus datos</b><span>La base de clientes y los n&uacute;meros siguen siendo tuyos, no de la plataforma.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGAGEMENT -->
+  <section class="section section--alt" id="engagement">
+    <div class="wrap">
+      <span class="eyebrow">El compromiso</span>
+      <h2>Lo que realmente adquieres</h2>
+      <div class="eng">
+        <div class="eng__lead">
+          <h3>Una consultor&iacute;a, no un vendedor de software</h3>
+          <p>Adquieres <b>inteligencia de negocio</b>: auditamos c&oacute;mo tu cocina vende en l&iacute;nea, dise&ntilde;amos el plan estrat&eacute;gico y ejecutamos el cambio &mdash; marketing, embudo, automatizaci&oacute;n y retenci&oacute;n.</p>
+          <p>El <b>software es la capa debajo</b> que hace correr el plan. Dos formas de pagar esa capa:</p>
+        </div>
+        <div class="eng__plans">
+          <div class="eng__plan">
+            <span class="n">Plan 1 &middot; Full Package</span>
+            <span class="p">$2.000 <small style="font-size:12px;color:var(--muted)">pago &uacute;nico</small></span>
+            <span class="d">Un a&ntilde;o completo de licencia, sin cuota mensual. 100% al firmar.</span>
+          </div>
+          <div class="eng__plan">
+            <span class="n">Plan 2 &middot; Software + Mensual</span>
+            <span class="p">$1.000 <small style="font-size:12px;color:var(--muted)">inicial</small></span>
+            <span class="d">Luego $150/mes (USD) o Bs 1 por pedido (BOB) &mdash; tu elecci&oacute;n al firmar.</span>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:16px;font-size:12.5px;color:var(--muted-2)">Tipo de cambio de referencia 1 USD = Bs 11,50 (06 nov 2026). Montos sin impuestos. <a href="index.es.html#pricing" style="color:var(--gold)">Planes completos y nota de moneda &rarr;</a></p>
+    </div>
+  </section>
+
+  <!-- NEXT -->
+  <section class="section next" id="next">
+    <div class="wrap">
+      <span class="eyebrow" style="justify-content:center">Siguiente paso</span>
+      <h2>M&iacute;ralo con tus propios n&uacute;meros.</h2>
+      <p class="lede">Veinte minutos. Corremos tu volumen, ticket y comisi&oacute;n por la calculadora y te mostramos el plan que conserva la diferencia.</p>
+      <div class="next__actions">
+        <a class="btn btn--primary btn--lg" href="index.es.html#calculator">Corre tus n&uacute;meros</a>
+        <a class="btn btn--ghost btn--lg" href="index.es.html#capture">Agenda una revisi&oacute;n de 20 min</a>
+        <a class="btn btn--ghost btn--lg" href="index.es.html#pricing">Ver los planes</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="brandplate"><img src="brand/clubemkt-logo-header.png" alt="clubemkt digital" width="320" height="93" loading="lazy" /></div>
+    <div class="site-footer__row">
+      <div><strong>clubemkt digital</strong> &mdash; sistemas de crecimiento dise&ntilde;ados para delivery de comida r&aacute;pida</div>
+      <div>
+        <a href="index.es.html">Resumen</a> &nbsp;&middot;&nbsp;
+        <a href="stop-losing-orders.es.html">Deja de perder pedidos</a> &nbsp;&middot;&nbsp;
+        <a href="stop-paying-commission.es.html">Ahorro de comisiones</a> &nbsp;&middot;&nbsp;
+        <a href="pain-points.html" hreflang="en">English</a>
+      </div>
+    </div>
+    <p class="site-footer__legal">
+      Un resumen objetivo de la oferta. Los precios son montos de propuesta en d&oacute;lares estadounidenses, salvo la tarifa por pedido del Plan&nbsp;2, que se cotiza y paga en bolivianos.
+      Todos los montos excluyen impuestos aplicables; los derechos y obligaciones finales se rigen por el contrato de servicio firmado.
+    </p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('navToggle');
+    var nav = document.getElementById('primaryNav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', function () {
+      var open = nav.getAttribute('data-open') === 'true';
+      nav.setAttribute('data-open', String(!open));
+      toggle.setAttribute('aria-expanded', String(!open));
+      toggle.textContent = open ? 'Menú' : 'Cerrar';
+    });
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        nav.removeAttribute('data-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = 'Menú';
+      }
+    });
+  })();
+</script>
+<script>
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && 'IntersectionObserver' in window) {
+      var targets = document.querySelectorAll('.pf, .fact, .eng__lead, .eng__plan');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      Array.prototype.forEach.call(targets, function (el, i) {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i % 4) * 70 + 'ms';
+        io.observe(el);
+      });
+    }
+    var nav = document.querySelector('.nav');
+    if (nav) {
+      var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
+      var secs = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+      var spy = function () {
+        var y = window.scrollY + 120, current = null;
+        secs.forEach(function (s) { if (s.offsetTop <= y) current = s.id; });
+        links.forEach(function (a) { a.classList.toggle('is-active', a.getAttribute('href') === '#' + current); });
+      };
+      window.addEventListener('scroll', spy, { passive: true });
+      spy();
+    }
+  })();
+</script>
+</body>
+</html>

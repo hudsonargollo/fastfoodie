@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pain points &amp; fixes — clubemkt digital delivery consultancy</title>
+<meta name="description" content="An objective map of the six things that break fast-food delivery — commissions on regulars, lost orders, no customer base, no visibility, slow tech, unplanned marketing — and exactly how the clubemkt consultancy fixes each one." />
+<link rel="alternate" hreflang="es" href="pain-points.es.html" />
+<link rel="alternate" hreflang="en" href="pain-points.html" />
+<link rel="icon" type="image/png" href="brand/clubemkt-mark-gold.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="clubemkt.css?v=4" />
+<style>
+  :root { --ember: #d06a45; --ember-bright: #e79a72; --ember-line: rgba(208, 106, 69, .5); --ember-dim: rgba(208, 106, 69, .12); }
+
+  .pf-hero { padding-block: clamp(48px, 7vw, 84px) clamp(36px, 5vw, 60px); }
+  .pf-hero h1 { font-size: clamp(28px, 4.6vw, 46px); font-weight: 700; letter-spacing: -.03em; max-width: 24ch; }
+  .pf-hero h1 em { font-style: normal; color: var(--gold); }
+  .pf-hero .lede { margin-top: 18px; max-width: 60ch; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 24px; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+  .legend .lp i { background: var(--ember); box-shadow: 0 0 10px rgba(208,106,69,.5); }
+  .legend .lf i { background: var(--gold); box-shadow: 0 0 10px rgba(212,175,55,.5); }
+
+  .pf-head { display: grid; grid-template-columns: 1fr 72px 1fr; align-items: center; margin-bottom: 14px; }
+  .pf-head span { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+  .pf-head .h-pain { color: var(--ember-bright); }
+  .pf-head .h-fix { color: var(--gold); text-align: right; }
+  .pf-head .h-mid { height: 1px; background: linear-gradient(90deg, var(--ember-line), var(--gold-line)); }
+
+  .pf-list { display: grid; gap: 16px; }
+  .pf { display: grid; grid-template-columns: 1fr 72px 1fr; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: border-color .2s ease, transform .2s ease; }
+  .pf:hover { border-color: var(--gold-line); transform: translateY(-2px); }
+  .pf__pain, .pf__fix { padding: clamp(20px, 2.6vw, 28px); min-width: 0; }
+  .pf__pain { background: linear-gradient(180deg, var(--ember-dim), transparent 70%); border-right: 1px solid var(--line-soft); }
+  .pf__fix { background: linear-gradient(180deg, rgba(212,175,55,.07), transparent 70%); }
+  .pf__k { display: flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 12px; }
+  .pf__pain .pf__k { color: var(--ember-bright); }
+  .pf__fix .pf__k { color: var(--gold); }
+  .pf__k b { font-size: 11px; opacity: .85; }
+  .pf__k i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+  .pf__pain .pf__k i { background: var(--ember); }
+  .pf__fix .pf__k i { background: var(--gold); }
+  .pf h3 { font-size: clamp(16px, 1.8vw, 19px); letter-spacing: -.01em; margin-bottom: 9px; color: var(--white); }
+  .pf__fix h3 { color: var(--gold-bright); }
+  .pf p { margin: 0; font-size: 14.5px; line-height: 1.65; color: var(--muted); }
+  .pf__arrow { display: grid; place-items: center; color: var(--gold); border-inline: 1px solid var(--line-soft); background: var(--surface-2); }
+  .pf__arrow svg { width: 26px; height: 26px; filter: drop-shadow(0 0 8px rgba(212,175,55,.4)); }
+
+  .facts { display: grid; gap: clamp(14px, 2vw, 20px); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 32px; }
+  .fact { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: var(--radius); padding: 20px 22px; }
+  .fact b { display: block; font-family: var(--font-mono); font-size: 14px; letter-spacing: .04em; color: var(--white); margin-bottom: 6px; }
+  .fact span { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
+
+  .eng { display: grid; gap: clamp(14px, 2vw, 20px); grid-template-columns: 1.2fr .8fr; margin-top: 32px; align-items: stretch; }
+  .eng__lead { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(22px, 2.6vw, 30px); }
+  .eng__lead h3 { font-size: 18px; color: var(--white); margin-bottom: 10px; }
+  .eng__lead p { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.7; }
+  .eng__lead p + p { margin-top: 10px; }
+  .eng__lead b { color: var(--silver); }
+  .eng__plans { display: grid; gap: 12px; }
+  .eng__plan { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+  .eng__plan .n { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+  .eng__plan .p { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--white); margin: 4px 0; }
+  .eng__plan .d { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  .next { text-align: center; }
+  .next h2 { font-size: clamp(24px, 3.4vw, 34px); max-width: 26ch; margin-inline: auto; }
+  .next .lede { margin: 14px auto 0; }
+  .next__actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 28px; }
+  .next__actions .btn { white-space: normal; }
+
+  @media (max-width: 760px) {
+    .pf-head { display: none; }
+    .pf { grid-template-columns: 1fr; }
+    .pf__pain { border-right: 0; border-bottom: 1px solid var(--line-soft); }
+    .pf__arrow { border-inline: 0; border-block: 1px solid var(--line-soft); padding: 8px; }
+    .pf__arrow svg { transform: rotate(90deg); width: 22px; height: 22px; }
+    .eng { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__row">
+    <a class="brand" href="index.html">
+      <img class="brand__logo" src="brand/clubemkt-logo-header.png" alt="clubemkt digital" width="138" height="40" />
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+    <nav class="nav" id="primaryNav" aria-label="Primary">
+      <a href="#ledger">Pain &rarr; fix</a>
+      <a href="#facts">How it runs</a>
+      <a href="#engagement">The engagement</a>
+      <a href="#next">Next step</a>
+      <a href="pain-points.es.html" hreflang="es">Espa&ntilde;ol</a>
+    </nav>
+    <a class="btn btn--primary header-cta" href="#next">Book a review</a>
+  </div>
+</header>
+
+<main id="main">
+  <span id="top"></span>
+
+  <!-- HERO -->
+  <section class="hero pf-hero">
+    <div class="wrap">
+      <span class="eyebrow">Diagnosis &middot; fix</span>
+      <h1>Six things breaking your delivery. <em>Six fixes.</em></h1>
+      <p class="lede">An objective map of where fast-food delivery leaks money and orders &mdash; and what the clubemkt consultancy does about each one. No hype: the problem on the left, the fix on the right.</p>
+      <div class="legend">
+        <span class="lp"><i></i>The pain</span>
+        <span class="lf"><i></i>The fix</span>
+      </div>
+      <ul class="chips">
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Live within a week</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>Trained in one session</li>
+        <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>No hardware to buy</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- LEDGER -->
+  <section class="section section--alt" id="ledger">
+    <div class="wrap">
+      <span class="eyebrow">The ledger</span>
+      <h2>Problem on the left. Fix on the right.</h2>
+      <div class="pf-head" aria-hidden="true">
+        <span class="h-pain">The pain</span>
+        <span class="h-mid"></span>
+        <span class="h-fix">The fix</span>
+      </div>
+
+      <div class="pf-list">
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Pain <b>01</b></span>
+            <h3>A tax on your regulars</h3>
+            <p>The app found the customer once, then takes a cut of every repeat order. Your most loyal buyers become your most expensive ones.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Fix <b>01</b></span>
+            <h3>Your own repeat-order channel</h3>
+            <p>We move recurring customers to a channel you own, priced at Bs 1 per order instead of a percentage of the ticket.</p>
+          </div>
+        </article>
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Pain <b>02</b></span>
+            <h3>You don't own the customer</h3>
+            <p>Orders through the app leave the name and number with the platform. You can't call a regular back, and you can't build a base.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Fix <b>02</b></span>
+            <h3>A customer base that stays yours</h3>
+            <p>Every order builds your own list, ready for retention and re-activation &mdash; the asset the app keeps for itself.</p>
+          </div>
+        </article>
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Pain <b>03</b></span>
+            <h3>Manual entry loses orders</h3>
+            <p>Staff re-type orders from WhatsApp, phone and apps during the rush. Mistakes, delays and missed tickets cost real revenue.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Fix <b>03</b></span>
+            <h3>Orders captured automatically</h3>
+            <p>Intake flows straight to the kitchen with no re-typing, so peak hour stops leaking orders.</p>
+          </div>
+        </article>
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Pain <b>04</b></span>
+            <h3>No view of what's working</h3>
+            <p>Without channel-level numbers you can't see what sells, which margins survive, or where to spend next.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Fix <b>04</b></span>
+            <h3>Consultancy-led business intelligence</h3>
+            <p>We audit how you sell online, design the strategic plan and report on it &mdash; decisions on numbers, not guesswork.</p>
+          </div>
+        </article>
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Pain <b>05</b></span>
+            <h3>Tech that takes months to land</h3>
+            <p>Long implementations, new hardware and a learning curve stall the kitchen in the middle of service.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Fix <b>05</b></span>
+            <h3>Live in a week, trained in a session</h3>
+            <p>Configuration, not development: your menu, channels and logins. Staff take orders the same day; no hardware to buy.</p>
+          </div>
+        </article>
+
+        <article class="pf">
+          <div class="pf__pain">
+            <span class="pf__k"><i></i>Pain <b>06</b></span>
+            <h3>Marketing without a plan</h3>
+            <p>Scattered posts and boosted ads spend budget without a funnel or a measurable return.</p>
+          </div>
+          <div class="pf__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="pf__fix">
+            <span class="pf__k"><i></i>Fix <b>06</b></span>
+            <h3>A designed, executed growth plan</h3>
+            <p>The consultancy builds the funnel; the optional add-on runs search and social against it, with reporting.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FACTS -->
+  <section class="section" id="facts">
+    <div class="wrap">
+      <span class="eyebrow">How it runs</span>
+      <h2>The operating facts</h2>
+      <div class="facts">
+        <div class="fact"><b>Within a week</b><span>From signing to go-live. The date is agreed before you sign, not after.</span></div>
+        <div class="fact"><b>One session</b><span>Staff training is a single working session; they take orders the same day.</span></div>
+        <div class="fact"><b>No hardware</b><span>Nothing to buy or install. It runs on the devices you already have.</span></div>
+        <div class="fact"><b>Your data</b><span>The customer base and the numbers stay yours, not the platform's.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGAGEMENT -->
+  <section class="section section--alt" id="engagement">
+    <div class="wrap">
+      <span class="eyebrow">The engagement</span>
+      <h2>What you actually acquire</h2>
+      <div class="eng">
+        <div class="eng__lead">
+          <h3>A consultancy, not a software vendor</h3>
+          <p>You acquire <b>business intelligence</b>: we audit how your kitchen sells online, design the strategic plan and execute the shift &mdash; marketing, funnel, automation and retention.</p>
+          <p>The <b>software is the layer underneath</b> that makes the plan run. Two ways to pay for that layer:</p>
+        </div>
+        <div class="eng__plans">
+          <div class="eng__plan">
+            <span class="n">Plan 1 &middot; Full Package</span>
+            <span class="p">$2,000 <small style="font-size:12px;color:var(--muted)">one-time</small></span>
+            <span class="d">A full year of licence, no monthly fee. 100% at signing.</span>
+          </div>
+          <div class="eng__plan">
+            <span class="n">Plan 2 &middot; Software + Monthly</span>
+            <span class="p">$1,000 <small style="font-size:12px;color:var(--muted)">upfront</small></span>
+            <span class="d">Then $150/month (USD) or Bs 1 per order (BOB) &mdash; your choice at signing.</span>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:16px;font-size:12.5px;color:var(--muted-2)">Reference rate 1 USD = Bs 11,50 (06 Nov 2026). Amounts exclude taxes. <a href="index.html#pricing" style="color:var(--gold)">Full plans &amp; currency note &rarr;</a></p>
+    </div>
+  </section>
+
+  <!-- NEXT -->
+  <section class="section next" id="next">
+    <div class="wrap">
+      <span class="eyebrow" style="justify-content:center">Next step</span>
+      <h2>See it on your own numbers.</h2>
+      <p class="lede">Twenty minutes. We run your volume, ticket and commission through the calculator and show you the plan that keeps the difference.</p>
+      <div class="next__actions">
+        <a class="btn btn--primary btn--lg" href="index.html#calculator">Run your numbers</a>
+        <a class="btn btn--ghost btn--lg" href="index.html#capture">Book a 20-min review</a>
+        <a class="btn btn--ghost btn--lg" href="index.html#pricing">See the plans</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="brandplate"><img src="brand/clubemkt-logo-header.png" alt="clubemkt digital" width="320" height="93" loading="lazy" /></div>
+    <div class="site-footer__row">
+      <div><strong>clubemkt digital</strong> &mdash; engineered growth systems for fast food delivery</div>
+      <div>
+        <a href="index.html">Overview</a> &nbsp;&middot;&nbsp;
+        <a href="stop-losing-orders.html">Stop losing orders</a> &nbsp;&middot;&nbsp;
+        <a href="stop-paying-commission.html">App commission savings</a> &nbsp;&middot;&nbsp;
+        <a href="pain-points.es.html" hreflang="es">Espa&ntilde;ol</a>
+      </div>
+    </div>
+    <p class="site-footer__legal">
+      An objective summary of the offer. Prices are proposal amounts in US dollars, except the Plan&nbsp;2 per-order fee, which is quoted and settled in Bolivianos.
+      All amounts exclude applicable taxes; final rights and obligations are governed by the signed service contract.
+    </p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('navToggle');
+    var nav = document.getElementById('primaryNav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', function () {
+      var open = nav.getAttribute('data-open') === 'true';
+      nav.setAttribute('data-open', String(!open));
+      toggle.setAttribute('aria-expanded', String(!open));
+      toggle.textContent = open ? 'Menu' : 'Close';
+    });
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        nav.removeAttribute('data-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = 'Menu';
+      }
+    });
+  })();
+</script>
+<script>
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && 'IntersectionObserver' in window) {
+      var targets = document.querySelectorAll('.pf, .fact, .eng__lead, .eng__plan');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      Array.prototype.forEach.call(targets, function (el, i) {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i % 4) * 70 + 'ms';
+        io.observe(el);
+      });
+    }
+    var nav = document.querySelector('.nav');
+    if (nav) {
+      var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
+      var secs = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+      var spy = function () {
+        var y = window.scrollY + 120, current = null;
+        secs.forEach(function (s) { if (s.offsetTop <= y) current = s.id; });
+        links.forEach(function (a) { a.classList.toggle('is-active', a.getAttribute('href') === '#' + current); });
+      };
+      window.addEventListener('scroll', spy, { passive: true });
+      spy();
+    }
+  })();
+</script>
+</body>
+</html>
